@@ -1,0 +1,106 @@
+
+> ptcalc@1.0.0 run /Users/joshlandman/projects/ptcacl
+> node src/index.mjs
+
+┌──────────────────────────────────┬────────────────────────────┐
+│ (index)                          │ Values                     │
+├──────────────────────────────────┼────────────────────────────┤
+│ tokensPerSecond                  │ 2690                       │
+│ tokenAccumulationMinutes         │ 2                          │
+│ cacheFactor                      │ 0.1                        │
+│ outputFactor                     │ 9                          │
+│ modelName                        │ 'flash25'                  │
+│ perMinute                        │ 161400                     │
+│ tokenBucketSize                  │ 322800                     │
+│ agentPattern                     │ 'Single Agent Double Loop' │
+│ contextFactor                    │ 2                          │
+│ promptTokens                     │ 10000                      │
+│ contextHistoryTokens             │ 8000                       │
+│ baseInputTokens                  │ 18000                      │
+│ realInputTokens                  │ 36000                      │
+│ outputAverageTokens              │ 500                        │
+│ rawTokens                        │ 36500                      │
+│ outputPeakTokens                 │ 4400                       │
+│ peakRawTokens                    │ 40400                      │
+│ rawRatio                         │ 72                         │
+│ peakRawRatio                     │ 8.181818181818182          │
+│ isCached                         │ true                       │
+│ promptCacheAdjustedTokens        │ 1000                       │
+│ baseAdjustedInputTokens          │ 9000                       │
+│ loopAdjustedPromptTokens         │ 20000                      │
+│ loopAndCacheAdjustedPromptTokens │ 2000                       │
+│ loopAdjustedContextHistoryTokens │ 16000                      │
+│ burndownInputTokens              │ 18000                      │
+│ outputAverageAdjustedTokens      │ 4500                       │
+│ outputPeakAdjustedTokens         │ 39600                      │
+│ burndownTokens                   │ 22500                      │
+│ peakAdjustedTokens               │ 57600                      │
+│ burndownRatio                    │ 4                          │
+│ peakAdjustedRatio                │ 0.45454545454545453        │
+│ turnDuration                     │ 6                          │
+│ turnsPerMinute                   │ 3                          │
+│ maxConcurrentInputUsers          │ 17                         │
+│ concurrentInputBurn              │ 306000                     │
+│ concurrentResponseToken          │ 76500                      │
+│ staggeredMinuteBurn              │ 1147500                    │
+│ recoveryRate                     │ 16140                      │
+│ AtSixSeconds                     │ 32940                      │
+│ responsesPossible                │ 7                          │
+│ remainingResponses               │ 10                         │
+│ remainingTokens                  │ 1440                       │
+│ AtTwenty                         │ -11280                     │
+│ realUserCapacity                 │ 2.3911111111111114         │
+└──────────────────────────────────┴────────────────────────────┘
+┌─────────────┬──────────────┬────────────────┬───────────┐
+│ (index)     │ turnDuration │ turnsPerMinute │ Values    │
+├─────────────┼──────────────┼────────────────┼───────────┤
+│ timeFactors │ 6            │ 3              │           │
+│ modelCalc   │              │                │ undefined │
+└─────────────┴──────────────┴────────────────┴───────────┘
+{
+    "tokensPerSecond": 2690,
+    "tokenAccumulationMinutes": 2,
+    "cacheFactor": 0.1,
+    "outputFactor": 9,
+    "modelName": "flash25",
+    "perMinute": 161400,
+    "tokenBucketSize": 322800,
+    "agentPattern": "Single Agent Double Loop",
+    "contextFactor": 2,
+    "promptTokens": 10000,
+    "contextHistoryTokens": 8000,
+    "baseInputTokens": 18000,
+    "realInputTokens": 36000,
+    "outputAverageTokens": 500,
+    "rawTokens": 36500,
+    "outputPeakTokens": 4400,
+    "peakRawTokens": 40400,
+    "rawRatio": 72,
+    "peakRawRatio": 8.181818181818182,
+    "isCached": true,
+    "promptCacheAdjustedTokens": 1000,
+    "baseAdjustedInputTokens": 9000,
+    "loopAdjustedPromptTokens": 20000,
+    "loopAndCacheAdjustedPromptTokens": 2000,
+    "loopAdjustedContextHistoryTokens": 16000,
+    "burndownInputTokens": 18000,
+    "outputAverageAdjustedTokens": 4500,
+    "outputPeakAdjustedTokens": 39600,
+    "burndownTokens": 22500,
+    "peakAdjustedTokens": 57600,
+    "burndownRatio": 4,
+    "peakAdjustedRatio": 0.45454545454545453,
+    "turnDuration": 6,
+    "turnsPerMinute": 3,
+    "maxConcurrentInputUsers": 17,
+    "concurrentInputBurn": 306000,
+    "concurrentResponseToken": 76500,
+    "staggeredMinuteBurn": 1147500,
+    "recoveryRate": 16140,
+    "AtSixSeconds": 32940,
+    "responsesPossible": 7,
+    "remainingResponses": 10,
+    "remainingTokens": 1440,
+    "AtTwenty": -11280,
+    "realUserCapacity": 2.3911111111111114
+}

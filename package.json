@@ -1,0 +1,22 @@
+{
+  "name": "ptcalc",
+  "version": "1.0.0",
+  "description": "detailed breakdown of PT calcs",
+  "main": "src/index.mjs",
+  "scripts": {
+    "lint": "eslint src/*",
+    "run": "node src/index.mjs",
+    "build": "tsc -b"
+  },
+  "keywords": [],
+  "author": "joshlandman@google.com",
+  "license": "MIT",
+  "packageManager": "pnpm@10.33.3",
+  "devDependencies": {
+    "@eslint/create-config": "^1.11.0",
+    "@eslint/json": "^1.2.0",
+    "eslint": "^10.4.0",
+    "globals": "^17.6.0",
+    "typescript-eslint": "^8.59.3"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "model": "flash25",
+  "inputTokens": {
+    "prompt": {
+      "tokens": "10000",
+      "isContextCached": true
+    },
+    "history": "8000"
+  },
+  "outputTokens": {
+    "average": "500",
+    "peak": "4400"
+  },
+  "tokenTimes": {
+    "turnDuration": "6",
+    "turnsPerMinute": "3"
+  }
+}
+
