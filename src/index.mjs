@@ -1,13 +1,15 @@
+import fileconfig from "./config.json" with { type: "json" };
+
 const json=`
 {
-  "model": "flash25",
+  "model": "flashLite31",
   "inputTokens": {
     "prompt": {
       "tokens": 10000,
       "isContextCached": true
     },
     "contextHistory": {
-      "tokens": 8000
+      "tokens": 6000
     }
   },
   "outputTokens": {
@@ -16,7 +18,7 @@ const json=`
   },
   "agentPattern": {
     "name": "Single Agent Double Loop",
-    "contextFactor": 2
+    "contextFactor": 1
   },
   "timeFactors":{
     "turnDuration": 6,
@@ -24,7 +26,7 @@ const json=`
   }
 }
 `
-const config= JSON.parse(json);
+let config= JSON.parse(json);
 
 const models =  {
   flash25: {
@@ -149,34 +151,56 @@ const calcTokens = () => {
   const AtTwenty = remainingTokens + (2*recoveryRate) - (remainingResponses*outputAverageAdjustedTokens);
   const staggeredMinuteBurn  = burndownTokens * timeFactors.turnsPerMinute * maxConcurrentInputUsers;
   const realUserCapacity =   maxConcurrentInputUsers / (staggeredMinuteBurn/model.perMinute); 
-
+  const stableBurn = realUserCapacity * burndownTokens * timeFactors.turnsPerMinute;
   const calcTokens={
+
+    Model: {
     ...model, 
     agentPattern, 
     contextFactor,
+    },
 
-    promptTokens, contextHistoryTokens, baseInputTokens,  realInputTokens,
-    outputAverageTokens, rawTokens, outputPeakTokens, peakRawTokens, 
+    RawTokenInput: { promptTokens, contextHistoryTokens, baseInputTokens,  realInputTokens,
+      outputAverageTokens, rawTokens, outputPeakTokens, peakRawTokens, 
+    },
 
-    rawRatio, peakRawRatio, 
 
+    AdjustedTokenInputs: {
     isCached,  promptCacheAdjustedTokens,  baseAdjustedInputTokens, loopAdjustedPromptTokens,
     loopAndCacheAdjustedPromptTokens,  loopAdjustedContextHistoryTokens, burndownInputTokens,
     outputAverageAdjustedTokens, outputPeakAdjustedTokens, burndownTokens, peakAdjustedTokens, 
-    burndownRatio, peakAdjustedRatio,
+    },
 
-    ...timeFactors, maxConcurrentInputUsers, concurrentInputBurn, concurrentResponseToken, 
+    TokenRatios: {
+      rawRatio, peakRawRatio, 
+      burndownRatio, peakAdjustedRatio,
+    },
+
+    UserCapacity: {
+    ...timeFactors, 
+    maxConcurrentInputUsers, concurrentInputBurn, concurrentResponseToken, 
     staggeredMinuteBurn, recoveryRate,
     AtSixSeconds,responsesPossible,remainingResponses, remainingTokens, AtTwenty,
-    realUserCapacity 
+    realUserCapacity, stableBurn 
+    }
 
   };
   return calcTokens;
 }
 const calcData=calcTokens();
-
+const flattenObject = (obj, parent = '', res = {}) => {
+  for (let key in obj) {
+    const propName = parent ? `${parent}.${key}` : key;
+    if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
+      flattenObject(obj[key], propName, res);
+    } else {
+      res[propName] = obj[key];
+    }
+  }
+  return res;
+};
 const tables = () => {
-  console.table(calcData);
+  console.table(flattenObject(calcData));
   const time=durationCalc(calcData);
   console.table(time);
 };

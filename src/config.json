@@ -1,19 +1,25 @@
 {
-  "model": "flash25",
+  "model": "flashLite31",
   "inputTokens": {
     "prompt": {
-      "tokens": "10000",
+      "tokens": 12000,
       "isContextCached": true
     },
-    "history": "8000"
+    "contextHistory": {
+      "tokens": 4000
+    }
   },
   "outputTokens": {
-    "average": "500",
-    "peak": "4400"
+    "average": 250,
+    "peak": 4400
   },
-  "tokenTimes": {
-    "turnDuration": "6",
-    "turnsPerMinute": "3"
+  "agentPattern": {
+    "name": "Single Agent Double Loop",
+    "contextFactor": 2
+  },
+  "timeFactors":{
+    "turnDuration": 6,
+    "turnsPerMinute": 3
   }
 }
 
