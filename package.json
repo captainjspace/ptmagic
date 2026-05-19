@@ -1,22 +1,33 @@
 {
-  "name": "ptcalc",
+  "name": "@ptcalc",
   "version": "1.0.0",
   "description": "detailed breakdown of PT calcs",
-  "main": "src/index.mjs",
   "scripts": {
     "lint": "eslint src/*",
-    "run": "node src/index.mjs",
     "build": "tsc -b"
   },
   "keywords": [],
   "author": "joshlandman@google.com",
   "license": "MIT",
-  "packageManager": "pnpm@10.33.3",
+  "packageManager": "pnpm@11.1.3+sha512.c85357fe17ca12dd23dd7071822666dfd7e3cb76fe214e3370b5ea2fb34f2a231185509b63e717f3cd0acb38dd3f8d82bcd5e8172400ae678b70ea4fbed0896d",
   "devDependencies": {
     "@eslint/create-config": "^1.11.0",
     "@eslint/json": "^1.2.0",
+    "@tsconfig/create-react-app": "^2.0.11",
+    "@tsconfig/node-lts": "^24.0.0",
+    "@tsconfig/recommended": "^1.0.13",
+    "@tsconfig/vite-react": "^8.0.6",
     "eslint": "^10.4.0",
     "globals": "^17.6.0",
+    "tailwindcss": "^4.3.0",
+    "typescript": "^6.0.3",
     "typescript-eslint": "^8.59.3"
+  },
+  "dependencies": {
+    "@types/node": "^25.9.0",
+    "@types/typescript": "^2.0.0",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "vite": "^8.0.13"
   }
 }

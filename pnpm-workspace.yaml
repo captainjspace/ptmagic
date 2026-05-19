@@ -1,0 +1,5 @@
+packages:
+  - packages/*
+  - apps
+minimumReleaseAgeExclude:
+  - '@types/node@25.9.0'
