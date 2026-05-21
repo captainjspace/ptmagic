@@ -1,11 +1,12 @@
 {
 
 
-  "extends": "@tsconfig/recommended/tsconfig.json",
+  //"extends": "@tsconfig/recommended/tsconfig.json",
+  "extends": "@tsconfig/vite-react/tsconfig.json",
   "compilerOptions": {
     // File Layout
-   "rootDir": "./src",
-   "outDir": "./dist",
+   //"rootDir": ".",
+   //"outDir": "./dist",
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module

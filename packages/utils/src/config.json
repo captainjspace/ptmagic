@@ -20,6 +20,11 @@
   "timeFactors":{
     "turnDuration": 6,
     "turnsPerMinute": 3
+  },
+  "site" :{
+    "dailyUsers": 250000,
+    "canary": 0.05,
+    "rush": 0.20
   }
 }
 
