@@ -1,122 +1,28 @@
 import fileconfig from "./config.json" with { type: "json" };
+import { DecoratedModel, modelCalc } from "./GSUmodels.ts" ;
+import * as CTError from "./ErrorCodes.ts";
+import { DecoratedSiteModel, siteCalc } from "./SiteModel.ts";
 
-const json=`
-{
-  "model": "flashLite31",
-  "inputTokens": {
-    "prompt": {
-      "tokens": 10000,
-      "isContextCached": true
-    },
-    "contextHistory": {
-      "tokens": 6000
+const flattenObject = (obj:any, parent = "", res:{[key : string]: any }={}) => {
+  for (let key in obj) {
+    const propName:string = parent ? `${parent}.${key}` : key;
+    if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
+      flattenObject(obj[key], propName, res);
+    } else {
+      res[propName] = obj[key];
     }
-  },
-  "outputTokens": {
-    "average": 500,
-    "peak": 4400
-  },
-  "agentPattern": {
-    "name": "Single Agent Double Loop",
-    "contextFactor": 1
-  },
-  "timeFactors":{
-    "turnDuration": 6,
-    "turnsPerMinute": 3
-  },
-  "site" {
-    "dailyUsers": 250000,
-    "canary": 0.05,
-    "rush:" 0.20
   }
-}
-`
+  return res;
+};
+
 let config={...fileconfig};  // JSON.parse(json);
 
-export const models =  {
-  flash25: {
-    name:"Gemini 2.5 Flash",
-    tokensPerSecond: 2690,
-    tokenAccumulationMinutes: 2,
-    cacheFactor: 0.1,
-    outputFactor: 9
-  },
-  flashLite31: {
-    name: "Gemini 3.1 Flash",
-    tokensPerSecond: 4030,
-    tokenAccumulationMinutes: 2,
-    cacheFactor: 0.1,
-    outputFactor: 6
-  }
-}
 
-export const CalcTokenErrorCodes = {
-  exits: {
-    BAD_MODEL: ` ${config.model} must be defined ${Object.keys(models)} `,
-    SITE_MODEL: `${config.site} must be have %s `,
-    SITE_VALUE: `${config.site} value of %s must be %s - %s`
-  },
-}
-
-export const siteCalc = (siteConf) => {
-  const site=siteConf;
-  const siteMsg = [];
-  const requiredKeys = ["dailyUsers","canary","rush"];
-  requiredKeys.forEach( (k) =>  {
-    if ( ! Object.hasOwn(site,k)) {
-      siteMsg.push([CalcTokenErrorCodes.exits.SITE_MODEL, k]);
-    }
-    if (isNaN(site[k]) || site[k]<=0) {
-      siteMsg.push([CalcTokenErrorCodes.exits.SITE_VALUE, k,"> than 0", site[k]]);
-    }
-  });
-
-  if (siteMsg.length!=0) {
-    siteMsg.forEach((m) => console.error(m));
-    process.exit(-1);
-  }
-
-  const canarySize = site.dailyUsers * site.canary;
-  const canaryHour = canarySize / 24;
-  const canaryMinute = Math.ceil(canaryHour / 60);
-
-  const rushSize = canarySize * site.rush;
-  const rushDaily = Math.ceil(rushSize / 60);
-
-  const siteCalc = {...site, canarySize, canaryHour, canaryMinute, rushSize, rushDaily};
-  return siteCalc;
-}
-
-export const modelCalc = (name) => {
-  const modelName=name;
-  if ( ! Object.hasOwn(models,modelName)) {
-    console.error(CalcTokenErrorCodes.exits.BAD_MODEL);
-    process.exit(-1);
-  }
-
-  const model = models[modelName];
-  const perMinute=model.tokensPerSecond * 60;
-  const tokenBucketSize = perMinute * model.tokenAccumulationMinutes;
-
-  const modelCalc =  {...model, modelName, perMinute, tokenBucketSize };
-  return modelCalc;
-}
-
-export const durationCalc = (calcTokens) => {
-
-  const timeFactors  = config.timeFactors;
-  const modelCalc    = calcTokens.modelCalc;
-  const durationCalc = {timeFactors, modelCalc};
-
-  return durationCalc;
-}
-
-export const calcTokens = () => {
+export const calcTokens = (config:any) => {
 
   /* Calculation Inputs */
   //site
   const site=siteCalc(config.site); 
-
   //mode
   const model=modelCalc(config.model);
 
@@ -182,6 +88,7 @@ export const calcTokens = () => {
 
   const timeFactors = config.timeFactors;
 
+  
   const maxConcurrentInputUsers = Math.floor(model.tokenBucketSize / burndownInputTokens);
   const concurrentInputBurn  = maxConcurrentInputUsers * burndownInputTokens;
   const concurrentResponseToken = maxConcurrentInputUsers * outputAverageAdjustedTokens;
@@ -205,9 +112,11 @@ export const calcTokens = () => {
 
   const timeToRecoveryExtraUser = () => {
 
+
     const rushHourTokenData = {
 
-      debtStack: [],
+
+      debtStack:[0],
       tokenBurn: 0,
       recoveryOffset: 0,
       reserveTokens: model.tokenBucketSize,
@@ -216,7 +125,7 @@ export const calcTokens = () => {
 
       getTokenData() {
         const { recoveryOffset, reserveTokens, debtStack, stacking, recoveryTime, tokenBurn } = rushHourTokenData;
-        const accumulatedTokenDebt = debtStack.reduce( (a,b) => a+b,0 );
+        const accumulatedTokenDebt = debtStack.reduce( (a:number,b:number) => a+b,0 );
 
         return { 
           tokenBurn, 
@@ -231,7 +140,7 @@ export const calcTokens = () => {
       setStacking() { 
         this.stacking=(this.debtStack.length>0)? true : false 
       },
-      addTotal(tokens){
+      addTotal(tokens:number){
         this.tokenBurn+=tokens;
         this.recoveryOffset+=model.perMinute
       },
@@ -242,10 +151,9 @@ export const calcTokens = () => {
 
       recoverReserve(){
         const reserve = this.reserveTokens+model.perMinute;
-        console.log(reserve, model.tokenBucketSize);
         this.reserveTokens = Math.min(reserve, model.tokenBucketSize);
       },
-      burnReserve(tokens){
+      burnReserve(tokens:number){
         this.reserveTokens-=tokens;
         if (this.reserveTokens<=0) throw Error("Out of Tokens");
         this.updateRecoveryTime()
@@ -258,7 +166,7 @@ export const calcTokens = () => {
        * 3 add to stack
        * 4 burn reserve
        */
-      stackCalc(data){
+       stackCalc(data:any) {
         this.recoverReserve();
         const minuteDebt = data.tokens-model.perMinute;
         this.addTotal(data.tokens)
@@ -269,7 +177,7 @@ export const calcTokens = () => {
         try {
           this.burnReserve(minuteDebt);
         } catch (err) {
-          console.log(err.message);
+          console.log(err);
         } finally {
           return this.getTokenData();
         }
@@ -277,29 +185,40 @@ export const calcTokens = () => {
     };
 
 
-
-    const userGrid ={};
+    /* Build these user capacity items */
+    interface GridRecord {  
+      activeUsers:number;
+      tokenBurn: number; 
+      recoveryOffset: number; 
+      accumulatedTokenDebt: number; 
+      reserveTokens: number; 
+      stacking: boolean; 
+      recoveryTime: number; 
+      minuteBurn: number; 
+    };
+    const minuteGrid:Record<number,GridRecord>={};
     let rushHourData;
+
     for (let i=1; i<=(site.rushDaily-realUserFloor); i++) {
       const activeUsers=realUserFloor+i;
       const minuteBurn = stableBurn + (i* burndownTokens);
       rushHourData=rushHourTokenData.stackCalc({tokens: minuteBurn})
-      const gridRecord = {  activeUsers, minuteBurn, ...rushHourData};
-      if (process.env.DEBUG===1) {
-        console.log(userGrid);
-      }
-      userGrid[i]=gridRecord;
+
+      const key = i as keyof typeof minuteGrid
+      const gridRecord:GridRecord = { activeUsers, minuteBurn, ...rushHourData};
+      minuteGrid[key]=gridRecord;
+      
+
       if (rushHourData.reserveTokens<=0) {
         console.debug("break");
         break;
       }
     }
-    return { userGrid, rushHourData };
+    return { minuteGrid, rushHourData };
   };
 
-  const {userGrid,rushHourData} = timeToRecoveryExtraUser();
-  console.table(userGrid);
-  console.dirXml(userGrid)
+  const { minuteGrid,rushHourData } = timeToRecoveryExtraUser();
+  console.table(minuteGrid);
 
   const calcTokens={
 
@@ -341,46 +260,84 @@ export const calcTokens = () => {
     },
     SiteCapacity: {
         ...site,
+        timeFactors,
         rushHourData,
-        userGrid
+        minuteGrid
     }
 
   };
   return calcTokens;
 }
 
-const calcData=calcTokens();
-const time=durationCalc(calcData);
+interface TokenCalculatorConfig {
 
-export const getTokenData = {...calcData, ...time }
+}
 
-const flattenObject = (obj, parent = '', res = {}) => {
-  for (let key in obj) {
-    const propName = parent ? `${parent}.${key}` : key;
-    if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
-      flattenObject(obj[key], propName, res);
-    } else {
-      res[propName] = obj[key];
-    }
-  }
-  return res;
+const currentConfig;
+const currentCalculatedState;
+const time;
+
+
+//wrapper
+const calculatedTokens = (activeConfig?:TokenCalculatorConfig) => { 
+  return calcTokens(activeConfig);
+}
+
+//export const getTokenData = () => {   return {...calcData, ...time } }
+export const tables = (calcData) => {
+  console.table(flattenObject(caclData));
 };
 
-export const tables = () => {
-  console.table(flattenObject(calcData));
-  console.table(time);
-};
-
-export const getCalcAsJSON = () => { 
+export const getCalcAsJSON = (calcData) => { 
   return JSON.stringify(calcData,null,4)
 };
 
-if (import.meta.main) {
-  // Your main logic here
-  tables()
+export const refreshTokenData = (customConfig = config) => { 
+  //validateInputs
+  const calcData = calcTokens(customConfig);
+  return 
 }
 
 
+if (import.meta.main) {
+  // Your main logic here
+  
+}
+
+
+//defin erros
+//
+//const json=`
+//{
+//  "model": "flashLite31",
+//  "inputTokens": {
+//    "prompt": {
+//      "tokens": 10000,
+//      "isContextCached": true
+//    },
+//    "contextHistory": {
+//      "tokens": 6000
+//    }
+//  },
+//  "outputTokens": {
+//    "average": 500,
+//    "peak": 4400
+//  },
+//  "agentPattern": {
+//    "name": "Single Agent Double Loop",
+//    "contextFactor": 1
+//  },
+//  "timeFactors":{
+//    "turnDuration": 6,
+//    "turnsPerMinute": 3
+//  },
+//  "site" {
+//    "dailyUsers": 250000,
+//    "canary": 0.05,
+//    "rush:" 0.20
+//  }
+//}
+//`
 
 
 
