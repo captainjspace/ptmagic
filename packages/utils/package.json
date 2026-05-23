@@ -13,16 +13,13 @@
   "author": "joshlandman@google.com",
   "license": "MIT",
   "devDependencies": {
-    "@eslint/create-config": "^1.11.0",
+    "@eslint/create-config": "^2.0.0",
     "@eslint/json": "^1.2.0",
     "@types/node": "^25.9.1",
     "eslint": "^10.4.0",
     "globals": "^17.6.0",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.59.4"
-  },
-  "dependencies": {
-    "@types/typescript": "^2.0.0"
   },
   "type": "module",
   "main": "./dist/index.js",
@@ -39,5 +36,10 @@
       "./src/*.ts",
       "./src/*"
     ]
+  },
+  "bit": {
+    "env": {},
+    "componentsDefaultDirectory": "components/{name}",
+    "packageManager": "gpkg pnpm"
   }
 }

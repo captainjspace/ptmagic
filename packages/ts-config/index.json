@@ -1,13 +1,12 @@
 {
   "extends": "@tsconfig/vite-react/tsconfig.json",
   "compilerOptions": {
-
     "module": "preserve",
     "target": "esnext",
     "types": [],
 
     // For nodejs:
-     "lib": ["esnext"],
+    "lib": ["esnext"],
     "types": ["node"],
     // and npm install -D @types/node
 

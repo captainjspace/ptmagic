@@ -1,0 +1,21 @@
+{
+  "teambit.workspace/workspace": {
+    "name": "@ptcalc",
+    "defaultDirectory": "@ptcalc/apps",
+    "defaultScope": "gcp.cetools"
+  },
+  
+  "teambit.dependencies/dependency-resolver": {
+    "policy": {
+      "dependencies": {
+      }
+    }
+  },
+  
+  "teambit.generator/generator": {
+    "envs": [
+      "bitdev.node/node-env",
+      "bitdev.react/react-env"
+    ]
+  }
+}

@@ -17,14 +17,13 @@
     "name": "Single Agent Double Loop",
     "contextFactor": 2
   },
-  "timeFactors":{
+  "timeFactors": {
     "turnDuration": 6,
     "turnsPerMinute": 3
   },
-  "site" :{
+  "site": {
     "dailyUsers": 250000,
     "canary": 0.05,
-    "rush": 0.20
+    "rush": 0.2
   }
 }
-

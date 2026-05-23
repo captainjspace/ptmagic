@@ -1,6 +1,6 @@
 // eslint.config.js
-import eslint from '@eslint/js';
-import tseslint from 'typescript-eslint';
+import eslint from "@eslint/js";
+import tseslint from "typescript-eslint";
 
 const ext = [
   //file extensions to lint
@@ -11,19 +11,13 @@ const ext = [
   "mjs",
   "css",
   "html",
-  "md"
+  "md",
 ].join(",");
-
 
 export default tseslint.config(
   {
     // Ignore build artifacts and global pnpm files across all workspaces
-    ignores: [
-      '**/dist/',
-      '**/build/',
-      '**/node_modules/',
-      '.pnpm-store/',
-    ],
+    ignores: ["**/dist/", "**/build/", "**/node_modules/", ".pnpm-store/"],
   },
   {
     // Base recommended settings for JS and TS
@@ -37,14 +31,9 @@ export default tseslint.config(
         tsconfigRootDir: import.meta.dirname,
       },
     },
-    files: [
-      `apps/**/*.{ ${ext} } `, 
-      `packages/**/*{ ${ext} }`
-    ],
+    files: [`src/*.{ ${ext} }`],
     rules: {
       // Add your custom workspace-wide rules here
     },
-  }
+  },
 );
-
-
