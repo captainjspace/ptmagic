@@ -2,10 +2,10 @@
   "name": "@ptcalc/utils",
   "version": "1.0.0",
   "description": "detailed breakdown of PT calcs",
-  "main": "src/index.mjs",
   "scripts": {
     "lint": "eslint src/*",
-    "calc": "node src/index.mjs ",
+    "dev": "ts-node src/index.ts",
+    "calc": "node src/index.js ",
     "ptrep": "node src/costThreshold",
     "build": "tsc -b"
   },
@@ -15,14 +15,29 @@
   "devDependencies": {
     "@eslint/create-config": "^1.11.0",
     "@eslint/json": "^1.2.0",
+    "@types/node": "^25.9.1",
     "eslint": "^10.4.0",
     "globals": "^17.6.0",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.59.3"
+    "typescript-eslint": "^8.59.4"
   },
   "dependencies": {
-    "@types/node": "^25.9.0",
     "@types/typescript": "^2.0.0"
   },
-  "type": "module"
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "paths": {
+    "src/*": [
+      "./src/*.ts",
+      "./src/*"
+    ]
+  }
 }

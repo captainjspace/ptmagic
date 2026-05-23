@@ -2,8 +2,10 @@
   "name": "@ptcalc",
   "version": "1.0.0",
   "description": "detailed breakdown of PT calcs",
+  "type": "module",
   "scripts": {
-    "lint": "eslint src/*",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
+    "lint": "eslint .",
     "build": "tsc -b"
   },
   "keywords": [],
@@ -17,19 +19,23 @@
     "@tsconfig/node-lts": "^24.0.0",
     "@tsconfig/recommended": "^1.0.13",
     "@tsconfig/vite-react": "^8.0.6",
-    "@types/react": "^19.2.14",
+    "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
+    "@types/typescript": "^2.0.0",
     "eslint": "^10.4.0",
+    "eslint-config-prettier": "^9.1.2",
+    "eslint-plugin-react": "^7.37.5",
     "globals": "^17.6.0",
+    "jiti": "^2.7.0",
+    "prettier": "^3.8.3",
     "tailwindcss": "^4.3.0",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.59.3"
+    "typescript-eslint": "^8.59.4"
   },
   "dependencies": {
-    "@types/node": "^25.9.0",
-    "@types/typescript": "^2.0.0",
+    "@types/node": "^25.9.1",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
-    "vite": "^8.0.13"
+    "vite": "^8.0.14"
   }
 }

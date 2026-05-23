@@ -15,13 +15,13 @@ const SITE_MODEL=SubjectKeys.SITE_MODEL
 const SITE_VALUE=SubjectKeys.SITE_VALUE
 
 //JSON
-interface SiteModel {
+export interface SiteModel {
   dailyUsers: number;
   canary: number;
   rush: number;
 }
 
-interface DecoratedSiteModel extends SiteModel{
+export interface DecoratedSiteModel extends SiteModel{
   canarySize :number;
   canaryHour:number;
   canaryMinute :number;
@@ -29,7 +29,7 @@ interface DecoratedSiteModel extends SiteModel{
   rushDaily :number;
 }
 
-export const siteCalc = (siteConf:SiteModel) => {
+export const siteCalc = (siteConf:SiteModel): DecoratedSiteModel => {
   const site=siteConf;
   const siteMsg:any[][] = [];
 
@@ -86,7 +86,6 @@ export const siteCalc = (siteConf:SiteModel) => {
   } 
   const siteCalc:DecoratedSiteModel = {...site,...(getSiteCalcs())}; 
   return siteCalc;
-
 }
 
 

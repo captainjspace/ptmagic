@@ -1,34 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import "./style.css";
+import { getCalcAsJSON } from "@ptcalc/utils";
 
-const TokenSimulator = () => {
+// Top-level diagnostic execution
+const data: string = getCalcAsJSON();
+console.log(data);
+
+const TokenSimulator = (): React.JSX.Element => {
   // Config States
-  const [steadyUsers, setSteadyUsers] = useState(8);
-  const [burstUsers, setBurstUsers] = useState(7);
-  const [tokensPerTurn, setTokensPerTurn] = useState(11600);
-  const [turnsPerMinute, setTurnsPerMinute] = useState(3);
+  const [steadyUsers, setSteadyUsers] = useState<number>(8);
+  const [burstUsers, setBurstUsers] = useState<number>(7);
+  const [tokensPerTurn, setTokensPerTurn] = useState<number>(11600);
+  const [turnsPerMinute] = useState<number>(3);
 
   // Constants
-  const MAX_TPS = 2690;
-  const BUCKET_SIZE = 322800;
+  const MAX_TPS: number = 2690;
+  const BUCKET_SIZE: number = 322800;
 
   // Calculated Metrics
-  const steadyTPS = (steadyUsers * turnsPerMinute * tokensPerTurn) / 60;
-  const burstTPS = ((steadyUsers + burstUsers) * turnsPerMinute * tokensPerTurn) / 60;
+  const steadyTPS: number = (steadyUsers * turnsPerMinute * tokensPerTurn) / 60;
+  const burstTPS: number = ((steadyUsers + burstUsers) * turnsPerMinute * tokensPerTurn) / 60;
   
-  const isSteadyFailing = steadyTPS >= MAX_TPS;
-  const isBurstDraining = burstTPS > MAX_TPS;
+  const isSteadyFailing: boolean = steadyTPS >= MAX_TPS;
+  const isBurstDraining: boolean = burstTPS > MAX_TPS;
 
-  const drainRate = burstTPS - MAX_TPS;
-  const recoveryRate = MAX_TPS - steadyTPS;
+  const drainRate: number = burstTPS - MAX_TPS;
+  const recoveryRate: number = MAX_TPS - steadyTPS;
 
-  const timeToEmptySeconds = isBurstDraining ? (BUCKET_SIZE / drainRate) : 0;
-  const timeToRecoverSeconds = (!isSteadyFailing && isBurstDraining) ? (BUCKET_SIZE / recoveryRate) : 0;
+  const timeToEmptySeconds: number = isBurstDraining ? (BUCKET_SIZE / drainRate) : 0;
+  const timeToRecoverSeconds: number = (!isSteadyFailing && isBurstDraining) ? (BUCKET_SIZE / recoveryRate) : 0;
 
   // Formatters
-  const formatTime = (seconds) => {
+  const formatTime = (seconds: number): string => {
     if (seconds === Infinity || seconds < 0) return "Never";
-    const m = Math.floor(seconds / 60);
-    const s = Math.floor(seconds % 60);
+    const m: number = Math.floor(seconds / 60);
+    const s: number = Math.floor(seconds % 60);
     return m > 0 ? `${m}m ${s}s` : `${s}s`;
   };
 
@@ -54,7 +60,14 @@ const TokenSimulator = () => {
                   <span>Steady State Users</span>
                   <span className="text-blue-300">{steadyUsers}</span>
                 </label>
-                <input type="range" min="1" max="50" value={steadyUsers} onChange={(e) => setSteadyUsers(Number(e.target.value))} className="w-full accent-blue-500" />
+                <input 
+                  type="range" 
+                  min="1" 
+                  max="50" 
+                  value={steadyUsers} 
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSteadyUsers(Number(e.target.value))} 
+                  className="w-full accent-blue-500" 
+                />
               </div>
 
               <div>
@@ -62,7 +75,14 @@ const TokenSimulator = () => {
                   <span>+ Sudden Burst Users</span>
                   <span className="text-purple-300">+{burstUsers}</span>
                 </label>
-                <input type="range" min="0" max="50" value={burstUsers} onChange={(e) => setBurstUsers(Number(e.target.value))} className="w-full accent-purple-500" />
+                <input 
+                  type="range" 
+                  min="0" 
+                  max="50" 
+                  value={burstUsers} 
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBurstUsers(Number(e.target.value))} 
+                  className="w-full accent-purple-500" 
+                />
               </div>
 
               <div className="pt-4 border-t border-slate-800">
@@ -70,7 +90,15 @@ const TokenSimulator = () => {
                   <span>PT Tokens Per Turn</span>
                   <span className="text-emerald-300">{tokensPerTurn.toLocaleString()}</span>
                 </label>
-                <input type="range" min="3000" max="40000" step="500" value={tokensPerTurn} onChange={(e) => setTokensPerTurn(Number(e.target.value))} className="w-full accent-emerald-500" />
+                <input 
+                  type="range" 
+                  min="3000" 
+                  max="40000" 
+                  step="500" 
+                  value={tokensPerTurn} 
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTokensPerTurn(Number(e.target.value))} 
+                  className="w-full accent-emerald-500" 
+                />
               </div>
             </div>
           </div>

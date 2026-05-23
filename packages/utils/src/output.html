@@ -1,0 +1,746 @@
+<html>
+  <head>
+  </head>
+  <body>
+    <div>
+      <pre>
+
+
+Error: Out of Tokens
+    at Object.burnReserve (file:///Users/joshlandman/projects/pt-calculator/packages/utils/src/index.ts:148:42)
+    at Object.stackCalc (file:///Users/joshlandman/projects/pt-calculator/packages/utils/src/index.ts:168:16)
+    at timeToRecoveryExtraUser (file:///Users/joshlandman/projects/pt-calculator/packages/utils/src/index.ts:195:38)
+    at calcTokens (file:///Users/joshlandman/projects/pt-calculator/packages/utils/src/index.ts:210:39)
+    at getCalculatedTokens (file:///Users/joshlandman/projects/pt-calculator/packages/utils/src/index.ts:269:10)
+    at refreshTokenData (file:///Users/joshlandman/projects/pt-calculator/packages/utils/src/index.ts:284:20)
+    at file:///Users/joshlandman/projects/pt-calculator/packages/utils/src/index.ts:300:3
+    at ModuleJob.run (node:internal/modules/esm/module_job:437:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:642:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+break
+┌─────────┬─────────────┬────────────┬───────────┬────────────────┬──────────────────────┬───────────────┬──────────┬──────────────┐
+│ (index) │ activeUsers │ minuteBurn │ tokenBurn │ recoveryOffset │ accumulatedTokenDebt │ reserveTokens │ stacking │ recoveryTime │
+├─────────┼─────────────┼────────────┼───────────┼────────────────┼──────────────────────┼───────────────┼──────────┼──────────────┤
+│ 1       │ 7           │ 226100     │ 226100    │ 241800         │ 0                    │ 499300        │ false    │ 0            │
+│ 2       │ 8           │ 238000     │ 464100    │ 483600         │ 0                    │ 487400        │ false    │ 0            │
+│ 3       │ 9           │ 249900     │ 714000    │ 725400         │ 8100                 │ 475500        │ true     │ 1            │
+│ 4       │ 10          │ 261800     │ 975800    │ 967200         │ 28100                │ 463600        │ true     │ 1            │
+│ 5       │ 11          │ 273700     │ 1249500   │ 1209000        │ 60000                │ 451700        │ true     │ 2            │
+│ 6       │ 12          │ 285600     │ 1535100   │ 1450800        │ 103800               │ 439800        │ true     │ 2            │
+│ 7       │ 13          │ 297500     │ 1832600   │ 1692600        │ 159500               │ 427900        │ true     │ 3            │
+│ 8       │ 14          │ 309400     │ 2142000   │ 1934400        │ 227100               │ 416000        │ true     │ 3            │
+│ 9       │ 15          │ 321300     │ 2463300   │ 2176200        │ 306600               │ 404100        │ true     │ 4            │
+│ 10      │ 16          │ 333200     │ 2796500   │ 2418000        │ 398000               │ 392200        │ true     │ 4            │
+│ 11      │ 17          │ 345100     │ 3141600   │ 2659800        │ 501300               │ 380300        │ true     │ 5            │
+│ 12      │ 18          │ 357000     │ 3498600   │ 2901600        │ 616500               │ 368400        │ true     │ 5            │
+│ 13      │ 19          │ 368900     │ 3867500   │ 3143400        │ 743600               │ 356500        │ true     │ 6            │
+│ 14      │ 20          │ 380800     │ 4248300   │ 3385200        │ 882600               │ 344600        │ true     │ 6            │
+│ 15      │ 21          │ 392700     │ 4641000   │ 3627000        │ 1033500              │ 332700        │ true     │ 7            │
+│ 16      │ 22          │ 404600     │ 5045600   │ 3868800        │ 1196300              │ 320800        │ true     │ 7            │
+│ 17      │ 23          │ 416500     │ 5462100   │ 4110600        │ 1371000              │ 308900        │ true     │ 8            │
+│ 18      │ 24          │ 428400     │ 5890500   │ 4352400        │ 1557600              │ 297000        │ true     │ 8            │
+│ 19      │ 25          │ 440300     │ 6330800   │ 4594200        │ 1756100              │ 285100        │ true     │ 9            │
+│ 20      │ 26          │ 452200     │ 6783000   │ 4836000        │ 1966500              │ 273200        │ true     │ 9            │
+│ 21      │ 27          │ 464100     │ 7247100   │ 5077800        │ 2188800              │ 261300        │ true     │ 10           │
+│ 22      │ 28          │ 476000     │ 7723100   │ 5319600        │ 2423000              │ 249400        │ true     │ 10           │
+│ 23      │ 29          │ 487900     │ 8211000   │ 5561400        │ 2669100              │ 237500        │ true     │ 11           │
+│ 24      │ 30          │ 499800     │ 8710800   │ 5803200        │ 2927100              │ 221300        │ true     │ 11           │
+│ 25      │ 31          │ 511700     │ 9222500   │ 6045000        │ 3197000              │ 193200        │ true     │ 13           │
+│ 26      │ 32          │ 523600     │ 9746100   │ 6286800        │ 3478800              │ 153200        │ true     │ 14           │
+│ 27      │ 33          │ 535500     │ 10281600  │ 6528600        │ 3772500              │ 101300        │ true     │ 16           │
+│ 28      │ 34          │ 547400     │ 10829000  │ 6770400        │ 4078100              │ 37500         │ true     │ 19           │
+│ 29      │ 35          │ 559300     │ 11388300  │ 7012200        │ 4395600              │ -38200        │ true     │ 19           │
+└─────────┴─────────────┴────────────┴───────────┴────────────────┴──────────────────────┴───────────────┴──────────┴──────────────┘
+┌───────────────────────────────────────────────────────┬────────────────────────────┐
+│ (index)                                               │ Values                     │
+├───────────────────────────────────────────────────────┼────────────────────────────┤
+│ Model.name                                            │ 'Gemini 3.1 Flash'         │
+│ Model.tokensPerSecond                                 │ 4030                       │
+│ Model.tokenAccumulationMinutes                        │ 2                          │
+│ Model.cacheFactor                                     │ 0.1                        │
+│ Model.outputFactor                                    │ 6                          │
+│ Model.modelKey                                        │ 'flashLite31'              │
+│ Model.perMinute                                       │ 241800                     │
+│ Model.tokenBucketSize                                 │ 483600                     │
+│ Model.agentPattern                                    │ 'Single Agent Double Loop' │
+│ Model.contextFactor                                   │ 2                          │
+│ RawTokenInput.promptTokens                            │ 12000                      │
+│ RawTokenInput.contextHistoryTokens                    │ 4000                       │
+│ RawTokenInput.baseInputTokens                         │ 16000                      │
+│ RawTokenInput.realInputTokens                         │ 32000                      │
+│ RawTokenInput.outputAverageTokens                     │ 250                        │
+│ RawTokenInput.rawTokens                               │ 32250                      │
+│ RawTokenInput.outputPeakTokens                        │ 4400                       │
+│ RawTokenInput.peakRawTokens                           │ 36400                      │
+│ AdjustedTokenInputs.isCached                          │ true                       │
+│ AdjustedTokenInputs.promptCacheAdjustedTokens         │ 1200                       │
+│ AdjustedTokenInputs.baseAdjustedInputTokens           │ 5200                       │
+│ AdjustedTokenInputs.loopAdjustedPromptTokens          │ 24000                      │
+│ AdjustedTokenInputs.loopAndCacheAdjustedPromptTokens  │ 2400                       │
+│ AdjustedTokenInputs.loopAdjustedContextHistoryTokens  │ 8000                       │
+│ AdjustedTokenInputs.burndownInputTokens               │ 10400                      │
+│ AdjustedTokenInputs.outputAverageAdjustedTokens       │ 1500                       │
+│ AdjustedTokenInputs.outputPeakAdjustedTokens          │ 26400                      │
+│ AdjustedTokenInputs.burndownTokens                    │ 11900                      │
+│ AdjustedTokenInputs.peakAdjustedTokens                │ 36800                      │
+│ TokenRatios.rawRatio                                  │ 128                        │
+│ TokenRatios.peakRawRatio                              │ 7.2727272727272725         │
+│ TokenRatios.burndownRatio                             │ 6.933333333333334          │
+│ TokenRatios.peakAdjustedRatio                         │ 0.3939393939393939         │
+│ UserCapacity.turnDuration                             │ 6                          │
+│ UserCapacity.turnsPerMinute                           │ 3                          │
+│ UserCapacity.maxConcurrentInputUsers                  │ 46                         │
+│ UserCapacity.concurrentInputBurn                      │ 478400                     │
+│ UserCapacity.concurrentResponseToken                  │ 69000                      │
+│ UserCapacity.staggeredMinuteBurn                      │ 1642200                    │
+│ UserCapacity.recoveryRate                             │ 24180                      │
+│ UserCapacity.AtSixSeconds                             │ 29380                      │
+│ UserCapacity.responsesPossible                        │ 19                         │
+│ UserCapacity.remainingResponses                       │ 27                         │
+│ UserCapacity.remainingTokens                          │ 880                        │
+│ UserCapacity.AtTwenty                                 │ 8740                       │
+│ UserCapacity.userCapacity                             │ 6.773109243697479          │
+│ UserCapacity.realUserFloor                            │ 6                          │
+│ UserCapacity.stableBurn                               │ 214200                     │
+│ UserCapacity.stableRecovery                           │ 27600                      │
+│ UserCapacity.PeakTokenBurner.p95TokenBurn             │ 110400                     │
+│ UserCapacity.PeakTokenBurner.peakStableBurn           │ 288900                     │
+│ UserCapacity.PeakTokenBurner.p95bucketHit             │ -47100                     │
+│ UserCapacity.PeakTokenBurner.p95bucketRecoverySeconds │ -1.7065217391304348        │
+│ SiteCapacity.dailyUsers                               │ 250000                     │
+│ SiteCapacity.canary                                   │ 0.05                       │
+│ SiteCapacity.rush                                     │ 0.2                        │
+│ SiteCapacity.canarySize                               │ 12500                      │
+│ SiteCapacity.canaryHour                               │ 520.8333333333334          │
+│ SiteCapacity.canaryMinute                             │ 9                          │
+│ SiteCapacity.rushSize                                 │ 2500                       │
+│ SiteCapacity.rushDaily                                │ 42                         │
+│ SiteCapacity.timeFactors.turnDuration                 │ 6                          │
+│ SiteCapacity.timeFactors.turnsPerMinute               │ 3                          │
+│ SiteCapacity.rushHourData.tokenBurn                   │ 11388300                   │
+│ SiteCapacity.rushHourData.recoveryOffset              │ 7012200                    │
+│ SiteCapacity.rushHourData.accumulatedTokenDebt        │ 4395600                    │
+│ SiteCapacity.rushHourData.reserveTokens               │ -38200                     │
+│ SiteCapacity.rushHourData.stacking                    │ true                       │
+│ SiteCapacity.rushHourData.recoveryTime                │ 19                         │
+│ SiteCapacity.minuteGrid.1.activeUsers                 │ 7                          │
+│ SiteCapacity.minuteGrid.1.minuteBurn                  │ 226100                     │
+│ SiteCapacity.minuteGrid.1.tokenBurn                   │ 226100                     │
+│ SiteCapacity.minuteGrid.1.recoveryOffset              │ 241800                     │
+│ SiteCapacity.minuteGrid.1.accumulatedTokenDebt        │ 0                          │
+│ SiteCapacity.minuteGrid.1.reserveTokens               │ 499300                     │
+│ SiteCapacity.minuteGrid.1.stacking                    │ false                      │
+│ SiteCapacity.minuteGrid.1.recoveryTime                │ 0                          │
+│ SiteCapacity.minuteGrid.2.activeUsers                 │ 8                          │
+│ SiteCapacity.minuteGrid.2.minuteBurn                  │ 238000                     │
+│ SiteCapacity.minuteGrid.2.tokenBurn                   │ 464100                     │
+│ SiteCapacity.minuteGrid.2.recoveryOffset              │ 483600                     │
+│ SiteCapacity.minuteGrid.2.accumulatedTokenDebt        │ 0                          │
+│ SiteCapacity.minuteGrid.2.reserveTokens               │ 487400                     │
+│ SiteCapacity.minuteGrid.2.stacking                    │ false                      │
+│ SiteCapacity.minuteGrid.2.recoveryTime                │ 0                          │
+│ SiteCapacity.minuteGrid.3.activeUsers                 │ 9                          │
+│ SiteCapacity.minuteGrid.3.minuteBurn                  │ 249900                     │
+│ SiteCapacity.minuteGrid.3.tokenBurn                   │ 714000                     │
+│ SiteCapacity.minuteGrid.3.recoveryOffset              │ 725400                     │
+│ SiteCapacity.minuteGrid.3.accumulatedTokenDebt        │ 8100                       │
+│ SiteCapacity.minuteGrid.3.reserveTokens               │ 475500                     │
+│ SiteCapacity.minuteGrid.3.stacking                    │ true                       │
+│ SiteCapacity.minuteGrid.3.recoveryTime                │ 1                          │
+│ SiteCapacity.minuteGrid.4.activeUsers                 │ 10                         │
+│ SiteCapacity.minuteGrid.4.minuteBurn                  │ 261800                     │
+│ SiteCapacity.minuteGrid.4.tokenBurn                   │ 975800                     │
+│ SiteCapacity.minuteGrid.4.recoveryOffset              │ 967200                     │
+│ SiteCapacity.minuteGrid.4.accumulatedTokenDebt        │ 28100                      │
+│ SiteCapacity.minuteGrid.4.reserveTokens               │ 463600                     │
+│ SiteCapacity.minuteGrid.4.stacking                    │ true                       │
+│ SiteCapacity.minuteGrid.4.recoveryTime                │ 1                          │
+│ SiteCapacity.minuteGrid.5.activeUsers                 │ 11                         │
+│ SiteCapacity.minuteGrid.5.minuteBurn                  │ 273700                     │
+│ SiteCapacity.minuteGrid.5.tokenBurn                   │ 1249500                    │
+│ SiteCapacity.minuteGrid.5.recoveryOffset              │ 1209000                    │
+│ SiteCapacity.minuteGrid.5.accumulatedTokenDebt        │ 60000                      │
+│ SiteCapacity.minuteGrid.5.reserveTokens               │ 451700                     │
+│ SiteCapacity.minuteGrid.5.stacking                    │ true                       │
+│ SiteCapacity.minuteGrid.5.recoveryTime                │ 2                          │
+│ SiteCapacity.minuteGrid.6.activeUsers                 │ 12                         │
+│ SiteCapacity.minuteGrid.6.minuteBurn                  │ 285600                     │
+│ SiteCapacity.minuteGrid.6.tokenBurn                   │ 1535100                    │
+│ SiteCapacity.minuteGrid.6.recoveryOffset              │ 1450800                    │
+│ SiteCapacity.minuteGrid.6.accumulatedTokenDebt        │ 103800                     │
+│ SiteCapacity.minuteGrid.6.reserveTokens               │ 439800                     │
+│ SiteCapacity.minuteGrid.6.stacking                    │ true                       │
+│ SiteCapacity.minuteGrid.6.recoveryTime                │ 2                          │
+│ SiteCapacity.minuteGrid.7.activeUsers                 │ 13                         │
+│ SiteCapacity.minuteGrid.7.minuteBurn                  │ 297500                     │
+│ SiteCapacity.minuteGrid.7.tokenBurn                   │ 1832600                    │
+│ SiteCapacity.minuteGrid.7.recoveryOffset              │ 1692600                    │
+│ SiteCapacity.minuteGrid.7.accumulatedTokenDebt        │ 159500                     │
+│ SiteCapacity.minuteGrid.7.reserveTokens               │ 427900                     │
+│ SiteCapacity.minuteGrid.7.stacking                    │ true                       │
+│ SiteCapacity.minuteGrid.7.recoveryTime                │ 3                          │
+│ SiteCapacity.minuteGrid.8.activeUsers                 │ 14                         │
+│ SiteCapacity.minuteGrid.8.minuteBurn                  │ 309400                     │
+│ SiteCapacity.minuteGrid.8.tokenBurn                   │ 2142000                    │
+│ SiteCapacity.minuteGrid.8.recoveryOffset              │ 1934400                    │
+│ SiteCapacity.minuteGrid.8.accumulatedTokenDebt        │ 227100                     │
+│ SiteCapacity.minuteGrid.8.reserveTokens               │ 416000                     │
+│ SiteCapacity.minuteGrid.8.stacking                    │ true                       │
+│ SiteCapacity.minuteGrid.8.recoveryTime                │ 3                          │
+│ SiteCapacity.minuteGrid.9.activeUsers                 │ 15                         │
+│ SiteCapacity.minuteGrid.9.minuteBurn                  │ 321300                     │
+│ SiteCapacity.minuteGrid.9.tokenBurn                   │ 2463300                    │
+│ SiteCapacity.minuteGrid.9.recoveryOffset              │ 2176200                    │
+│ SiteCapacity.minuteGrid.9.accumulatedTokenDebt        │ 306600                     │
+│ SiteCapacity.minuteGrid.9.reserveTokens               │ 404100                     │
+│ SiteCapacity.minuteGrid.9.stacking                    │ true                       │
+│ SiteCapacity.minuteGrid.9.recoveryTime                │ 4                          │
+│ SiteCapacity.minuteGrid.10.activeUsers                │ 16                         │
+│ SiteCapacity.minuteGrid.10.minuteBurn                 │ 333200                     │
+│ SiteCapacity.minuteGrid.10.tokenBurn                  │ 2796500                    │
+│ SiteCapacity.minuteGrid.10.recoveryOffset             │ 2418000                    │
+│ SiteCapacity.minuteGrid.10.accumulatedTokenDebt       │ 398000                     │
+│ SiteCapacity.minuteGrid.10.reserveTokens              │ 392200                     │
+│ SiteCapacity.minuteGrid.10.stacking                   │ true                       │
+│ SiteCapacity.minuteGrid.10.recoveryTime               │ 4                          │
+│ SiteCapacity.minuteGrid.11.activeUsers                │ 17                         │
+│ SiteCapacity.minuteGrid.11.minuteBurn                 │ 345100                     │
+│ SiteCapacity.minuteGrid.11.tokenBurn                  │ 3141600                    │
+│ SiteCapacity.minuteGrid.11.recoveryOffset             │ 2659800                    │
+│ SiteCapacity.minuteGrid.11.accumulatedTokenDebt       │ 501300                     │
+│ SiteCapacity.minuteGrid.11.reserveTokens              │ 380300                     │
+│ SiteCapacity.minuteGrid.11.stacking                   │ true                       │
+│ SiteCapacity.minuteGrid.11.recoveryTime               │ 5                          │
+│ SiteCapacity.minuteGrid.12.activeUsers                │ 18                         │
+│ SiteCapacity.minuteGrid.12.minuteBurn                 │ 357000                     │
+│ SiteCapacity.minuteGrid.12.tokenBurn                  │ 3498600                    │
+│ SiteCapacity.minuteGrid.12.recoveryOffset             │ 2901600                    │
+│ SiteCapacity.minuteGrid.12.accumulatedTokenDebt       │ 616500                     │
+│ SiteCapacity.minuteGrid.12.reserveTokens              │ 368400                     │
+│ SiteCapacity.minuteGrid.12.stacking                   │ true                       │
+│ SiteCapacity.minuteGrid.12.recoveryTime               │ 5                          │
+│ SiteCapacity.minuteGrid.13.activeUsers                │ 19                         │
+│ SiteCapacity.minuteGrid.13.minuteBurn                 │ 368900                     │
+│ SiteCapacity.minuteGrid.13.tokenBurn                  │ 3867500                    │
+│ SiteCapacity.minuteGrid.13.recoveryOffset             │ 3143400                    │
+│ SiteCapacity.minuteGrid.13.accumulatedTokenDebt       │ 743600                     │
+│ SiteCapacity.minuteGrid.13.reserveTokens              │ 356500                     │
+│ SiteCapacity.minuteGrid.13.stacking                   │ true                       │
+│ SiteCapacity.minuteGrid.13.recoveryTime               │ 6                          │
+│ SiteCapacity.minuteGrid.14.activeUsers                │ 20                         │
+│ SiteCapacity.minuteGrid.14.minuteBurn                 │ 380800                     │
+│ SiteCapacity.minuteGrid.14.tokenBurn                  │ 4248300                    │
+│ SiteCapacity.minuteGrid.14.recoveryOffset             │ 3385200                    │
+│ SiteCapacity.minuteGrid.14.accumulatedTokenDebt       │ 882600                     │
+│ SiteCapacity.minuteGrid.14.reserveTokens              │ 344600                     │
+│ SiteCapacity.minuteGrid.14.stacking                   │ true                       │
+│ SiteCapacity.minuteGrid.14.recoveryTime               │ 6                          │
+│ SiteCapacity.minuteGrid.15.activeUsers                │ 21                         │
+│ SiteCapacity.minuteGrid.15.minuteBurn                 │ 392700                     │
+│ SiteCapacity.minuteGrid.15.tokenBurn                  │ 4641000                    │
+│ SiteCapacity.minuteGrid.15.recoveryOffset             │ 3627000                    │
+│ SiteCapacity.minuteGrid.15.accumulatedTokenDebt       │ 1033500                    │
+│ SiteCapacity.minuteGrid.15.reserveTokens              │ 332700                     │
+│ SiteCapacity.minuteGrid.15.stacking                   │ true                       │
+│ SiteCapacity.minuteGrid.15.recoveryTime               │ 7                          │
+│ SiteCapacity.minuteGrid.16.activeUsers                │ 22                         │
+│ SiteCapacity.minuteGrid.16.minuteBurn                 │ 404600                     │
+│ SiteCapacity.minuteGrid.16.tokenBurn                  │ 5045600                    │
+│ SiteCapacity.minuteGrid.16.recoveryOffset             │ 3868800                    │
+│ SiteCapacity.minuteGrid.16.accumulatedTokenDebt       │ 1196300                    │
+│ SiteCapacity.minuteGrid.16.reserveTokens              │ 320800                     │
+│ SiteCapacity.minuteGrid.16.stacking                   │ true                       │
+│ SiteCapacity.minuteGrid.16.recoveryTime               │ 7                          │
+│ SiteCapacity.minuteGrid.17.activeUsers                │ 23                         │
+│ SiteCapacity.minuteGrid.17.minuteBurn                 │ 416500                     │
+│ SiteCapacity.minuteGrid.17.tokenBurn                  │ 5462100                    │
+│ SiteCapacity.minuteGrid.17.recoveryOffset             │ 4110600                    │
+│ SiteCapacity.minuteGrid.17.accumulatedTokenDebt       │ 1371000                    │
+│ SiteCapacity.minuteGrid.17.reserveTokens              │ 308900                     │
+│ SiteCapacity.minuteGrid.17.stacking                   │ true                       │
+│ SiteCapacity.minuteGrid.17.recoveryTime               │ 8                          │
+│ SiteCapacity.minuteGrid.18.activeUsers                │ 24                         │
+│ SiteCapacity.minuteGrid.18.minuteBurn                 │ 428400                     │
+│ SiteCapacity.minuteGrid.18.tokenBurn                  │ 5890500                    │
+│ SiteCapacity.minuteGrid.18.recoveryOffset             │ 4352400                    │
+│ SiteCapacity.minuteGrid.18.accumulatedTokenDebt       │ 1557600                    │
+│ SiteCapacity.minuteGrid.18.reserveTokens              │ 297000                     │
+│ SiteCapacity.minuteGrid.18.stacking                   │ true                       │
+│ SiteCapacity.minuteGrid.18.recoveryTime               │ 8                          │
+│ SiteCapacity.minuteGrid.19.activeUsers                │ 25                         │
+│ SiteCapacity.minuteGrid.19.minuteBurn                 │ 440300                     │
+│ SiteCapacity.minuteGrid.19.tokenBurn                  │ 6330800                    │
+│ SiteCapacity.minuteGrid.19.recoveryOffset             │ 4594200                    │
+│ SiteCapacity.minuteGrid.19.accumulatedTokenDebt       │ 1756100                    │
+│ SiteCapacity.minuteGrid.19.reserveTokens              │ 285100                     │
+│ SiteCapacity.minuteGrid.19.stacking                   │ true                       │
+│ SiteCapacity.minuteGrid.19.recoveryTime               │ 9                          │
+│ SiteCapacity.minuteGrid.20.activeUsers                │ 26                         │
+│ SiteCapacity.minuteGrid.20.minuteBurn                 │ 452200                     │
+│ SiteCapacity.minuteGrid.20.tokenBurn                  │ 6783000                    │
+│ SiteCapacity.minuteGrid.20.recoveryOffset             │ 4836000                    │
+│ SiteCapacity.minuteGrid.20.accumulatedTokenDebt       │ 1966500                    │
+│ SiteCapacity.minuteGrid.20.reserveTokens              │ 273200                     │
+│ SiteCapacity.minuteGrid.20.stacking                   │ true                       │
+│ SiteCapacity.minuteGrid.20.recoveryTime               │ 9                          │
+│ SiteCapacity.minuteGrid.21.activeUsers                │ 27                         │
+│ SiteCapacity.minuteGrid.21.minuteBurn                 │ 464100                     │
+│ SiteCapacity.minuteGrid.21.tokenBurn                  │ 7247100                    │
+│ SiteCapacity.minuteGrid.21.recoveryOffset             │ 5077800                    │
+│ SiteCapacity.minuteGrid.21.accumulatedTokenDebt       │ 2188800                    │
+│ SiteCapacity.minuteGrid.21.reserveTokens              │ 261300                     │
+│ SiteCapacity.minuteGrid.21.stacking                   │ true                       │
+│ SiteCapacity.minuteGrid.21.recoveryTime               │ 10                         │
+│ SiteCapacity.minuteGrid.22.activeUsers                │ 28                         │
+│ SiteCapacity.minuteGrid.22.minuteBurn                 │ 476000                     │
+│ SiteCapacity.minuteGrid.22.tokenBurn                  │ 7723100                    │
+│ SiteCapacity.minuteGrid.22.recoveryOffset             │ 5319600                    │
+│ SiteCapacity.minuteGrid.22.accumulatedTokenDebt       │ 2423000                    │
+│ SiteCapacity.minuteGrid.22.reserveTokens              │ 249400                     │
+│ SiteCapacity.minuteGrid.22.stacking                   │ true                       │
+│ SiteCapacity.minuteGrid.22.recoveryTime               │ 10                         │
+│ SiteCapacity.minuteGrid.23.activeUsers                │ 29                         │
+│ SiteCapacity.minuteGrid.23.minuteBurn                 │ 487900                     │
+│ SiteCapacity.minuteGrid.23.tokenBurn                  │ 8211000                    │
+│ SiteCapacity.minuteGrid.23.recoveryOffset             │ 5561400                    │
+│ SiteCapacity.minuteGrid.23.accumulatedTokenDebt       │ 2669100                    │
+│ SiteCapacity.minuteGrid.23.reserveTokens              │ 237500                     │
+│ SiteCapacity.minuteGrid.23.stacking                   │ true                       │
+│ SiteCapacity.minuteGrid.23.recoveryTime               │ 11                         │
+│ SiteCapacity.minuteGrid.24.activeUsers                │ 30                         │
+│ SiteCapacity.minuteGrid.24.minuteBurn                 │ 499800                     │
+│ SiteCapacity.minuteGrid.24.tokenBurn                  │ 8710800                    │
+│ SiteCapacity.minuteGrid.24.recoveryOffset             │ 5803200                    │
+│ SiteCapacity.minuteGrid.24.accumulatedTokenDebt       │ 2927100                    │
+│ SiteCapacity.minuteGrid.24.reserveTokens              │ 221300                     │
+│ SiteCapacity.minuteGrid.24.stacking                   │ true                       │
+│ SiteCapacity.minuteGrid.24.recoveryTime               │ 11                         │
+│ SiteCapacity.minuteGrid.25.activeUsers                │ 31                         │
+│ SiteCapacity.minuteGrid.25.minuteBurn                 │ 511700                     │
+│ SiteCapacity.minuteGrid.25.tokenBurn                  │ 9222500                    │
+│ SiteCapacity.minuteGrid.25.recoveryOffset             │ 6045000                    │
+│ SiteCapacity.minuteGrid.25.accumulatedTokenDebt       │ 3197000                    │
+│ SiteCapacity.minuteGrid.25.reserveTokens              │ 193200                     │
+│ SiteCapacity.minuteGrid.25.stacking                   │ true                       │
+│ SiteCapacity.minuteGrid.25.recoveryTime               │ 13                         │
+│ SiteCapacity.minuteGrid.26.activeUsers                │ 32                         │
+│ SiteCapacity.minuteGrid.26.minuteBurn                 │ 523600                     │
+│ SiteCapacity.minuteGrid.26.tokenBurn                  │ 9746100                    │
+│ SiteCapacity.minuteGrid.26.recoveryOffset             │ 6286800                    │
+│ SiteCapacity.minuteGrid.26.accumulatedTokenDebt       │ 3478800                    │
+│ SiteCapacity.minuteGrid.26.reserveTokens              │ 153200                     │
+│ SiteCapacity.minuteGrid.26.stacking                   │ true                       │
+│ SiteCapacity.minuteGrid.26.recoveryTime               │ 14                         │
+│ SiteCapacity.minuteGrid.27.activeUsers                │ 33                         │
+│ SiteCapacity.minuteGrid.27.minuteBurn                 │ 535500                     │
+│ SiteCapacity.minuteGrid.27.tokenBurn                  │ 10281600                   │
+│ SiteCapacity.minuteGrid.27.recoveryOffset             │ 6528600                    │
+│ SiteCapacity.minuteGrid.27.accumulatedTokenDebt       │ 3772500                    │
+│ SiteCapacity.minuteGrid.27.reserveTokens              │ 101300                     │
+│ SiteCapacity.minuteGrid.27.stacking                   │ true                       │
+│ SiteCapacity.minuteGrid.27.recoveryTime               │ 16                         │
+│ SiteCapacity.minuteGrid.28.activeUsers                │ 34                         │
+│ SiteCapacity.minuteGrid.28.minuteBurn                 │ 547400                     │
+│ SiteCapacity.minuteGrid.28.tokenBurn                  │ 10829000                   │
+│ SiteCapacity.minuteGrid.28.recoveryOffset             │ 6770400                    │
+│ SiteCapacity.minuteGrid.28.accumulatedTokenDebt       │ 4078100                    │
+│ SiteCapacity.minuteGrid.28.reserveTokens              │ 37500                      │
+│ SiteCapacity.minuteGrid.28.stacking                   │ true                       │
+│ SiteCapacity.minuteGrid.28.recoveryTime               │ 19                         │
+│ SiteCapacity.minuteGrid.29.activeUsers                │ 35                         │
+│ SiteCapacity.minuteGrid.29.minuteBurn                 │ 559300                     │
+│ SiteCapacity.minuteGrid.29.tokenBurn                  │ 11388300                   │
+│ SiteCapacity.minuteGrid.29.recoveryOffset             │ 7012200                    │
+│ SiteCapacity.minuteGrid.29.accumulatedTokenDebt       │ 4395600                    │
+│ SiteCapacity.minuteGrid.29.reserveTokens              │ -38200                     │
+│ SiteCapacity.minuteGrid.29.stacking                   │ true                       │
+│ SiteCapacity.minuteGrid.29.recoveryTime               │ 19                         │
+└───────────────────────────────────────────────────────┴────────────────────────────┘
+{
+    "Model": {
+        "name": "Gemini 3.1 Flash",
+        "tokensPerSecond": 4030,
+        "tokenAccumulationMinutes": 2,
+        "cacheFactor": 0.1,
+        "outputFactor": 6,
+        "modelKey": "flashLite31",
+        "perMinute": 241800,
+        "tokenBucketSize": 483600,
+        "agentPattern": "Single Agent Double Loop",
+        "contextFactor": 2
+    },
+    "RawTokenInput": {
+        "promptTokens": 12000,
+        "contextHistoryTokens": 4000,
+        "baseInputTokens": 16000,
+        "realInputTokens": 32000,
+        "outputAverageTokens": 250,
+        "rawTokens": 32250,
+        "outputPeakTokens": 4400,
+        "peakRawTokens": 36400
+    },
+    "AdjustedTokenInputs": {
+        "isCached": true,
+        "promptCacheAdjustedTokens": 1200,
+        "baseAdjustedInputTokens": 5200,
+        "loopAdjustedPromptTokens": 24000,
+        "loopAndCacheAdjustedPromptTokens": 2400,
+        "loopAdjustedContextHistoryTokens": 8000,
+        "burndownInputTokens": 10400,
+        "outputAverageAdjustedTokens": 1500,
+        "outputPeakAdjustedTokens": 26400,
+        "burndownTokens": 11900,
+        "peakAdjustedTokens": 36800
+    },
+    "TokenRatios": {
+        "rawRatio": 128,
+        "peakRawRatio": 7.2727272727272725,
+        "burndownRatio": 6.933333333333334,
+        "peakAdjustedRatio": 0.3939393939393939
+    },
+    "UserCapacity": {
+        "turnDuration": 6,
+        "turnsPerMinute": 3,
+        "maxConcurrentInputUsers": 46,
+        "concurrentInputBurn": 478400,
+        "concurrentResponseToken": 69000,
+        "staggeredMinuteBurn": 1642200,
+        "recoveryRate": 24180,
+        "AtSixSeconds": 29380,
+        "responsesPossible": 19,
+        "remainingResponses": 27,
+        "remainingTokens": 880,
+        "AtTwenty": 8740,
+        "userCapacity": 6.773109243697479,
+        "realUserFloor": 6,
+        "stableBurn": 214200,
+        "stableRecovery": 27600,
+        "PeakTokenBurner": {
+            "p95TokenBurn": 110400,
+            "peakStableBurn": 288900,
+            "p95bucketHit": -47100,
+            "p95bucketRecoverySeconds": -1.7065217391304348
+        }
+    },
+    "SiteCapacity": {
+        "dailyUsers": 250000,
+        "canary": 0.05,
+        "rush": 0.2,
+        "canarySize": 12500,
+        "canaryHour": 520.8333333333334,
+        "canaryMinute": 9,
+        "rushSize": 2500,
+        "rushDaily": 42,
+        "timeFactors": {
+            "turnDuration": 6,
+            "turnsPerMinute": 3
+        },
+        "rushHourData": {
+            "tokenBurn": 11388300,
+            "recoveryOffset": 7012200,
+            "accumulatedTokenDebt": 4395600,
+            "reserveTokens": -38200,
+            "stacking": true,
+            "recoveryTime": 19
+        },
+        "minuteGrid": {
+            "1": {
+                "activeUsers": 7,
+                "minuteBurn": 226100,
+                "tokenBurn": 226100,
+                "recoveryOffset": 241800,
+                "accumulatedTokenDebt": 0,
+                "reserveTokens": 499300,
+                "stacking": false,
+                "recoveryTime": 0
+            },
+            "2": {
+                "activeUsers": 8,
+                "minuteBurn": 238000,
+                "tokenBurn": 464100,
+                "recoveryOffset": 483600,
+                "accumulatedTokenDebt": 0,
+                "reserveTokens": 487400,
+                "stacking": false,
+                "recoveryTime": 0
+            },
+            "3": {
+                "activeUsers": 9,
+                "minuteBurn": 249900,
+                "tokenBurn": 714000,
+                "recoveryOffset": 725400,
+                "accumulatedTokenDebt": 8100,
+                "reserveTokens": 475500,
+                "stacking": true,
+                "recoveryTime": 1
+            },
+            "4": {
+                "activeUsers": 10,
+                "minuteBurn": 261800,
+                "tokenBurn": 975800,
+                "recoveryOffset": 967200,
+                "accumulatedTokenDebt": 28100,
+                "reserveTokens": 463600,
+                "stacking": true,
+                "recoveryTime": 1
+            },
+            "5": {
+                "activeUsers": 11,
+                "minuteBurn": 273700,
+                "tokenBurn": 1249500,
+                "recoveryOffset": 1209000,
+                "accumulatedTokenDebt": 60000,
+                "reserveTokens": 451700,
+                "stacking": true,
+                "recoveryTime": 2
+            },
+            "6": {
+                "activeUsers": 12,
+                "minuteBurn": 285600,
+                "tokenBurn": 1535100,
+                "recoveryOffset": 1450800,
+                "accumulatedTokenDebt": 103800,
+                "reserveTokens": 439800,
+                "stacking": true,
+                "recoveryTime": 2
+            },
+            "7": {
+                "activeUsers": 13,
+                "minuteBurn": 297500,
+                "tokenBurn": 1832600,
+                "recoveryOffset": 1692600,
+                "accumulatedTokenDebt": 159500,
+                "reserveTokens": 427900,
+                "stacking": true,
+                "recoveryTime": 3
+            },
+            "8": {
+                "activeUsers": 14,
+                "minuteBurn": 309400,
+                "tokenBurn": 2142000,
+                "recoveryOffset": 1934400,
+                "accumulatedTokenDebt": 227100,
+                "reserveTokens": 416000,
+                "stacking": true,
+                "recoveryTime": 3
+            },
+            "9": {
+                "activeUsers": 15,
+                "minuteBurn": 321300,
+                "tokenBurn": 2463300,
+                "recoveryOffset": 2176200,
+                "accumulatedTokenDebt": 306600,
+                "reserveTokens": 404100,
+                "stacking": true,
+                "recoveryTime": 4
+            },
+            "10": {
+                "activeUsers": 16,
+                "minuteBurn": 333200,
+                "tokenBurn": 2796500,
+                "recoveryOffset": 2418000,
+                "accumulatedTokenDebt": 398000,
+                "reserveTokens": 392200,
+                "stacking": true,
+                "recoveryTime": 4
+            },
+            "11": {
+                "activeUsers": 17,
+                "minuteBurn": 345100,
+                "tokenBurn": 3141600,
+                "recoveryOffset": 2659800,
+                "accumulatedTokenDebt": 501300,
+                "reserveTokens": 380300,
+                "stacking": true,
+                "recoveryTime": 5
+            },
+            "12": {
+                "activeUsers": 18,
+                "minuteBurn": 357000,
+                "tokenBurn": 3498600,
+                "recoveryOffset": 2901600,
+                "accumulatedTokenDebt": 616500,
+                "reserveTokens": 368400,
+                "stacking": true,
+                "recoveryTime": 5
+            },
+            "13": {
+                "activeUsers": 19,
+                "minuteBurn": 368900,
+                "tokenBurn": 3867500,
+                "recoveryOffset": 3143400,
+                "accumulatedTokenDebt": 743600,
+                "reserveTokens": 356500,
+                "stacking": true,
+                "recoveryTime": 6
+            },
+            "14": {
+                "activeUsers": 20,
+                "minuteBurn": 380800,
+                "tokenBurn": 4248300,
+                "recoveryOffset": 3385200,
+                "accumulatedTokenDebt": 882600,
+                "reserveTokens": 344600,
+                "stacking": true,
+                "recoveryTime": 6
+            },
+            "15": {
+                "activeUsers": 21,
+                "minuteBurn": 392700,
+                "tokenBurn": 4641000,
+                "recoveryOffset": 3627000,
+                "accumulatedTokenDebt": 1033500,
+                "reserveTokens": 332700,
+                "stacking": true,
+                "recoveryTime": 7
+            },
+            "16": {
+                "activeUsers": 22,
+                "minuteBurn": 404600,
+                "tokenBurn": 5045600,
+                "recoveryOffset": 3868800,
+                "accumulatedTokenDebt": 1196300,
+                "reserveTokens": 320800,
+                "stacking": true,
+                "recoveryTime": 7
+            },
+            "17": {
+                "activeUsers": 23,
+                "minuteBurn": 416500,
+                "tokenBurn": 5462100,
+                "recoveryOffset": 4110600,
+                "accumulatedTokenDebt": 1371000,
+                "reserveTokens": 308900,
+                "stacking": true,
+                "recoveryTime": 8
+            },
+            "18": {
+                "activeUsers": 24,
+                "minuteBurn": 428400,
+                "tokenBurn": 5890500,
+                "recoveryOffset": 4352400,
+                "accumulatedTokenDebt": 1557600,
+                "reserveTokens": 297000,
+                "stacking": true,
+                "recoveryTime": 8
+            },
+            "19": {
+                "activeUsers": 25,
+                "minuteBurn": 440300,
+                "tokenBurn": 6330800,
+                "recoveryOffset": 4594200,
+                "accumulatedTokenDebt": 1756100,
+                "reserveTokens": 285100,
+                "stacking": true,
+                "recoveryTime": 9
+            },
+            "20": {
+                "activeUsers": 26,
+                "minuteBurn": 452200,
+                "tokenBurn": 6783000,
+                "recoveryOffset": 4836000,
+                "accumulatedTokenDebt": 1966500,
+                "reserveTokens": 273200,
+                "stacking": true,
+                "recoveryTime": 9
+            },
+            "21": {
+                "activeUsers": 27,
+                "minuteBurn": 464100,
+                "tokenBurn": 7247100,
+                "recoveryOffset": 5077800,
+                "accumulatedTokenDebt": 2188800,
+                "reserveTokens": 261300,
+                "stacking": true,
+                "recoveryTime": 10
+            },
+            "22": {
+                "activeUsers": 28,
+                "minuteBurn": 476000,
+                "tokenBurn": 7723100,
+                "recoveryOffset": 5319600,
+                "accumulatedTokenDebt": 2423000,
+                "reserveTokens": 249400,
+                "stacking": true,
+                "recoveryTime": 10
+            },
+            "23": {
+                "activeUsers": 29,
+                "minuteBurn": 487900,
+                "tokenBurn": 8211000,
+                "recoveryOffset": 5561400,
+                "accumulatedTokenDebt": 2669100,
+                "reserveTokens": 237500,
+                "stacking": true,
+                "recoveryTime": 11
+            },
+            "24": {
+                "activeUsers": 30,
+                "minuteBurn": 499800,
+                "tokenBurn": 8710800,
+                "recoveryOffset": 5803200,
+                "accumulatedTokenDebt": 2927100,
+                "reserveTokens": 221300,
+                "stacking": true,
+                "recoveryTime": 11
+            },
+            "25": {
+                "activeUsers": 31,
+                "minuteBurn": 511700,
+                "tokenBurn": 9222500,
+                "recoveryOffset": 6045000,
+                "accumulatedTokenDebt": 3197000,
+                "reserveTokens": 193200,
+                "stacking": true,
+                "recoveryTime": 13
+            },
+            "26": {
+                "activeUsers": 32,
+                "minuteBurn": 523600,
+                "tokenBurn": 9746100,
+                "recoveryOffset": 6286800,
+                "accumulatedTokenDebt": 3478800,
+                "reserveTokens": 153200,
+                "stacking": true,
+                "recoveryTime": 14
+            },
+            "27": {
+                "activeUsers": 33,
+                "minuteBurn": 535500,
+                "tokenBurn": 10281600,
+                "recoveryOffset": 6528600,
+                "accumulatedTokenDebt": 3772500,
+                "reserveTokens": 101300,
+                "stacking": true,
+                "recoveryTime": 16
+            },
+            "28": {
+                "activeUsers": 34,
+                "minuteBurn": 547400,
+                "tokenBurn": 10829000,
+                "recoveryOffset": 6770400,
+                "accumulatedTokenDebt": 4078100,
+                "reserveTokens": 37500,
+                "stacking": true,
+                "recoveryTime": 19
+            },
+            "29": {
+                "activeUsers": 35,
+                "minuteBurn": 559300,
+                "tokenBurn": 11388300,
+                "recoveryOffset": 7012200,
+                "accumulatedTokenDebt": 4395600,
+                "reserveTokens": -38200,
+                "stacking": true,
+                "recoveryTime": 19
+            }
+        }
+    }
+}
+      </pre>
+    </div>
+  </body>
+</html>
+
+
+

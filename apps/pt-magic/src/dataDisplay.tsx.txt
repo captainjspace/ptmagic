@@ -4,7 +4,7 @@ import {getTokenData} from "@ptcalc/utils";
 
 // Your exact generated JSON structure used as the initial state seed
 const initialData = JSON.stringify(getTokenData());
-
+console.log(initialData);
 
 
 const _initialData = {
@@ -65,9 +65,10 @@ const _initialData = {
     "stableBurn": 241800
   }
 };
+console.log(_initialData);
 
 // Helper to turn camelCase strings into readable Section Labels
-const formatLabel = (str) => {
+const formatLabel = (str: string) => {
   return str
     .replace(/([A-Z])/g, ' $1')
     .replace(/^./, (match) => match.toUpperCase())
@@ -78,7 +79,7 @@ export default function DataDisplay() {
   const [data, setData] = useState(initialData);
 
   // Generic handler that dynamically modifies deep JSON values on input changes
-  const handleInputChange = (section, key, val) => {
+  const handleInputChange = (section:string, key:string, val:string) => {
     setData(prev => {
       const updated = {
         ...prev,
@@ -96,7 +97,7 @@ export default function DataDisplay() {
   };
 
   // Determines color styling based on metric health or negative indicators (like AtTwenty)
-  const getValueColor = (key, value) => {
+  const getValueColor = (key:string, value:string) => {
     if (typeof value === 'number' && value < 0) return 'text-red-400 font-bold';
     if (key.toLowerCase().includes('capacity') || key.toLowerCase().includes('possible')) return 'text-emerald-400 font-semibold';
     if (typeof value === 'boolean') return value ? 'text-blue-400' : 'text-slate-500';
@@ -133,7 +134,7 @@ export default function DataDisplay() {
                   {Object.entries(fields).map(([key, value]) => {
                     // Check if this field is an input state or a calculated metric
                     const isConfigurable = ['tokensPerSecond', 'promptTokens', 'contextHistoryTokens', 'contextFactor', 'turnsPerMinute', 'isCached'].includes(key);
-
+                                                                                                                                                                                            
                     return (
                       <div key={key} className="flex items-center justify-between text-sm group">
                         <span className="text-slate-400 select-none group-hover:text-slate-300 transition-colors">

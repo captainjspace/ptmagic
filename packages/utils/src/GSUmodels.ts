@@ -15,7 +15,7 @@ export const ModelKeys = {
   flash35     :  "flash35"
 } as const;
 
-type ModelKey = typeof ModelKeys[keyof typeof ModelKeys];
+export type ModelKey = typeof ModelKeys[keyof typeof ModelKeys];
 
 interface Model {
   name:string;
@@ -51,25 +51,35 @@ export const models: Record<ModelKey,Model> =  {
   }
 }
 
-interface DecoratedModel extends Model {
+export interface DecoratedModel extends Model {
   modelKey:ModelKey;
   perMinute:number;
   tokenBucketSize:number;
 }
 
-/* This is where model related calc */
-export const modelCalc = (modelKey:ModelKey) => {
 
-  if ( ! Object.hasOwn(models,modelKey)) {
+
+function isModelKey(key: string): key is ModelKey {
+  return Object.values(ModelKeys).includes(key as ModelKey);
+}
+
+/* This is where model related calc */
+export const modelCalc = (modelKeyStr:string): DecoratedModel => {
+  if ( ! Object.hasOwn(models,modelKeyStr)) {
     console.error([getErrorCode(exits, BAD_MODEL)]);
     process.exit(-1);
   }
+  if (! isModelKey(modelKeyStr)) {
+    process.exit(-1);
+  }
+    
+  const modelKey:ModelKey = modelKeyStr;
   const model = models[modelKey];
   const perMinute=model.tokensPerSecond * 60;
   const tokenBucketSize = perMinute * model.tokenAccumulationMinutes;
 
-  const modelCalc:DecoratedModel =  {...model, modelKey, perMinute, tokenBucketSize };
-  return modelCalc;
+const modelCalc:DecoratedModel =  {...model, modelKey, perMinute, tokenBucketSize };
+return modelCalc;
 }
 
 

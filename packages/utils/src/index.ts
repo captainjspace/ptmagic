@@ -1,24 +1,24 @@
 import fileconfig from "./config.json" with { type: "json" };
-import { DecoratedModel, modelCalc } from "./GSUmodels.ts" ;
-import * as CTError from "./ErrorCodes.ts";
-import { DecoratedSiteModel, siteCalc } from "./SiteModel.ts";
+import { modelCalc } from "./GSUmodels.ts" ;
+import { siteCalc } from "./SiteModel.ts";
+import type { TokenCalculatorConfig } from "./TokenCalculatorConfig.ts";
+import {flattenObject} from "./flattenObject.ts";
 
-const flattenObject = (obj:any, parent = "", res:{[key : string]: any }={}) => {
-  for (let key in obj) {
-    const propName:string = parent ? `${parent}.${key}` : key;
-    if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
-      flattenObject(obj[key], propName, res);
-    } else {
-      res[propName] = obj[key];
-    }
-  }
-  return res;
+export interface GridRecord {  
+  activeUsers:number;
+  tokenBurn: number; 
+  recoveryOffset: number; 
+  accumulatedTokenDebt: number; 
+  reserveTokens: number; 
+  stacking: boolean; 
+  recoveryTime: number; 
+  minuteBurn: number; 
 };
 
-let config={...fileconfig};  // JSON.parse(json);
+let config:TokenCalculatorConfig={...fileconfig};  // JSON.parse(json);
 
 
-export const calcTokens = (config:any) => {
+export const calcTokens = (config:TokenCalculatorConfig) => {
 
   /* Calculation Inputs */
   //site
@@ -186,17 +186,7 @@ export const calcTokens = (config:any) => {
 
 
     /* Build these user capacity items */
-    interface GridRecord {  
-      activeUsers:number;
-      tokenBurn: number; 
-      recoveryOffset: number; 
-      accumulatedTokenDebt: number; 
-      reserveTokens: number; 
-      stacking: boolean; 
-      recoveryTime: number; 
-      minuteBurn: number; 
-    };
-    const minuteGrid:Record<number,GridRecord>={};
+       const minuteGrid:Record<number,GridRecord>={};
     let rushHourData;
 
     for (let i=1; i<=(site.rushDaily-realUserFloor); i++) {
@@ -269,39 +259,45 @@ export const calcTokens = (config:any) => {
   return calcTokens;
 }
 
-interface TokenCalculatorConfig {
-
-}
-
-const currentConfig;
-const currentCalculatedState;
-const time;
+//const currentConfig;
+//const currentCalculatedState;
+//const time;
 
 
 //wrapper
-const calculatedTokens = (activeConfig?:TokenCalculatorConfig) => { 
-  return calcTokens(activeConfig);
+export const getCalculatedTokens = (activeConfig?:TokenCalculatorConfig) => { 
+  return calcTokens(activeConfig??config);
 }
 
-//export const getTokenData = () => {   return {...calcData, ...time } }
-export const tables = (calcData) => {
-  console.table(flattenObject(caclData));
+
+export const tables = (calcData:any) => {
+  console.table(flattenObject(calcData));
 };
 
-export const getCalcAsJSON = (calcData) => { 
+
+export const getCalcAsJSON = (calcData:any) => { 
   return JSON.stringify(calcData,null,4)
 };
 
-export const refreshTokenData = (customConfig = config) => { 
+export const refreshTokenData = (activeConfig?:TokenCalculatorConfig) => { 
   //validateInputs
-  const calcData = calcTokens(customConfig);
-  return 
+  const calcData = getCalculatedTokens(activeConfig);
+  const json=getCalcAsJSON(calcData);
+  tables(calcData);
+  console.log(json);
+
+  return  calcData;
 }
+
+
+export const getTokenData = (activeConfig:TokenCalculatorConfig ) => { 
+  return getCalcAsJSON( getCalculatedTokens(activeConfig)  )  
+};
 
 
 if (import.meta.main) {
   // Your main logic here
-  
+  refreshTokenData();
 }
 
 
