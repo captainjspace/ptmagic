@@ -5,9 +5,9 @@
   "scripts": {
     "lint": "eslint src/*",
     "dev": "ts-node src/index.ts",
-    "calc": "node src/index.js ",
-    "ptrep": "node src/costThreshold",
-    "build": "tsc -b"
+    "calc": "node dist/index.js ",
+    "dev-thresh": "node dist/costThreshold",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "joshlandman@google.com",
@@ -43,3 +43,4 @@
     "packageManager": "gpkg pnpm"
   }
 }
+

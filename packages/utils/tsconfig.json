@@ -1,8 +1,9 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "rootDir":"./src",
-    "outDir": "./dist",
+    "rootDir":"src",
+    "outDir": "dist",
+    "declarationDir": "dist/types",
     "declaration": true,       
     "declarationMap": true,  
     "target": "esnext",
