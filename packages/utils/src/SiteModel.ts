@@ -3,7 +3,7 @@
  * Defines interface, validation and functions to calclulate site user of the gsu
  */
 
-import { SubjectKeys, SeverityKeys, getErrorCode } from "./ErrorCodes.ts";
+import { SubjectKeys, SeverityKeys, getErrorCode } from "./ErrorCodes.js";
 
 //Error Codes
 const exits = SeverityKeys.exits;
@@ -85,7 +85,7 @@ export const siteCalc = (siteConf: SiteModel): DecoratedSiteModel => {
   const isValid = isValidSiteModel(site);
   if (!isValid || siteMsg.length != 0) {
     siteMsg.forEach((m) => console.error(m));
-    process.exit(-1);
+    throw new Error("Invalid Site Configuration");
   }
 
   const getSiteCalcs = () => {

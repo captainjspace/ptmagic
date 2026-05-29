@@ -1,0 +1,26 @@
+{
+  "name": "@ptcalc/schema-gen",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --loader ts-node/esm src/index.ts",
+    "build":"pnpm exec tsc",
+    "preview":"node dist/index.js",
+    "generate": "node --loader ts-node/esm src/index.ts"
+  },
+  "keywords": ["json","schema"],
+  "author": "joshlandman@google.com",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@ptcalc/utils": "workspace:*",
+    "ajv": "^8.20.0",
+    "json-schema-to-ts": "^3.1.1",
+    "ts-json-schema-generator": "^2.9.0",
+    "typescript": "^6.0.3",
+    "typescript-json-schema": "^0.67.4",
+    "ts-node": "^10.9.2"
+  }
+}
+

@@ -1,15 +1,13 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
+    "target": "esnext",
     "module": "NodeNext",
     "moduleResolution": "nodenext",
     "strict": true,
     "esModuleInterop": true,
     "composite": true,
-    "target": "esnext",
     "removeComments": true,
     "noEmit": false,
-    // For nodejs:
     "lib": ["esnext", "dom"],
     "types": ["node"],
 
@@ -26,14 +24,13 @@
     "noPropertyAccessFromIndexSignature": true,
 
     // Recommended Options
-    "strict": true,
     "jsx": "react-jsx",
     "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": false,
-    "allowImportingTsExtensions": true,
+    "allowImportingTsExtensions": false,
     "emitDeclarationOnly": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true

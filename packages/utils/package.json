@@ -8,9 +8,10 @@
     "calc": "node dist/index.js ",
     "dev-thresh": "node dist/costThreshold",
     "check": "tsc --noEmit",
-    "build": "pnpm store prune; pnpm exec tsc;pnpm run minify",
-    "minify": "swc dist/*.js",
-    "build:fullswc": "swc dist -d  bin --copy-files --strip-leading-paths"
+    "build": "pnpm store prune; pnpm exec tsc",
+    "minify": "swc dist/*.js -d dist --strip-leading-paths",
+    "build:fullswc": "swc src -d bin --copy-files --strip-leading-paths",
+    "buildMini": "swc src -o ptcalc.js --strip-leading-paths"
   },
   "keywords": ["GCP","GSU","Provisioned Throughput", "Calculator"],
   "author": "joshlandman@google.com",

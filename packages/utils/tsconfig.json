@@ -27,12 +27,10 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
-    "allowImportingTsExtensions": true,
-    "rewriteRelativeImportExtensions": true,
     "emitDeclarationOnly": false
   },
   "include": [
-    "./src/*.json",
-    "./src/*.ts"
+    "src/**/*.json",
+    "src/**/*.ts"
   ]
 }

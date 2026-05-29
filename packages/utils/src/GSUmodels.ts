@@ -1,29 +1,9 @@
-/**
- * GSUModels.ts
- */
-
-import { getErrorCode, SubjectKeys, SeverityKeys } from "./ErrorCodes.ts";
-import * as process from "node:process";
+import { getErrorCode, SubjectKeys, SeverityKeys } from "./ErrorCodes.js";
+import { type ModelKey, type DecoratedModel, type Model, ModelKeys } from "./types.js";
 
 /* Error Codes  */
 const exits = SeverityKeys.exits;
 const BAD_MODEL = SubjectKeys.BAD_MODEL;
-
-export const ModelKeys = {
-  flash25: "flash25",
-  flashLite31: "flashLite31",
-  flash35: "flash35",
-} as const;
-
-export type ModelKey = (typeof ModelKeys)[keyof typeof ModelKeys];
-
-interface Model {
-  name: string;
-  tokensPerSecond: number;
-  tokenAccumulationMinutes: number | 2;
-  cacheFactor: number;
-  outputFactor: number | 1;
-}
 
 /* Static Models */
 export const models: Record<ModelKey, Model> = {
@@ -50,12 +30,6 @@ export const models: Record<ModelKey, Model> = {
   },
 };
 
-export interface DecoratedModel extends Model {
-  modelKey: ModelKey;
-  perMinute: number;
-  tokenBucketSize: number;
-}
-
 function isModelKey(key: string): key is ModelKey {
   return Object.values(ModelKeys).includes(key as ModelKey);
 }
@@ -63,11 +37,12 @@ function isModelKey(key: string): key is ModelKey {
 /* This is where model related calc */
 export const modelCalc = (modelKeyStr: string): DecoratedModel => {
   if (!Object.hasOwn(models, modelKeyStr)) {
-    console.error([getErrorCode(exits, BAD_MODEL)]);
-    process.exit(-1);
+    const error = getErrorCode(exits, BAD_MODEL);
+    console.error(error);
+    throw new Error(error);
   }
   if (!isModelKey(modelKeyStr)) {
-    process.exit(-1);
+    throw new Error(`Invalid model key: ${modelKeyStr}`);
   }
 
   const modelKey: ModelKey = modelKeyStr;

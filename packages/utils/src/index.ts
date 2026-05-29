@@ -1,8 +1,107 @@
-import fileconfig from "./config.json" with { type: "json" };
-import { modelCalc } from "./GSUmodels.ts";
-import { siteCalc } from "./SiteModel.ts";
-import type { TokenCalculatorConfig } from "./TokenCalculatorConfig.ts";
-import { flattenObject } from "./flattenObject.ts";
+import type { TokenCalculatorConfig } from "./TokenCalculatorConfig";
+
+export const defaultConfig: TokenCalculatorConfig = {
+  model: "flashLite31",
+  inputTokens: {
+    prompt: {
+      tokens: 12000,
+      isContextCached: true
+    },
+    contextHistory: {
+      tokens: 4000
+    }
+  },
+  outputTokens: {
+    average: 250,
+    peak: 4400
+  },
+  agentPattern: {
+    name: "Single Agent Double Loop",
+    contextFactor: 2
+  },
+  timeFactors: {
+    turnDuration: 6,
+    turnsPerMinute: 3
+  },
+  site: {
+    dailyUsers: 250000,
+    canary: 0.05,
+    rush: 0.2
+  }
+};
+
+export interface Model {
+  name: string;
+  tokensPerSecond: number;
+  tokenAccumulationMinutes: number | 2;
+  cacheFactor: number;
+  outputFactor: number | 1;
+}
+
+export interface DecoratedModel extends Model {
+  modelKey: string;
+  perMinute: number;
+  tokenBucketSize: number;
+  agentPattern?: string;
+  contextFactor?: number;
+}
+
+export interface RawTokenInput {
+  promptTokens: number;
+  contextHistoryTokens: number;
+  baseInputTokens: number;
+  realInputTokens: number;
+  outputAverageTokens: number;
+  rawTokens: number;
+  outputPeakTokens: number;
+  peakRawTokens: number;
+}
+
+export interface AdjustedTokenInputs {
+  isCached: boolean;
+  promptCacheAdjustedTokens: number;
+  baseAdjustedInputTokens: number;
+  loopAdjustedPromptTokens: number;
+  loopAndCacheAdjustedPromptTokens: number;
+  loopAdjustedContextHistoryTokens: number;
+  burndownInputTokens: number;
+  outputAverageAdjustedTokens: number;
+  outputPeakAdjustedTokens: number;
+  burndownTokens: number;
+  peakAdjustedTokens: number;
+}
+
+export interface TokenRatios {
+  rawRatio: number;
+  peakRawRatio: number;
+  burndownRatio: number;
+  peakAdjustedRatio: number;
+}
+
+export interface UserCapacity {
+  maxConcurrentInputUsers: number;
+  concurrentInputBurn: number;
+  concurrentResponseToken: number;
+  staggeredMinuteBurn: number;
+  recoveryRate: number;
+  AtSixSeconds: number;
+  responsesPossible: number;
+  remainingResponses: number;
+  remainingTokens: number;
+  AtTwenty: number;
+  userCapacity: number;
+  realUserFloor: number;
+  stableBurn: number;
+  stableRecovery: number;
+  peakTokenBurner: {
+    p95TokenBurn: number;
+    peakStableBurn: number;
+    p95bucketHit: number;
+    p95bucketRecoverySeconds: number;
+  };
+  turnDuration: number;
+  turnsPerMinute: number;
+}
 
 export interface GridRecord {
   activeUsers: number;
@@ -15,368 +114,144 @@ export interface GridRecord {
   minuteBurn: number;
 }
 
-let config: TokenCalculatorConfig = { ...fileconfig }; // JSON.parse(json);
+export interface SiteCapacity {
+  timeFactors: {
+    turnDuration: number;
+    turnsPerMinute: number;
+  };
+  rushHourData: any;
+  minuteGrid: Record<number, GridRecord>;
+  canarySize: number;
+  canaryHour: number;
+  canaryMinute: number;
+  rushSize: number;
+  rushDaily: number;
+  dailyUsers: number;
+  canary: number;
+  rush: number;
+}
 
-export const calcTokens = (config: TokenCalculatorConfig) => {
-  /* Calculation Inputs */
-  //site
-  const site = siteCalc(config.site);
-  //mode
-  const model = modelCalc(config.model);
+export interface TokenCalcResponse {
+  config: TokenCalculatorConfig;
+  model: DecoratedModel;
+  rawTokenInput: RawTokenInput;
+  adjustedTokenInputs: AdjustedTokenInputs;
+  tokenRatios: TokenRatios;
+  userCapacity: UserCapacity;
+  siteCapacity: SiteCapacity;
+}
 
-  //agent pattern
-  const agentPattern = config.agentPattern.name;
-  const contextFactor = config.agentPattern.contextFactor || 1;
+import { modelCalc } from "./GSUmodels";
+import { siteCalc } from "./SiteModel";
+import { flattenObject } from "./flattenObject";
 
-  //prompt + context
-  const promptTokens = config.inputTokens.prompt.tokens;
-  const isCached = config.inputTokens.prompt.isContextCached;
-  const contextHistoryTokens = config.inputTokens.contextHistory.tokens;
+export const calcTokens = (inputConfig: TokenCalculatorConfig): TokenCalcResponse => {
+  const model = modelCalc(inputConfig.model);
+  const site = siteCalc(inputConfig.site);
+  const timeFactors = inputConfig.timeFactors;
+  const agentPattern = inputConfig.agentPattern.name;
+  const contextFactor = inputConfig.agentPattern.contextFactor || 1;
 
-  //output
-  const outputAverageTokens = config.outputTokens.average;
-  const outputPeakTokens = config.outputTokens.peak;
+  const promptTokens = inputConfig.inputTokens.prompt.tokens;
+  const isCached = inputConfig.inputTokens.prompt.isContextCached;
+  const contextHistoryTokens = inputConfig.inputTokens.contextHistory.tokens;
+  const outputAverageTokens = inputConfig.outputTokens.average;
+  const outputPeakTokens = inputConfig.outputTokens.peak;
 
-  /* Calculations */
-
-  //base inputs
   const baseInputTokens = promptTokens + contextHistoryTokens;
+  const promptCacheAdjustedTokens = promptTokens * (isCached ? model.cacheFactor : 1);
+  const baseAdjustedInputTokens = promptCacheAdjustedTokens + contextHistoryTokens;
 
-  //context cache
-  const promptCacheAdjustedTokens =
-    promptTokens * (isCached ? model.cacheFactor : 1);
-  const baseAdjustedInputTokens =
-    promptCacheAdjustedTokens + contextHistoryTokens;
+  const realInputTokens = baseInputTokens * contextFactor;
+  const burndownInputTokens = baseAdjustedInputTokens * contextFactor;
 
-  //loop
-  // informational
-  const loopAdjustedPromptTokens = promptTokens * contextFactor;
-  const loopAndCacheAdjustedPromptTokens =
-    promptCacheAdjustedTokens * contextFactor;
-  const loopAdjustedContextHistoryTokens = contextHistoryTokens * contextFactor;
-  const checkInputTokens =
-    loopAdjustedPromptTokens + loopAdjustedContextHistoryTokens;
-
-  //
-  const loopAdjustedInputTokens = baseInputTokens * contextFactor;
-  const loopAndCacheAdjustedInputTokens =
-    baseAdjustedInputTokens * contextFactor;
-
-  const realInputTokens = loopAdjustedInputTokens;
-  const burndownInputTokens = loopAndCacheAdjustedInputTokens;
-
-  if (checkInputTokens !== realInputTokens) {
-    console.warn("check token input loop factor");
-  }
-
-  //output adjusted for model
   const outputAverageAdjustedTokens = outputAverageTokens * model.outputFactor;
   const outputPeakAdjustedTokens = outputPeakTokens * model.outputFactor;
 
-  // Raw Counts - ADK
   const rawTokens = realInputTokens + outputAverageTokens;
   const rawRatio = realInputTokens / outputAverageTokens;
-
-  // Adjusted Raw - Burn Rate
   const burndownTokens = burndownInputTokens + outputAverageAdjustedTokens;
   const burndownRatio = burndownInputTokens / outputAverageAdjustedTokens;
-
-  //peak
   const peakRawTokens = realInputTokens + outputPeakTokens;
   const peakRawRatio = realInputTokens / outputPeakTokens;
-
   const peakAdjustedTokens = burndownInputTokens + outputPeakAdjustedTokens;
   const peakAdjustedRatio = burndownInputTokens / outputPeakAdjustedTokens;
 
-  const timeFactors = config.timeFactors;
-
-  const maxConcurrentInputUsers = Math.floor(
-    model.tokenBucketSize / burndownInputTokens,
-  );
+  const maxConcurrentInputUsers = Math.floor(model.tokenBucketSize / burndownInputTokens);
   const concurrentInputBurn = maxConcurrentInputUsers * burndownInputTokens;
-  const concurrentResponseToken =
-    maxConcurrentInputUsers * outputAverageAdjustedTokens;
   const recoveryRate = timeFactors.turnDuration * model.tokensPerSecond;
-  const AtSixSeconds =
-    model.tokenBucketSize - concurrentInputBurn + recoveryRate;
-  const responsesPossible = Math.floor(
-    AtSixSeconds / outputAverageAdjustedTokens,
-  );
-  const remainingResponses = Math.max(
-    maxConcurrentInputUsers - responsesPossible,
-  );
-  const remainingTokens =
-    AtSixSeconds - responsesPossible * outputAverageAdjustedTokens;
-  const AtTwenty =
-    remainingTokens +
-    2 * recoveryRate -
-    remainingResponses * outputAverageAdjustedTokens;
-  const staggeredMinuteBurn =
-    burndownTokens * timeFactors.turnsPerMinute * maxConcurrentInputUsers;
-  const userCapacity =
-    maxConcurrentInputUsers / (staggeredMinuteBurn / model.perMinute);
+  const AtSixSeconds = model.tokenBucketSize - concurrentInputBurn + recoveryRate;
+  const responsesPossible = Math.floor(AtSixSeconds / outputAverageAdjustedTokens);
+  const remainingResponses = Math.max(maxConcurrentInputUsers - responsesPossible, 0);
+  const remainingTokens = AtSixSeconds - responsesPossible * outputAverageAdjustedTokens;
+  const AtTwenty = remainingTokens + 2 * recoveryRate - remainingResponses * outputAverageAdjustedTokens;
+  const staggeredMinuteBurn = burndownTokens * timeFactors.turnsPerMinute * maxConcurrentInputUsers;
+  const userCapacity = maxConcurrentInputUsers / (staggeredMinuteBurn / model.perMinute);
   const realUserFloor = Math.floor(userCapacity);
-  const stableBurn =
-    realUserFloor * burndownTokens * timeFactors.turnsPerMinute;
+  const stableBurn = realUserFloor * burndownTokens * timeFactors.turnsPerMinute;
   const stableRecovery = model.perMinute - stableBurn;
-  //const dailyBurn = model.perMinute *60 *24;
+
   const p95TokenBurn = peakAdjustedTokens * timeFactors.turnsPerMinute;
-  //replace a normal user with peak
-  const peakStableBurn =
-    (stableBurn / realUserFloor) * (realUserFloor - 1) + p95TokenBurn;
+  const peakStableBurn = (stableBurn / (realUserFloor || 1)) * (Math.max(realUserFloor - 1, 0)) + p95TokenBurn;
   const p95bucketHit = model.perMinute - peakStableBurn;
-  const p95bucketRecoverySeconds = p95bucketHit / stableRecovery;
+  const p95bucketRecoverySeconds = p95bucketHit / (stableRecovery || 1);
 
-  const timeToRecoveryExtraUser = () => {
-    const rushHourTokenData = {
-      debtStack: [0],
-      tokenBurn: 0,
-      recoveryOffset: 0,
-      reserveTokens: model.tokenBucketSize,
-      recoveryTime: 0,
-      stacking: false,
+  // Simple Rush Hour Calc Inline to avoid external imports
+  const minuteGrid: Record<number, GridRecord> = {};
+  let reserve = model.tokenBucketSize;
+  let accumulatedDebt = 0;
 
-      getTokenData() {
-        const {
-          recoveryOffset,
-          reserveTokens,
-          debtStack,
-          stacking,
-          recoveryTime,
-          tokenBurn,
-        } = rushHourTokenData;
-        const accumulatedTokenDebt = debtStack.reduce(
-          (a: number, b: number) => a + b,
-          0,
-        );
-
-        return {
-          tokenBurn,
-          recoveryOffset,
-          accumulatedTokenDebt,
-          reserveTokens,
-          stacking,
-          recoveryTime,
-        };
-      },
-
-      setStacking() {
-        this.stacking = this.debtStack.length > 0 ? true : false;
-      },
-      addTotal(tokens: number) {
-        this.tokenBurn += tokens;
-        this.recoveryOffset += model.perMinute;
-      },
-
-      updateRecoveryTime() {
-        this.recoveryTime = Math.abs(
-          Math.ceil(
-            (model.tokenBucketSize - this.reserveTokens) / recoveryRate,
-          ),
-        );
-      },
-
-      recoverReserve() {
-        const reserve = this.reserveTokens + model.perMinute;
-        this.reserveTokens = Math.min(reserve, model.tokenBucketSize);
-      },
-      burnReserve(tokens: number) {
-        this.reserveTokens -= tokens;
-        if (this.reserveTokens <= 0) throw Error("Out of Tokens");
-        this.updateRecoveryTime();
-      },
-
-      /***
-       * orchestrate
-       * 1 recover the last minute
-       * 2 track total overage and recover
-       * 3 add to stack
-       * 4 burn reserve
-       */
-      stackCalc(data: any) {
-        this.recoverReserve();
-        const minuteDebt = data.tokens - model.perMinute;
-        this.addTotal(data.tokens);
-        if (minuteDebt > 0) {
-          this.debtStack.push(minuteDebt);
-          this.setStacking();
-        }
-        try {
-          this.burnReserve(minuteDebt);
-        } catch (err) {
-          console.log(err);
-        } finally {
-          return this.getTokenData();
-        }
-      },
+  for (let i = 1; i <= site.rushDaily - realUserFloor; i++) {
+    const activeUsers = realUserFloor + i;
+    const minuteBurn = stableBurn + i * burndownTokens;
+    const minuteDebt = Math.max(0, minuteBurn - model.perMinute);
+    
+    accumulatedDebt += minuteDebt;
+    reserve = Math.min(model.tokenBucketSize, Math.max(0, reserve + model.perMinute - minuteBurn));
+    
+    minuteGrid[i] = {
+      activeUsers,
+      minuteBurn,
+      recoveryOffset: model.perMinute,
+      accumulatedTokenDebt: accumulatedDebt,
+      reserveTokens: reserve,
+      stacking: minuteDebt > 0,
+      recoveryTime: Math.abs(Math.ceil((model.tokenBucketSize - reserve) / (recoveryRate || 1))),
+      minuteBurn: minuteBurn
     };
 
-    /* Build these user capacity items */
-    const minuteGrid: Record<number, GridRecord> = {};
-    let rushHourData;
+    if (reserve <= 0) break;
+  }
 
-    for (let i = 1; i <= site.rushDaily - realUserFloor; i++) {
-      const activeUsers = realUserFloor + i;
-      const minuteBurn = stableBurn + i * burndownTokens;
-      rushHourData = rushHourTokenData.stackCalc({ tokens: minuteBurn });
-
-      const key = i as keyof typeof minuteGrid;
-      const gridRecord: GridRecord = {
-        activeUsers,
-        minuteBurn,
-        ...rushHourData,
-      };
-      minuteGrid[key] = gridRecord;
-
-      if (rushHourData.reserveTokens <= 0) {
-        console.debug("break");
-        break;
-      }
-    }
-    return { minuteGrid, rushHourData };
+  return {
+    config: inputConfig,
+    model: { ...model, agentPattern, contextFactor, modelKey: inputConfig.model },
+    rawTokenInput: { promptTokens, contextHistoryTokens, baseInputTokens, realInputTokens, outputAverageTokens, rawTokens, outputPeakTokens, peakRawTokens },
+    adjustedTokenInputs: { isCached, promptCacheAdjustedTokens, baseAdjustedInputTokens, loopAdjustedPromptTokens: promptTokens * contextFactor, loopAndCacheAdjustedPromptTokens: promptCacheAdjustedTokens * contextFactor, loopAdjustedContextHistoryTokens, burndownInputTokens, outputAverageAdjustedTokens, outputPeakAdjustedTokens, burndownTokens, peakAdjustedTokens },
+    tokenRatios: { rawRatio, peakRawRatio, burndownRatio, peakAdjustedRatio },
+    userCapacity: { ...timeFactors, maxConcurrentInputUsers, concurrentInputBurn, concurrentResponseToken: maxConcurrentInputUsers * outputAverageAdjustedTokens, staggeredMinuteBurn, recoveryRate, AtSixSeconds, responsesPossible, remainingResponses, remainingTokens, AtTwenty, userCapacity, realUserFloor, stableBurn, stableRecovery, peakTokenBurner: { p95TokenBurn, peakStableBurn, p95bucketHit, p95bucketRecoverySeconds } },
+    siteCapacity: { ...site, timeFactors, rushHourData: minuteGrid[Object.keys(minuteGrid).length], minuteGrid }
   };
-
-  const { minuteGrid, rushHourData } = timeToRecoveryExtraUser();
-  console.table(minuteGrid);
-
-  const calcTokens = {
-    Model: {
-      ...model,
-      agentPattern,
-      contextFactor,
-    },
-
-    RawTokenInput: {
-      promptTokens,
-      contextHistoryTokens,
-      baseInputTokens,
-      realInputTokens,
-      outputAverageTokens,
-      rawTokens,
-      outputPeakTokens,
-      peakRawTokens,
-    },
-
-    AdjustedTokenInputs: {
-      isCached,
-      promptCacheAdjustedTokens,
-      baseAdjustedInputTokens,
-      loopAdjustedPromptTokens,
-      loopAndCacheAdjustedPromptTokens,
-      loopAdjustedContextHistoryTokens,
-      burndownInputTokens,
-      outputAverageAdjustedTokens,
-      outputPeakAdjustedTokens,
-      burndownTokens,
-      peakAdjustedTokens,
-    },
-
-    TokenRatios: {
-      rawRatio,
-      peakRawRatio,
-      burndownRatio,
-      peakAdjustedRatio,
-    },
-
-    UserCapacity: {
-      ...timeFactors,
-      maxConcurrentInputUsers,
-      concurrentInputBurn,
-      concurrentResponseToken,
-      staggeredMinuteBurn,
-      recoveryRate,
-      AtSixSeconds,
-      responsesPossible,
-      remainingResponses,
-      remainingTokens,
-      AtTwenty,
-      userCapacity,
-      realUserFloor,
-      stableBurn,
-      stableRecovery,
-      PeakTokenBurner: {
-        p95TokenBurn,
-        peakStableBurn,
-        p95bucketHit,
-        p95bucketRecoverySeconds,
-      },
-    },
-    SiteCapacity: {
-      ...site,
-      timeFactors,
-      rushHourData,
-      minuteGrid,
-    },
-  };
-  return calcTokens;
 };
 
-//const currentConfig;
-//const currentCalculatedState;
-//const time;
-
-//wrapper
 export const getCalculatedTokens = (activeConfig?: TokenCalculatorConfig) => {
-  return calcTokens(activeConfig ?? config);
+  return calcTokens(activeConfig ?? defaultConfig);
 };
 
-export const tables = (calcData: any) => {
-  console.table(flattenObject(calcData));
-};
-
-export const getCalcAsJSON = (calcData: any) => {
-  return JSON.stringify(calcData, null, 4);
-};
+export const tables = (calcData: any) => console.table(flattenObject(calcData));
+export const getCalcAsJSON = (calcData: any) => JSON.stringify(calcData, null, 4);
 
 export const refreshTokenData = (activeConfig?: TokenCalculatorConfig) => {
-  //validateInputs
   const calcData = getCalculatedTokens(activeConfig);
-  const json = getCalcAsJSON(calcData);
   tables(calcData);
-  console.log(json);
-
   return calcData;
 };
 
-export const getTokenData = (activeConfig: TokenCalculatorConfig) => {
-  return getCalcAsJSON(getCalculatedTokens(activeConfig));
+export const getTokenData = (activeConfig?: TokenCalculatorConfig) => {
+  return getCalcAsJSON(getCalculatedTokens(activeConfig ?? defaultConfig));
 };
 
 if (import.meta.main) {
   // Your main logic here
   refreshTokenData();
 }
-
-//defin erros
-//
-//const json=`
-//{
-//  "model": "flashLite31",
-//  "inputTokens": {
-//    "prompt": {
-//      "tokens": 10000,
-//      "isContextCached": true
-//    },
-//    "contextHistory": {
-//      "tokens": 6000
-//    }
-//  },
-//  "outputTokens": {
-//    "average": 500,
-//    "peak": 4400
-//  },
-//  "agentPattern": {
-//    "name": "Single Agent Double Loop",
-//    "contextFactor": 1
-//  },
-//  "timeFactors":{
-//    "turnDuration": 6,
-//    "turnsPerMinute": 3
-//  },
-//  "site" {
-//    "dailyUsers": 250000,
-//    "canary": 0.05,
-//    "rush:" 0.20
-//  }
-//}
-//`
