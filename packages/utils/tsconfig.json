@@ -1,9 +1,11 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "rootDir":"src",
-    "outDir": "dist",
-    "declarationDir": "dist/types",
+    "rootDir":"./src",
+    "outDir": "./dist",
+    "declarationDir": "./dist/types",
+    "emitDeclarationOnly": false,
+    "noEmit": false,
     "declaration": true,       
     "declarationMap": true,  
     "target": "esnext",
@@ -26,10 +28,11 @@
     "moduleDetection": "force",
     "skipLibCheck": true,
     "allowImportingTsExtensions": true,
-    "rewriteRelativeImportExtensions": true
+    "rewriteRelativeImportExtensions": true,
+    "emitDeclarationOnly": false
   },
   "include": [
     "./src/*.json",
-    "./src/*ts"
+    "./src/*.ts"
   ]
 }

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import "./style.css";
-import { getCalcAsJSON } from "@ptcalc/utils";
+import { refreshTokenData } from "@ptcalc/utils";
 
 // Top-level diagnostic execution
-const data: string = getCalcAsJSON();
+const data: any  = refreshTokenData();
 console.log(data);
 
 const TokenSimulator = (): React.JSX.Element => {

@@ -3,9 +3,6 @@
   "compilerOptions": {
     "rootDir": ".",
     "outDir": "./dist"
-  },
-  "include": [
-    "./src/*.json",
-    "./src/**/*",
-  ]
+  }
+  
 }

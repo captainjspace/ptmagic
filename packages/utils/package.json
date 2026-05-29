@@ -7,9 +7,12 @@
     "dev": "ts-node src/index.ts",
     "calc": "node dist/index.js ",
     "dev-thresh": "node dist/costThreshold",
-    "build": "tsc"
+    "check": "tsc --noEmit",
+    "build": "pnpm store prune; pnpm exec tsc;pnpm run minify",
+    "minify": "swc dist/*.js",
+    "build:fullswc": "swc dist -d  bin --copy-files --strip-leading-paths"
   },
-  "keywords": [],
+  "keywords": ["GCP","GSU","Provisioned Throughput", "Calculator"],
   "author": "joshlandman@google.com",
   "license": "MIT",
   "devDependencies": {
@@ -23,10 +26,10 @@
   },
   "type": "module",
   "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": "./dist/types/index.d.ts",
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     }

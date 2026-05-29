@@ -1,0 +1,382 @@
+
+{
+    "Model": {
+        "name": "Gemini 3.1 Flash",
+        "tokensPerSecond": 4030,
+        "tokenAccumulationMinutes": 2,
+        "cacheFactor": 0.1,
+        "outputFactor": 6,
+        "modelKey": "flashLite31",
+        "perMinute": 241800,
+        "tokenBucketSize": 483600,
+        "agentPattern": "Single Agent Double Loop",
+        "contextFactor": 2
+    },
+    "RawTokenInput": {
+        "promptTokens": 12000,
+        "contextHistoryTokens": 4000,
+        "baseInputTokens": 16000,
+        "realInputTokens": 32000,
+        "outputAverageTokens": 250,
+        "rawTokens": 32250,
+        "outputPeakTokens": 4400,
+        "peakRawTokens": 36400
+    },
+    "AdjustedTokenInputs": {
+        "isCached": true,
+        "promptCacheAdjustedTokens": 1200,
+        "baseAdjustedInputTokens": 5200,
+        "loopAdjustedPromptTokens": 24000,
+        "loopAndCacheAdjustedPromptTokens": 2400,
+        "loopAdjustedContextHistoryTokens": 8000,
+        "burndownInputTokens": 10400,
+        "outputAverageAdjustedTokens": 1500,
+        "outputPeakAdjustedTokens": 26400,
+        "burndownTokens": 11900,
+        "peakAdjustedTokens": 36800
+    },
+    "TokenRatios": {
+        "rawRatio": 128,
+        "peakRawRatio": 7.2727272727272725,
+        "burndownRatio": 6.933333333333334,
+        "peakAdjustedRatio": 0.3939393939393939
+    },
+    "UserCapacity": {
+        "turnDuration": 6,
+        "turnsPerMinute": 3,
+        "maxConcurrentInputUsers": 46,
+        "concurrentInputBurn": 478400,
+        "concurrentResponseToken": 69000,
+        "staggeredMinuteBurn": 1642200,
+        "recoveryRate": 24180,
+        "AtSixSeconds": 29380,
+        "responsesPossible": 19,
+        "remainingResponses": 27,
+        "remainingTokens": 880,
+        "AtTwenty": 8740,
+        "userCapacity": 6.773109243697479,
+        "realUserFloor": 6,
+        "stableBurn": 214200,
+        "stableRecovery": 27600,
+        "PeakTokenBurner": {
+            "p95TokenBurn": 110400,
+            "peakStableBurn": 288900,
+            "p95bucketHit": -47100,
+            "p95bucketRecoverySeconds": -1.7065217391304348
+        }
+    },
+    "SiteCapacity": {
+        "dailyUsers": 250000,
+        "canary": 0.05,
+        "rush": 0.2,
+        "canarySize": 12500,
+        "canaryHour": 520.8333333333334,
+        "canaryMinute": 9,
+        "rushSize": 2500,
+        "rushDaily": 42,
+        "timeFactors": {
+            "turnDuration": 6,
+            "turnsPerMinute": 3
+        },
+        "rushHourData": {
+            "tokenBurn": 11388300,
+            "recoveryOffset": 7012200,
+            "accumulatedTokenDebt": 4395600,
+            "reserveTokens": -38200,
+            "stacking": true,
+            "recoveryTime": 19
+        },
+        "minuteGrid": {
+            "1": {
+                "activeUsers": 7,
+                "minuteBurn": 226100,
+                "tokenBurn": 226100,
+                "recoveryOffset": 241800,
+                "accumulatedTokenDebt": 0,
+                "reserveTokens": 499300,
+                "stacking": false,
+                "recoveryTime": 0
+            },
+            "2": {
+                "activeUsers": 8,
+                "minuteBurn": 238000,
+                "tokenBurn": 464100,
+                "recoveryOffset": 483600,
+                "accumulatedTokenDebt": 0,
+                "reserveTokens": 487400,
+                "stacking": false,
+                "recoveryTime": 0
+            },
+            "3": {
+                "activeUsers": 9,
+                "minuteBurn": 249900,
+                "tokenBurn": 714000,
+                "recoveryOffset": 725400,
+                "accumulatedTokenDebt": 8100,
+                "reserveTokens": 475500,
+                "stacking": true,
+                "recoveryTime": 1
+            },
+            "4": {
+                "activeUsers": 10,
+                "minuteBurn": 261800,
+                "tokenBurn": 975800,
+                "recoveryOffset": 967200,
+                "accumulatedTokenDebt": 28100,
+                "reserveTokens": 463600,
+                "stacking": true,
+                "recoveryTime": 1
+            },
+            "5": {
+                "activeUsers": 11,
+                "minuteBurn": 273700,
+                "tokenBurn": 1249500,
+                "recoveryOffset": 1209000,
+                "accumulatedTokenDebt": 60000,
+                "reserveTokens": 451700,
+                "stacking": true,
+                "recoveryTime": 2
+            },
+            "6": {
+                "activeUsers": 12,
+                "minuteBurn": 285600,
+                "tokenBurn": 1535100,
+                "recoveryOffset": 1450800,
+                "accumulatedTokenDebt": 103800,
+                "reserveTokens": 439800,
+                "stacking": true,
+                "recoveryTime": 2
+            },
+            "7": {
+                "activeUsers": 13,
+                "minuteBurn": 297500,
+                "tokenBurn": 1832600,
+                "recoveryOffset": 1692600,
+                "accumulatedTokenDebt": 159500,
+                "reserveTokens": 427900,
+                "stacking": true,
+                "recoveryTime": 3
+            },
+            "8": {
+                "activeUsers": 14,
+                "minuteBurn": 309400,
+                "tokenBurn": 2142000,
+                "recoveryOffset": 1934400,
+                "accumulatedTokenDebt": 227100,
+                "reserveTokens": 416000,
+                "stacking": true,
+                "recoveryTime": 3
+            },
+            "9": {
+                "activeUsers": 15,
+                "minuteBurn": 321300,
+                "tokenBurn": 2463300,
+                "recoveryOffset": 2176200,
+                "accumulatedTokenDebt": 306600,
+                "reserveTokens": 404100,
+                "stacking": true,
+                "recoveryTime": 4
+            },
+            "10": {
+                "activeUsers": 16,
+                "minuteBurn": 333200,
+                "tokenBurn": 2796500,
+                "recoveryOffset": 2418000,
+                "accumulatedTokenDebt": 398000,
+                "reserveTokens": 392200,
+                "stacking": true,
+                "recoveryTime": 4
+            },
+            "11": {
+                "activeUsers": 17,
+                "minuteBurn": 345100,
+                "tokenBurn": 3141600,
+                "recoveryOffset": 2659800,
+                "accumulatedTokenDebt": 501300,
+                "reserveTokens": 380300,
+                "stacking": true,
+                "recoveryTime": 5
+            },
+            "12": {
+                "activeUsers": 18,
+                "minuteBurn": 357000,
+                "tokenBurn": 3498600,
+                "recoveryOffset": 2901600,
+                "accumulatedTokenDebt": 616500,
+                "reserveTokens": 368400,
+                "stacking": true,
+                "recoveryTime": 5
+            },
+            "13": {
+                "activeUsers": 19,
+                "minuteBurn": 368900,
+                "tokenBurn": 3867500,
+                "recoveryOffset": 3143400,
+                "accumulatedTokenDebt": 743600,
+                "reserveTokens": 356500,
+                "stacking": true,
+                "recoveryTime": 6
+            },
+            "14": {
+                "activeUsers": 20,
+                "minuteBurn": 380800,
+                "tokenBurn": 4248300,
+                "recoveryOffset": 3385200,
+                "accumulatedTokenDebt": 882600,
+                "reserveTokens": 344600,
+                "stacking": true,
+                "recoveryTime": 6
+            },
+            "15": {
+                "activeUsers": 21,
+                "minuteBurn": 392700,
+                "tokenBurn": 4641000,
+                "recoveryOffset": 3627000,
+                "accumulatedTokenDebt": 1033500,
+                "reserveTokens": 332700,
+                "stacking": true,
+                "recoveryTime": 7
+            },
+            "16": {
+                "activeUsers": 22,
+                "minuteBurn": 404600,
+                "tokenBurn": 5045600,
+                "recoveryOffset": 3868800,
+                "accumulatedTokenDebt": 1196300,
+                "reserveTokens": 320800,
+                "stacking": true,
+                "recoveryTime": 7
+            },
+            "17": {
+                "activeUsers": 23,
+                "minuteBurn": 416500,
+                "tokenBurn": 5462100,
+                "recoveryOffset": 4110600,
+                "accumulatedTokenDebt": 1371000,
+                "reserveTokens": 308900,
+                "stacking": true,
+                "recoveryTime": 8
+            },
+            "18": {
+                "activeUsers": 24,
+                "minuteBurn": 428400,
+                "tokenBurn": 5890500,
+                "recoveryOffset": 4352400,
+                "accumulatedTokenDebt": 1557600,
+                "reserveTokens": 297000,
+                "stacking": true,
+                "recoveryTime": 8
+            },
+            "19": {
+                "activeUsers": 25,
+                "minuteBurn": 440300,
+                "tokenBurn": 6330800,
+                "recoveryOffset": 4594200,
+                "accumulatedTokenDebt": 1756100,
+                "reserveTokens": 285100,
+                "stacking": true,
+                "recoveryTime": 9
+            },
+            "20": {
+                "activeUsers": 26,
+                "minuteBurn": 452200,
+                "tokenBurn": 6783000,
+                "recoveryOffset": 4836000,
+                "accumulatedTokenDebt": 1966500,
+                "reserveTokens": 273200,
+                "stacking": true,
+                "recoveryTime": 9
+            },
+            "21": {
+                "activeUsers": 27,
+                "minuteBurn": 464100,
+                "tokenBurn": 7247100,
+                "recoveryOffset": 5077800,
+                "accumulatedTokenDebt": 2188800,
+                "reserveTokens": 261300,
+                "stacking": true,
+                "recoveryTime": 10
+            },
+            "22": {
+                "activeUsers": 28,
+                "minuteBurn": 476000,
+                "tokenBurn": 7723100,
+                "recoveryOffset": 5319600,
+                "accumulatedTokenDebt": 2423000,
+                "reserveTokens": 249400,
+                "stacking": true,
+                "recoveryTime": 10
+            },
+            "23": {
+                "activeUsers": 29,
+                "minuteBurn": 487900,
+                "tokenBurn": 8211000,
+                "recoveryOffset": 5561400,
+                "accumulatedTokenDebt": 2669100,
+                "reserveTokens": 237500,
+                "stacking": true,
+                "recoveryTime": 11
+            },
+            "24": {
+                "activeUsers": 30,
+                "minuteBurn": 499800,
+                "tokenBurn": 8710800,
+                "recoveryOffset": 5803200,
+                "accumulatedTokenDebt": 2927100,
+                "reserveTokens": 221300,
+                "stacking": true,
+                "recoveryTime": 11
+            },
+            "25": {
+                "activeUsers": 31,
+                "minuteBurn": 511700,
+                "tokenBurn": 9222500,
+                "recoveryOffset": 6045000,
+                "accumulatedTokenDebt": 3197000,
+                "reserveTokens": 193200,
+                "stacking": true,
+                "recoveryTime": 13
+            },
+            "26": {
+                "activeUsers": 32,
+                "minuteBurn": 523600,
+                "tokenBurn": 9746100,
+                "recoveryOffset": 6286800,
+                "accumulatedTokenDebt": 3478800,
+                "reserveTokens": 153200,
+                "stacking": true,
+                "recoveryTime": 14
+            },
+            "27": {
+                "activeUsers": 33,
+                "minuteBurn": 535500,
+                "tokenBurn": 10281600,
+                "recoveryOffset": 6528600,
+                "accumulatedTokenDebt": 3772500,
+                "reserveTokens": 101300,
+                "stacking": true,
+                "recoveryTime": 16
+            },
+            "28": {
+                "activeUsers": 34,
+                "minuteBurn": 547400,
+                "tokenBurn": 10829000,
+                "recoveryOffset": 6770400,
+                "accumulatedTokenDebt": 4078100,
+                "reserveTokens": 37500,
+                "stacking": true,
+                "recoveryTime": 19
+            },
+            "29": {
+                "activeUsers": 35,
+                "minuteBurn": 559300,
+                "tokenBurn": 11388300,
+                "recoveryOffset": 7012200,
+                "accumulatedTokenDebt": 4395600,
+                "reserveTokens": -38200,
+                "stacking": true,
+                "recoveryTime": 19
+            }
+        }
+    }
+}

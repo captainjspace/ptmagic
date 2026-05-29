@@ -9,13 +9,9 @@ subpackage_manifest=(
  pt-magic
 )
 
-workspace_dependencies=(
-  [calc] pt-magic   
-
+typeset -A workspace_dependencie=(
+  [utils] pt-magic   
 )
-
-
-
 
 clean() {
   echo "🧹 1. CLEANING PREVIOUS BUILDS..."

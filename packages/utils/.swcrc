@@ -2,24 +2,27 @@
   "$schema": "https://swc.rs/schema.json",
   "jsc": {
     "parser": {
-      "syntax": "typescript",
-      "jsx": false,
-      "dynamicImport": false,
-      "privateMethod": false,
-      "functionBind": false,
-      "exportDefaultFrom": false,
-      "exportNamespaceFrom": false,
+      "syntax": "ecmascript",
+      "tsx": false,
       "decorators": false,
-      "decoratorsBeforeExport": false,
-      "topLevelAwait": false,
-      "importMeta": false
+      "dynamicImport": true,
+      "importAttributes": true
     },
     "transform": null,
-    "target": "esnext",
+    "target": "esnext", 
+    "experimental": {
+      "keepImportAssertions": true
+    },
     "loose": false,
     "externalHelpers": false,
-    // Requires v1.2.50 or upper and requires target to be es2016 or upper.
-    "keepClassNames": false
+    "keepClassNames": true
+  },
+  "module": {
+    "type": "es6",
+    "strict": true,
+    "strictMode": true,
+    "lazy": false,
+    "noInterop": false
   },
   "minify": true
 }
