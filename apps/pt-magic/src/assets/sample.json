@@ -1,6 +1,6 @@
 
 {
-    "Model": {
+    "model": {
         "name": "Gemini 3.1 Flash",
         "tokensPerSecond": 4030,
         "tokenAccumulationMinutes": 2,
@@ -12,7 +12,7 @@
         "agentPattern": "Single Agent Double Loop",
         "contextFactor": 2
     },
-    "RawTokenInput": {
+    "rawTokenInput": {
         "promptTokens": 12000,
         "contextHistoryTokens": 4000,
         "baseInputTokens": 16000,
@@ -22,7 +22,7 @@
         "outputPeakTokens": 4400,
         "peakRawTokens": 36400
     },
-    "AdjustedTokenInputs": {
+    "adjustedTokenInputs": {
         "isCached": true,
         "promptCacheAdjustedTokens": 1200,
         "baseAdjustedInputTokens": 5200,
@@ -35,13 +35,13 @@
         "burndownTokens": 11900,
         "peakAdjustedTokens": 36800
     },
-    "TokenRatios": {
+    "tokenRatios": {
         "rawRatio": 128,
         "peakRawRatio": 7.2727272727272725,
         "burndownRatio": 6.933333333333334,
         "peakAdjustedRatio": 0.3939393939393939
     },
-    "UserCapacity": {
+    "userCapacity": {
         "turnDuration": 6,
         "turnsPerMinute": 3,
         "maxConcurrentInputUsers": 46,
@@ -58,14 +58,14 @@
         "realUserFloor": 6,
         "stableBurn": 214200,
         "stableRecovery": 27600,
-        "PeakTokenBurner": {
+        "peakTokenBurner": {
             "p95TokenBurn": 110400,
             "peakStableBurn": 288900,
             "p95bucketHit": -47100,
             "p95bucketRecoverySeconds": -1.7065217391304348
         }
     },
-    "SiteCapacity": {
+    "siteCapacity": {
         "dailyUsers": 250000,
         "canary": 0.05,
         "rush": 0.2,

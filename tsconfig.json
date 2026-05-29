@@ -3,6 +3,10 @@
   "compilerOptions": {
     "rootDir": ".",
     "outDir": "./dist"
-  }
-  
+  },
+  "references": [
+    { "path": "./packages/utils" },
+    { "path": "./packages/schema-gen" },
+    { "path": "./apps/pt-magic" }
+  ]
 }

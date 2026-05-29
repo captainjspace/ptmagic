@@ -6,7 +6,8 @@
   "scripts": {
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
     "lint": "eslint .",
-    "build": "tsc -b"
+    "build": "pnpm -r run build",
+    "clean": "pnpm recursive exec -- rm -rf dist *.tsbuildinfo node_modules"
   },
   "keywords": [],
   "author": "joshlandman@google.com",
@@ -28,6 +29,7 @@
     "jiti": "^2.7.0",
     "prettier": "^3.8.3",
     "tailwindcss": "^4.3.0",
+    "tsx": "^4.22.3",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.59.4"
   },

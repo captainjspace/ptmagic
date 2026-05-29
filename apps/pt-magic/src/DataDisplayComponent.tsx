@@ -1,19 +1,5 @@
-import { useState } from "react";
 import "./style.css";
-import { getTokenData } from "@ptcalc/utils";
-
-// 1. Establish the base configuration structure as the state baseline
-const initialConfig = {
-  model: "flashLite31",
-  inputTokens: {
-    prompt: { tokens: 10000, isContextCached: true },
-    contextHistory: { tokens: 6000 },
-  },
-  outputTokens: { average: 500, peak: 4400 },
-  agentPattern: { name: "Single Agent Double Loop", contextFactor: 1 },
-  timeFactors: { turnDuration: 6, turnsPerMinute: 3 },
-  site: { dailyUsers: 250000, canary: 0.05, rush: 0.2 },
-};
+import type { TokenCalcResponse } from "@ptcalc/utils";
 
 const formatLabel = (str: string) => {
   return str
@@ -22,29 +8,16 @@ const formatLabel = (str: string) => {
     .trim();
 };
 
-export default function DataDisplay() {
-  // 2. Track the configuration inputs in React State
-  const [config, setConfig] = useState(initialConfig);
+interface DataDisplayProps {
+  data: TokenCalcResponse;
+  onInputChange: (key: string, val: any) => void;
+}
 
-  // 3. Compute derived metric data on the fly during render
-  const data = getTokenData(config);
-
-  // 4. Update the deep nested configuration values safely when inputs change
-  const handleInputChange = (key: string, val: any) => {
-    setConfig((prev) => {
-      // Create a deep copy clone to avoid mutating state directly
-      const updated = JSON.parse(JSON.stringify(prev));
-
-      if (key === "promptTokens") updated.inputTokens.prompt.tokens = val;
-      if (key === "contextHistoryTokens")
-        updated.inputTokens.contextHistory.tokens = val;
-      if (key === "isCached") updated.inputTokens.prompt.isContextCached = val;
-      if (key === "contextFactor") updated.agentPattern.contextFactor = val;
-      if (key === "turnsPerMinute") updated.timeFactors.turnsPerMinute = val;
-
-      return updated;
-    });
-  };
+export default function DataDisplay({ data, onInputChange }: DataDisplayProps) {
+  if (!data) {
+    console.error("DataDisplay received null or undefined data");
+    return <div className="p-8 bg-red-900/20 border border-red-800 rounded-xl text-red-400">Error: Calculation data missing.</div>;
+  }
 
   const getValueColor = (key: string, value: any) => {
     if (typeof value === "number" && value < 0) return "text-red-400 font-bold";
@@ -59,23 +32,13 @@ export default function DataDisplay() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 p-8 font-sans selection:bg-blue-500/30">
-      <div className="max-w-7xl mx-auto space-y-8">
-        {/* Title */}
-        <div className="border-b border-slate-800 pb-6">
-          <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">
-            GSU Metric Explorer
-          </h1>
-          <p className="text-sm text-slate-400 mt-1">
-            Dynamic data presentation layer driven by pure computational state.
-          </p>
-        </div>
-
+    <div className="bg-slate-950 text-slate-100 font-sans selection:bg-blue-500/30">
+      <div className="space-y-8">
         {/* Dynamic Card Generation Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {Object.entries(data).map(([sectionName, fields]) => {
             // Skip rendering helper configurations if they get appended directly to root
-            if (sectionName === "timeFactors" || sectionName === "modelCalc")
+            if (sectionName === "timeFactors" || sectionName === "modelCalc" || sectionName === "siteCapacity")
               return null;
 
             return (
@@ -119,7 +82,7 @@ export default function DataDisplay() {
                                     type="checkbox"
                                     checked={value}
                                     onChange={(e) =>
-                                      handleInputChange(key, e.target.checked)
+                                      onInputChange(key, e.target.checked)
                                     }
                                     className="rounded border-slate-700 bg-slate-950 text-blue-500 focus:ring-0 w-4 h-4 cursor-pointer"
                                   />
@@ -132,7 +95,7 @@ export default function DataDisplay() {
                                     }
                                     value={value}
                                     onChange={(e) =>
-                                      handleInputChange(
+                                      onInputChange(
                                         key,
                                         typeof value === "number"
                                           ? Number(e.target.value)
@@ -166,14 +129,14 @@ export default function DataDisplay() {
         </div>
 
         {/* Diagnostic Status Box */}
-        {data.UserCapacity?.AtTwenty < 0 && (
+        {data.userCapacity?.AtTwenty < 0 && (
           <div className="bg-red-950/20 border border-red-900/50 text-red-300 p-4 rounded-xl text-sm flex items-start space-x-3">
             <span className="text-lg leading-none mt-0.5">⚠️</span>
             <div>
               <span className="font-bold">Bucket Deficit Warning:</span>{" "}
               AtTwenty simulation drops to{" "}
               <span className="font-mono bg-red-950/60 px-1 py-0.5 rounded text-red-200">
-                {data.UserCapacity.AtTwenty.toLocaleString()}
+                {data.userCapacity.AtTwenty.toLocaleString()}
               </span>{" "}
               tokens. The system is consuming burst resources faster than
               steady-state baseline replenishment allows.

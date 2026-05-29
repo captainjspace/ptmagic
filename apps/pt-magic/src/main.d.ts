@@ -1,2 +1,2 @@
 import "./styles.css";
-import "./App.tsx";
+//# sourceMappingURL=main.d.ts.map
