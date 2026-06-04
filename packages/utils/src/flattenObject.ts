@@ -1,5 +1,5 @@
 export const flattenObject = ( obj: any, parent?: string, res: { [key: string]: any }={}):{}  => {
-  for (let key in obj) {
+  for (const key in obj) {
     const propName: string = parent ? `${parent}.${key}` : key;
     if ( typeof obj[key] === "object" && obj[key] !== null && !Array.isArray(obj[key] ) ) {
       flattenObject(obj[key], propName, res);

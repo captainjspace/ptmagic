@@ -2,9 +2,9 @@ import { useState } from "react";
 import { HiUserCircle, HiChartPie, HiLightningBolt } from "react-icons/hi";
 import "./App.css";
 import "./styles.css";
-import TokenSimulator from "./tokenSimulator";
-import DataDisplay from "./DataDisplayComponent";
-import RushHourTable from "./RushHourTable";
+import TokenSimulator from "./TokenSimulator.js";
+import DataDisplay from "./DataDisplayComponent.js";
+import RushHourTable from "@ptcalc/utils";
 import { getCalculatedTokens, defaultConfig } from "@ptcalc/utils";
 import type { TokenCalculatorConfig, TokenCalcResponse } from "@ptcalc/utils";
 

@@ -1,4 +1,4 @@
-import "./style.css";
+import "./styles.css";
 import type { TokenCalcResponse } from "@ptcalc/utils";
 
 const formatLabel = (str: string) => {

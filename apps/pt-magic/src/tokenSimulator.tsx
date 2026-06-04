@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./style.css";
+import "./styles.css";
 import type { TokenCalcResponse } from "@ptcalc/utils";
 
 interface TokenSimulatorProps {
@@ -7,18 +7,18 @@ interface TokenSimulatorProps {
 }
 
 const TokenSimulator = ({ data }: TokenSimulatorProps): React.JSX.Element => {
-  if (!data || !data.userCapacity || !data.model || !data.adjustedTokenInputs) {
+  if (!data || !data.userCapacity || !data.decoratedGSUModel || !data.tokenPack) {
     return <div className="p-8 bg-slate-900 border border-slate-800 rounded-xl text-slate-400">Loading burst simulation metrics...</div>;
   }
 
   // Config States
   const [steadyUsers, setSteadyUsers] = useState<number>(Math.floor(data.userCapacity.realUserFloor || 1));
   const [burstUsers, setBurstUsers] = useState<number>(5);
-  
+
   // Use dynamic values from the calculated model
-  const MAX_TPS: number = data.model.tokensPerSecond;
-  const BUCKET_SIZE: number = data.model.tokenBucketSize;
-  const tokensPerTurn: number = data.adjustedTokenInputs.burndownTokens;
+  const MAX_TPS: number = data.decoratedGSUModel.gsuModel.tokensPerSecond;
+  const BUCKET_SIZE: number = data.decoratedGSUModel.gsuModelCalcs.tokenBucketSize;
+  const tokensPerTurn: number = data.tokenPack.AdjustedTokenInputs.burndownTokens;
   const turnsPerMinute: number = data.userCapacity.turnsPerMinute;
 
   // Calculated Metrics
@@ -56,7 +56,7 @@ const TokenSimulator = ({ data }: TokenSimulatorProps): React.JSX.Element => {
             Real-time Burst Dynamics
           </h2>
           <p className="text-slate-400 mt-2">
-            Modeling 1x {data.model.name} GSU ({MAX_TPS.toLocaleString()} TPS Baseline / {(BUCKET_SIZE/1000).toFixed(0)}k Burst
+            Modeling 1x {data.decoratedGSUModel.gsuModel.name} GSU ({MAX_TPS.toLocaleString()} TPS Baseline / {(BUCKET_SIZE/1000).toFixed(0)}k Burst
             Bucket)
           </p>
         </div>

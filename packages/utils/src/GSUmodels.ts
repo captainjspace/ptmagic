@@ -1,12 +1,40 @@
 import { getErrorCode, SubjectKeys, SeverityKeys } from "./ErrorCodes.js";
-import { type ModelKey, type DecoratedModel, type Model, ModelKeys } from "./types.js";
+
+
+const ModelKeys = {
+  flash25: "flash25",
+  flashLite31: "flashLite31",
+  flash35: "flash35",
+} as const;
+
+export type ModelKey = (typeof ModelKeys)[keyof typeof ModelKeys];
+
+export interface GSUModel {
+  name: string;
+  tokensPerSecond: number;
+  tokenAccumulationMinutes: number | 2;
+  cacheFactor: number;
+  outputFactor: number | 1;
+}
+
+export interface GSUModelCalcs {
+  modelKey: ModelKey;
+  perMinute: number;
+  tokenBucketSize: number;
+}
+
+
+export interface DecoratedGSUModel {
+  gsuModel: GSUModel;
+  gsuModelCalcs: GSUModelCalcs;
+}
 
 /* Error Codes  */
 const exits = SeverityKeys.exits;
 const BAD_MODEL = SubjectKeys.BAD_MODEL;
 
 /* Static Models */
-export const models: Record<ModelKey, Model> = {
+const models: Record<ModelKey, GSUModel> = {
   flash25: {
     name: "Gemini 2.5 Flash",
     tokensPerSecond: 2690,
@@ -34,8 +62,10 @@ function isModelKey(key: string): key is ModelKey {
   return Object.values(ModelKeys).includes(key as ModelKey);
 }
 
+
 /* This is where model related calc */
-export const modelCalc = (modelKeyStr: string): DecoratedModel => {
+const identifyModel = (modelKeyStr: string): { modelKey: ModelKey; gsuModel: GSUModel } => {
+
   if (!Object.hasOwn(models, modelKeyStr)) {
     const error = getErrorCode(exits, BAD_MODEL);
     console.error(error);
@@ -45,16 +75,30 @@ export const modelCalc = (modelKeyStr: string): DecoratedModel => {
     throw new Error(`Invalid model key: ${modelKeyStr}`);
   }
 
+  /* collect the valid model */
   const modelKey: ModelKey = modelKeyStr;
-  const model = models[modelKey];
-  const perMinute = model.tokensPerSecond * 60;
-  const tokenBucketSize = perMinute * model.tokenAccumulationMinutes;
+  const gsuModel: GSUModel  = models[modelKey];
+  return { modelKey, gsuModel} ;
+};
 
-  const modelCalc: DecoratedModel = {
-    ...model,
+
+/* generate and collect key token data */
+const getGSUModelCalcs = (gsuModel: GSUModel, modelKey: ModelKey): GSUModelCalcs => {
+  const perMinute = gsuModel.tokensPerSecond * 60;
+  return {
     modelKey,
     perMinute,
-    tokenBucketSize,
+    tokenBucketSize: perMinute * gsuModel.tokenAccumulationMinutes,
   };
-  return modelCalc;
-};
+}
+
+/***** convenient */
+export const getDecorateGSUModel = (modelKeyStr: string):DecoratedGSUModel => {
+
+  const { modelKey ,gsuModel } = identifyModel(modelKeyStr);
+  const gsuModelCalcs = getGSUModelCalcs(gsuModel,modelKey);
+  return { gsuModel , gsuModelCalcs };
+}
+
+
+

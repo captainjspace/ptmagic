@@ -5,10 +5,10 @@ interface RushHourTableProps {
 }
 
 const RushHourTable = ({ data }: RushHourTableProps) => {
-  if (!data || !data.siteCapacity) {
+  if (!data || !data.rushHourCapacity) {
     return <div className="p-8 bg-slate-900 border border-slate-800 rounded-xl text-slate-400">Loading site capacity data...</div>;
   }
-  const { minuteGrid } = data.siteCapacity;
+  const { minuteGrid, hourGrid, peakStart } = data.rushHourCapacity;
 
   if (!minuteGrid || Object.keys(minuteGrid).length === 0) {
     return (
@@ -61,7 +61,7 @@ const RushHourTable = ({ data }: RushHourTableProps) => {
                          <div className="w-24 h-2 bg-slate-800 rounded-full overflow-hidden">
                             <div 
                               className={`h-full ${record.reserveTokens > 100000 ? 'bg-emerald-500' : 'bg-red-500'}`} 
-                              style={{ width: `${Math.max(0, (record.reserveTokens / data.model.tokenBucketSize) * 100)}%` }}
+                              style={{ width: `${Math.max(0, (record.reserveTokens / data.decoratedGSUModel.gsuModelCalcs.tokenBucketSize) * 100)}%` }}
                             ></div>
                          </div>
                          <span className="font-mono">{record.reserveTokens.toLocaleString()}</span>
@@ -103,6 +103,79 @@ const RushHourTable = ({ data }: RushHourTableProps) => {
             <span className="text-xl font-black text-amber-400">{Math.round(data.userCapacity.stableBurn / data.userCapacity.realUserFloor / 1000).toLocaleString()}k</span>
         </div>
       </div>
+
+      {/* Hour Grid — base load + p95 wildcard burst */}
+      {hourGrid && Object.keys(hourGrid).length > 0 && (
+        <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
+          <div className="p-6 border-b border-slate-800 bg-slate-900/50">
+            <h2 className="text-xl font-bold text-white flex items-center">
+              <span className="w-2 h-6 bg-purple-500 rounded-full mr-3"></span>
+              Peak Hour: p95 Wildcard Burst
+            </h2>
+            <p className="text-sm text-slate-400 mt-2">
+              60-minute hour at baseline load. One p95 user arrives at minute {peakStart} and burns for 3 turns.
+              Statistically ~1 occurrence per hour.
+            </p>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-sm">
+              <thead className="bg-slate-950 text-slate-400 font-medium uppercase tracking-wider text-xs">
+                <tr>
+                  <th className="px-6 py-4">Minute</th>
+                  <th className="px-6 py-4">Active Users</th>
+                  <th className="px-6 py-4">Minute Burn</th>
+                  <th className="px-6 py-4">Accum. Debt</th>
+                  <th className="px-6 py-4">Reserve Tokens</th>
+                  <th className="px-6 py-4">Recovery Time</th>
+                  <th className="px-6 py-4">Status</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-800">
+                {Object.entries(hourGrid)
+                  .sort(([a], [b]) => Number(a) - Number(b))
+                  .map(([minute, record]) => (
+                    <tr
+                      key={minute}
+                      className={`transition-colors ${
+                        record.isPeak
+                          ? 'bg-purple-950/40 border-l-2 border-l-purple-500'
+                          : 'hover:bg-slate-800/30'
+                      }`}
+                    >
+                      <td className="px-6 py-4 font-mono text-purple-400">
+                        {minute}m{record.isPeak && <span className="ml-2 text-[10px] bg-purple-800 text-purple-200 px-1 rounded">PEAK</span>}
+                      </td>
+                      <td className="px-6 py-4 text-white font-semibold">{record.activeUsers}</td>
+                      <td className="px-6 py-4 font-mono">{record.minuteBurn.toLocaleString()}</td>
+                      <td className="px-6 py-4 font-mono text-amber-300">{record.accumulatedTokenDebt.toLocaleString()}</td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-24 h-2 bg-slate-800 rounded-full overflow-hidden">
+                            <div
+                              className={`h-full ${record.reserveTokens > 100000 ? 'bg-emerald-500' : 'bg-red-500'}`}
+                              style={{ width: `${Math.max(0, (record.reserveTokens / data.decoratedGSUModel.gsuModelCalcs.tokenBucketSize) * 100)}%` }}
+                            ></div>
+                          </div>
+                          <span className="font-mono">{record.reserveTokens.toLocaleString()}</span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 font-mono text-slate-400">{record.recoveryTime}s</td>
+                      <td className="px-6 py-4">
+                        {record.isPeak ? (
+                          <span className="px-2 py-1 bg-purple-900/40 text-purple-400 rounded-md text-xs font-bold uppercase border border-purple-800">p95 Burst</span>
+                        ) : record.stacking ? (
+                          <span className="px-2 py-1 bg-amber-900/40 text-amber-400 rounded-md text-xs font-bold uppercase border border-amber-800">Stacking Debt</span>
+                        ) : (
+                          <span className="px-2 py-1 bg-emerald-900/40 text-emerald-400 rounded-md text-xs font-bold uppercase border border-emerald-800">Stable</span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
