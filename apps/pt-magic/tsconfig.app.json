@@ -14,15 +14,15 @@
     "noEmit": false,
     "emitDeclarationOnly": true,
     "jsx": "react-jsx",
-
+    "resolveJsonModule": true,
     /* Linting */
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src","src/assets"],
   "references": [
     { "path": "../../packages/utils" }
   ]
-}
+

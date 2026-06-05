@@ -1,6 +1,6 @@
 import "./styles.css";
-import type { TokenCalcResponse } from "@ptcalc/utils";
-
+import type { TokenCalcResponse, flattenObject } from "@ptcalc/utils";
+import { getDynamicTraversal } from "./dynamicTraversal.js"
 const formatLabel = (str: string) => {
   return str
     .replace(/([A-Z])/g, " $1")
@@ -10,7 +10,7 @@ const formatLabel = (str: string) => {
 
 interface DataDisplayProps {
   data: TokenCalcResponse;
-  onInputChange: (key: string, val: any) => void;
+  onInputChange: (key: string, val: string | number | boolean) => void;
 }
 
 export default function DataDisplay({ data, onInputChange }: DataDisplayProps) {
@@ -18,8 +18,10 @@ export default function DataDisplay({ data, onInputChange }: DataDisplayProps) {
     console.error("DataDisplay received null or undefined data");
     return <div className="p-8 bg-red-900/20 border border-red-800 rounded-xl text-red-400">Error: Calculation data missing.</div>;
   }
-
-  const getValueColor = (key: string, value: any) => {
+  const flat = flattenObject(data);
+  for
+  
+  const getValueColor = (key: string, value: unknown): string => {
     if (typeof value === "number" && value < 0) return "text-red-400 font-bold";
     if (
       key.toLowerCase().includes("capacity") ||
@@ -35,11 +37,13 @@ export default function DataDisplay({ data, onInputChange }: DataDisplayProps) {
     <div className="bg-slate-950 text-slate-100 font-sans selection:bg-blue-500/30">
       <div className="space-y-8">
         {/* Dynamic Card Generation Grid */}
+
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {Object.entries(data).map(([sectionName, fields]) => {
             // Skip rendering helper configurations if they get appended directly to root
-            if (sectionName === "timeFactors" || sectionName === "modelCalc" || sectionName === "siteCapacity")
-              return null;
+           // if (sectionName === "userCapacity" || sectionName === "decoratedGSUModel" || sectionName === "decoratedSiteModel")
+             // return null;
 
             return (
               <div
@@ -52,11 +56,23 @@ export default function DataDisplay({ data, onInputChange }: DataDisplayProps) {
                   </h2>
 
                   <div className="space-y-3">
-                    {Object.entries(fields as Record<string, any>).map(
+                    {Object.entries(fields as Record<string, unknown>).map(
                       ([key, value]) => {
-                        // Guard against rendering deeply nested child objects or grids directly inside lists
-                        if (typeof value === "object" && value !== null)
-                          return null;
+                       if (typeof value === "object" && value !== null) {
+                         let parent=key;
+                         Object.entries(value as Record<string, unknown>).map(
+                               ([ikey, ivalue]) => {
+                                 if (typeof ivalue === "object" && ivalue !== null) {  
+                                   parent.concat(ikey); 
+                                   return [parent,ivalue.toLocaleString()]
+                                 }
+                                 return [parent,ivalue]
+                               }
+                             )
+                       } else  {
+                         return [key,value];
+                       }
+                         // return null;
 
                         const isConfigurable = [
                           "promptTokens",
@@ -93,7 +109,7 @@ export default function DataDisplay({ data, onInputChange }: DataDisplayProps) {
                                         ? "number"
                                         : "text"
                                     }
-                                    value={value}
+                                    value={value as string | number}
                                     onChange={(e) =>
                                       onInputChange(
                                         key,

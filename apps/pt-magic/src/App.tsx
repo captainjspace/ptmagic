@@ -4,7 +4,7 @@ import "./App.css";
 import "./styles.css";
 import TokenSimulator from "./TokenSimulator.js";
 import DataDisplay from "./DataDisplayComponent.js";
-import RushHourTable from "@ptcalc/utils";
+import RushHourTable from "./RushHourTable.js";
 import { getCalculatedTokens, defaultConfig } from "@ptcalc/utils";
 import type { TokenCalculatorConfig, TokenCalcResponse } from "@ptcalc/utils";
 
@@ -14,7 +14,7 @@ function App() {
   
   const data: TokenCalcResponse = getCalculatedTokens(config);
 
-  const handleInputChange = (key: string, val: any) => {
+  const handleInputChange = (key: string, val: string | number | boolean) => {
     setConfig((prev: TokenCalculatorConfig) => {
       const updated = JSON.parse(JSON.stringify(prev));
       if (key === "promptTokens") updated.inputTokens.prompt.tokens = val;
@@ -53,8 +53,8 @@ function App() {
                     : "text-slate-500 hover:text-slate-300 hover:bg-slate-800/50"
                 }`}
               >
-                <tab.icon className={`w-4 h-4 ${activeTab === idx ? "text-white" : "text-slate-600"}`} />
-                <span className="hidden sm:inline">{tab.title}</span>
+                <tab.icon className={`w-6 h-6 ${activeTab === idx ? "text-white" : "text-slate-400"}`} />
+                <span className="hidden lg:inline">{tab.title}</span>
               </button>
             ))}
           </div>
