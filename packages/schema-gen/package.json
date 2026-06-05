@@ -5,11 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "node --loader ts-node/esm src/index.ts",
-    "build":"pnpm exec tsc",
-    "preview":"node dist/index.js",
+    "build": "pnpm exec tsc",
+    "preview": "node dist/index.js",
     "generate": "node --loader ts-node/esm src/index.ts"
   },
-  "keywords": ["json","schema"],
+  "keywords": [
+    "json",
+    "schema"
+  ],
   "author": "joshlandman@google.com",
   "license": "MIT",
   "type": "module",
@@ -23,4 +26,3 @@
     "ts-node": "^10.9.2"
   }
 }
-

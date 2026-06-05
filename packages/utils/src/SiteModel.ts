@@ -25,9 +25,9 @@ export interface SiteCalcs {
   rushDaily: number;
 }
 
-export interface DecoratedSiteModel  {
-  siteModel: SiteModel,
-  siteCalcs: SiteCalcs,
+export interface DecoratedSiteModel {
+  siteModel: SiteModel;
+  siteCalcs: SiteCalcs;
 }
 
 export interface GridRecord {
@@ -42,7 +42,7 @@ export interface GridRecord {
 }
 
 export const siteCalc = (siteConfig: SiteModel): DecoratedSiteModel => {
-  const siteModel = {...siteConfig};  
+  const siteModel = { ...siteConfig };
   const siteMsg: Array<string>[] = [];
 
   //original check
@@ -56,9 +56,8 @@ export const siteCalc = (siteConfig: SiteModel): DecoratedSiteModel => {
   };
   checkRequired();
 
-
   // thorough check
-  const isValidSiteModel = (siteModel: SiteModel ): siteModel is SiteModel => {
+  const isValidSiteModel = (siteModel: SiteModel): siteModel is SiteModel => {
     // 1. Structural and type check
     if (!siteModel || typeof siteModel !== "object") return false;
     const { dailyUsers, canary, rush } = siteModel;
@@ -68,8 +67,7 @@ export const siteCalc = (siteConfig: SiteModel): DecoratedSiteModel => {
       typeof canary !== "number" ||
       typeof rush !== "number"
     ) {
-      siteMsg.push([
-        getErrorCode(exits, SITE_VALUE)??"", "- not a number -", ]);
+      siteMsg.push([getErrorCode(exits, SITE_VALUE) ?? "", "- not a number -"]);
       return false;
     }
 
@@ -88,7 +86,7 @@ export const siteCalc = (siteConfig: SiteModel): DecoratedSiteModel => {
       siteMsg.push([
         "% must be between 0 and 1",
         getErrorCode(exits, SITE_VALUE),
- //       { canary, rush },
+        //       { canary, rush },
       ]);
       return false;
     }
@@ -113,8 +111,7 @@ export const siteCalc = (siteConfig: SiteModel): DecoratedSiteModel => {
   };
 
   /* decorate the model */
-  const siteCalcs:SiteCalcs =  getSiteCalcs();
+  const siteCalcs: SiteCalcs = getSiteCalcs();
   const decoratedSiteModel = { siteModel, siteCalcs };
-  return  decoratedSiteModel;
+  return decoratedSiteModel;
 };
-

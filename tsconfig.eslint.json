@@ -7,6 +7,6 @@
   },
   "include": [
     // whatever paths you intend to lint
-    "src",
+    "src"
   ]
 }

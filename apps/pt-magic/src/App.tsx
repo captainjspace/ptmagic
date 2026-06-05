@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { HiUserCircle, HiChartPie, HiLightningBolt } from "react-icons/hi";
 import "./App.css";
-import "./styles.css";
+import "./style.css";
+import Headline from "./Headline.js";
 import TokenSimulator from "./TokenSimulator.js";
 import DataDisplay from "./DataDisplayComponent.js";
 import RushHourTable from "./RushHourTable.js";
@@ -27,6 +28,7 @@ function App() {
       if (key === "turnsPerMinute") updated.timeFactors.turnsPerMinute = val;
       if (key === "outputAverage") updated.outputTokens.average = val;
       if (key === "outputPeak") updated.outputTokens.peak = val;
+      if (key === "gsuCount") updated.gsuCount = val;
       return updated;
     });
   };
@@ -38,7 +40,7 @@ function App() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-200 p-4 md:p-8 font-sans">
+    <div className="min-h-screen bg-slate-950 text-slate-200 p-4 md:p-8 font-sans overflow-x-hidden min-w-0 w-full">
       <div className="max-w-7xl mx-auto">
         <header className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800/60 pb-8 text-center md:text-left">
           <div>
@@ -70,7 +72,7 @@ function App() {
         </header>
 
         <ConfigForm config={config} onInputChange={handleInputChange} />
-
+        <Headline data={data} />
         <main className="mt-8">
           {activeTab === 0 && <DataDisplay data={data} />}
           {activeTab === 1 && <RushHourTable data={data} />}

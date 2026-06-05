@@ -1,13 +1,14 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "rootDir":"./src",
+    "composite": true,
+    "rootDir": "./src",
     "outDir": "./dist",
     "declarationDir": "./dist/types",
     "emitDeclarationOnly": false,
     "noEmit": false,
-    "declaration": true,       
-    "declarationMap": true,  
+    "declaration": true,
+    "declarationMap": true,
     "target": "esnext",
     "lib": ["esnext"],
     "types": ["node"],
@@ -26,11 +27,7 @@
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
-    "skipLibCheck": true,
-    "emitDeclarationOnly": false
+    "skipLibCheck": true
   },
-  "include": [
-    "src/**/*.json",
-    "src/**/*.ts"
-  ]
+  "include": ["src/**/*.json", "src/**/*.ts"]
 }

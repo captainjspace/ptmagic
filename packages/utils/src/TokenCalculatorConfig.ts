@@ -1,5 +1,6 @@
 export interface TokenCalculatorConfig {
   model: string;
+  gsuCount: number;
   inputTokens: {
     prompt: {
       tokens: number;
@@ -27,4 +28,3 @@ export interface TokenCalculatorConfig {
     rush: number;
   };
 }
-

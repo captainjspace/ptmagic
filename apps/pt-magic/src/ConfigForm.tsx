@@ -14,10 +14,10 @@ interface ConfigFormProps {
 export default function ConfigForm({ config, onInputChange }: ConfigFormProps) {
   return (
     <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-8">
-      <h2 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">
+      <h2 className="text-sm font-bold text-slate-500 text-shadow-indigo-800 uppercase tracking-widest mb-4">
         Configuration
       </h2>
-      <div className="flex flex-wrap gap-6 items-end">
+      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-x-6 gap-y-4 w-full">
         <div className="flex flex-col gap-1">
           <label className="text-xs text-slate-500">Model</label>
           <select
@@ -33,6 +33,11 @@ export default function ConfigForm({ config, onInputChange }: ConfigFormProps) {
           </select>
         </div>
 
+        <NumField
+          label="GSU Count"
+          value={config.gsuCount}
+          onChange={(v) => onInputChange("gsuCount", v)}
+        />
         <NumField
           label="Prompt Tokens"
           value={config.inputTokens.prompt.tokens}
@@ -90,13 +95,15 @@ function NumField({
   onChange: (v: number) => void;
 }) {
   return (
-    <div className="flex flex-col gap-1">
-      <label className="text-xs text-slate-500">{label}</label>
+    <div className="flex flex-col gap-1 break-words whitespace-normal">
+      <label className="text-xs text-slate-500 break-words whitespace-normal">
+        {label}
+      </label>
       <input
         type="number"
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="w-28 bg-slate-950 border border-slate-700 rounded px-2 py-1.5 text-sm text-right text-blue-300 font-mono focus:border-blue-500/50 focus:outline-none transition-colors"
+        className="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1.5 text-sm text-right text-blue-300 font-mono focus:border-blue-500/50 focus:outline-none transition-colors"
       />
     </div>
   );

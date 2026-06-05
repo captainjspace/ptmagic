@@ -1,5 +1,36 @@
 @import "tailwindcss";
 
+@keyframes value-flash {
+  from {
+    background-color: oklch(62.3% 0.214 259.815 / 0.25);
+  }
+  to {
+    background-color: transparent;
+  }
+}
+
+.flash-update {
+  animation: value-flash 0.7s ease-out forwards;
+}
+
+.section-heading {
+  display: block;
+  font-size: 1.125rem;
+  font-weight: 700;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid oklch(27.9% 0.041 260.031);
+  background: linear-gradient(
+    to right,
+    oklch(76.5% 0.177 163.223),   /* emerald-400 */
+    oklch(85% 0.13 199),           /* cyan */
+    oklch(70.7% 0.165 254.624)     /* blue-400 */
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 @layer theme, base, components, utilities;
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/preflight.css" layer(base);

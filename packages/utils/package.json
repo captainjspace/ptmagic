@@ -8,10 +8,8 @@
     "calc": "node dist/index.js ",
     "dev-thresh": "node src/out_of_play/costThreshold.mjs",
     "check": "tsc --noEmit",
-    "build": "pnpm store prune; pnpm exec tsc; pnpm run minify",
-    "minify": "swc dist/*.js -d .",
-    "build:fullswc": "swc src -d bin --copy-files --strip-leading-paths",
-    "buildMini": "swc src -o ptcalc.js --strip-leading-paths"
+    "build": "rm -f tsconfig.tsbuildinfo && tsc",
+    "build:mini": "swc src -o ptcalc.js --strip-leading-paths"
   },
   "keywords": [
     "GCP",

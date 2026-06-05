@@ -6,10 +6,12 @@
   "scripts": {
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
     "lint": "eslint .",
-    "build:web": "pnpm --filter @ptcalc/pt-magic run build",
     "build:calc": "pnpm --filter @ptcalc/utils run build",
-    "build:all": "pnpm -r run build",
-    "clean": "pnpm recursive exec -- rm -rf dist *.tsbuildinfo node_modules"
+    "build:web": "pnpm --filter @ptcalc/pt-magic run build",
+    "build": "pnpm run build:calc && pnpm run build:web",
+    "clean": "pnpm -r exec -- rm -rf dist *.tsbuildinfo && rm -rf node_modules dist *.tsbuildinfo",
+    "ci": "pnpm run clean && pnpm install && pnpm run build",
+    "launch": "pnpm --filter @ptcalc/utils run calc && pnpm --filter @ptcalc/pt-magic run preview"
   },
   "keywords": [],
   "author": "joshlandman@google.com",

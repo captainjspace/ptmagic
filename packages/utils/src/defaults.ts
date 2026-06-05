@@ -2,30 +2,31 @@ import { type TokenCalculatorConfig } from "./TokenCalculatorConfig.js";
 
 export const defaultConfig: TokenCalculatorConfig = {
   model: "flashLite31",
+  gsuCount: 1,
   inputTokens: {
     prompt: {
       tokens: 12000,
-      isContextCached: true
+      isContextCached: true,
     },
     contextHistory: {
-      tokens: 4000
-    }
+      tokens: 4000,
+    },
   },
   outputTokens: {
     average: 250,
-    peak: 4400
+    peak: 4400,
   },
   agentPattern: {
     name: "Single Agent Double Loop",
-    contextFactor: 2
+    contextFactor: 2,
   },
   timeFactors: {
     turnDuration: 6,
-    turnsPerMinute: 3
+    turnsPerMinute: 3,
   },
   site: {
     dailyUsers: 250000,
     canary: 0.05,
-    rush: 0.2
-  }
+    rush: 0.2,
+  },
 };

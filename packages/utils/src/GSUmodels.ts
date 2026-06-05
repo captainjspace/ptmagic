@@ -1,6 +1,5 @@
 import { getErrorCode, SubjectKeys, SeverityKeys } from "./ErrorCodes.js";
 
-
 const ModelKeys = {
   flash25: "flash25",
   flashLite31: "flashLite31",
@@ -19,10 +18,10 @@ export interface GSUModel {
 
 export interface GSUModelCalcs {
   modelKey: ModelKey;
+  gsuCount: number;
   perMinute: number;
   tokenBucketSize: number;
 }
-
 
 export interface DecoratedGSUModel {
   gsuModel: GSUModel;
@@ -62,10 +61,10 @@ function isModelKey(key: string): key is ModelKey {
   return Object.values(ModelKeys).includes(key as ModelKey);
 }
 
-
 /* This is where model related calc */
-const identifyModel = (modelKeyStr: string): { modelKey: ModelKey; gsuModel: GSUModel } => {
-
+const identifyModel = (
+  modelKeyStr: string,
+): { modelKey: ModelKey; gsuModel: GSUModel } => {
   if (!Object.hasOwn(models, modelKeyStr)) {
     const error = getErrorCode(exits, BAD_MODEL);
     console.error(error);
@@ -77,28 +76,28 @@ const identifyModel = (modelKeyStr: string): { modelKey: ModelKey; gsuModel: GSU
 
   /* collect the valid model */
   const modelKey: ModelKey = modelKeyStr;
-  const gsuModel: GSUModel  = models[modelKey];
-  return { modelKey, gsuModel} ;
+  const gsuModel: GSUModel = models[modelKey];
+  return { modelKey, gsuModel };
 };
 
-
 /* generate and collect key token data */
-const getGSUModelCalcs = (gsuModel: GSUModel, modelKey: ModelKey): GSUModelCalcs => {
-  const perMinute = gsuModel.tokensPerSecond * 60;
+const getGSUModelCalcs = (
+  gsuModel: GSUModel,
+  modelKey: ModelKey,
+  gsuCount: number,
+): GSUModelCalcs => {
+  const perMinute = gsuModel.tokensPerSecond * 60 * gsuCount;
   return {
     modelKey,
+    gsuCount,
     perMinute,
     tokenBucketSize: perMinute * gsuModel.tokenAccumulationMinutes,
   };
-}
+};
 
 /***** convenient */
-export const getDecorateGSUModel = (modelKeyStr: string):DecoratedGSUModel => {
-
-  const { modelKey ,gsuModel } = identifyModel(modelKeyStr);
-  const gsuModelCalcs = getGSUModelCalcs(gsuModel,modelKey);
-  return { gsuModel , gsuModelCalcs };
-}
-
-
-
+export const getDecorateGSUModel = (modelKeyStr: string, gsuCount: number = 1): DecoratedGSUModel => {
+  const { modelKey, gsuModel } = identifyModel(modelKeyStr);
+  const gsuModelCalcs = getGSUModelCalcs(gsuModel, modelKey, gsuCount);
+  return { gsuModel, gsuModelCalcs };
+};

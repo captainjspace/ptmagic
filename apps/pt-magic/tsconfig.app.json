@@ -21,8 +21,11 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src","src/assets"],
-  "references": [
-    { "path": "../../packages/utils" }
-  ]
-
+  "include": ["src", "src/assets"],
+  "exclude": [
+    "src/dynamicTraversal.ts",
+    "src/dynamicTraversal2.ts",
+    "src/maps.ts"
+  ],
+  "references": [{ "path": "../../packages/utils" }]
+}

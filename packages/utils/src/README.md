@@ -4,28 +4,25 @@ title: ptcalc
 
 # the calc index
 
+### Files
 
-### Files 
+index.ts <-> the api and entry point
 
-
-index.ts <-> the api and entry point 
-  - the api / director
+- the api / director
 
 TokenCalculatorConfig.ts <-> data to trade with front end
-  - has types
-  - defined json schema
 
-#### The Calculators 
+- has types
+- defined json schema
 
-| File |  <-> | Descripion |
+#### The Calculators
+
+| File | <-> | Descripion |
 |GSUmodels.ts| <-> | grows with models that are active keys tpm, context and output factors|
-|SiteModel.ts|  <-> | covers site - populations - general planned capacity|
+|SiteModel.ts| <-> | covers site - populations - general planned capacity|
 |TokenCruncher.ts| <-> | consolidate arithmetic requires estimate of brun|
-|UserCapacityCalcs.ts| <-> |  general averages peaks and static |
+|UserCapacityCalcs.ts| <-> | general averages peaks and static |
 |RushHourCalc.ts| <-> | generates what if burn graph based all of the above|
-
-
-
 
 supporrt
 ErrorCodes.ts

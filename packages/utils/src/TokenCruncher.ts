@@ -1,4 +1,4 @@
-import  type {TokenCalculatorConfig } from "./TokenCalculatorConfig.js";
+import type { TokenCalculatorConfig } from "./TokenCalculatorConfig.js";
 import type { DecoratedGSUModel } from "./GSUmodels.js";
 
 export interface RawTokenInput {
@@ -34,27 +34,33 @@ export interface TokenRatios {
 }
 
 export interface TokenPack {
-  rawTokenInput:RawTokenInput;
+  rawTokenInput: RawTokenInput;
   AdjustedTokenInputs: AdjustedTokenInputs;
   tokenRatio: TokenRatios;
 }
 
-type crunchTokens = (tokenData:TokenCalculatorConfig, decoratedGSUModel: DecoratedGSUModel) =>TokenPack
+type crunchTokens = (
+  tokenData: TokenCalculatorConfig,
+  decoratedGSUModel: DecoratedGSUModel,
+) => TokenPack;
 
-export const crunchTokens  = (tokenData:TokenCalculatorConfig, decoratedGSUModel: DecoratedGSUModel) :TokenPack  => { 
+export const crunchTokens = (
+  tokenData: TokenCalculatorConfig,
+  decoratedGSUModel: DecoratedGSUModel,
+): TokenPack => {
   /*
-   * We need 3 items - 
-   * inputTokens  section 
+   * We need 3 items -
+   * inputTokens  section
    * and the model factors
    * the Agent loop and the physical cache limits
    *
    * sitting 3 levels...
    */
-  const inputConfig=tokenData;
-  
+  const inputConfig = tokenData;
+
   /* Nested Data Inputs */
   const contextFactor = inputConfig.agentPattern.contextFactor;
-  const { cacheFactor, outputFactor } = decoratedGSUModel.gsuModel
+  const { cacheFactor, outputFactor } = decoratedGSUModel.gsuModel;
 
   ///////
   //prompt + context
@@ -72,8 +78,7 @@ export const crunchTokens  = (tokenData:TokenCalculatorConfig, decoratedGSUModel
   const baseInputTokens = promptTokens + contextHistoryTokens;
 
   //context cache
-  const promptCacheAdjustedTokens =
-    promptTokens * (isCached ? cacheFactor : 1);
+  const promptCacheAdjustedTokens = promptTokens * (isCached ? cacheFactor : 1);
   const baseAdjustedInputTokens =
     promptCacheAdjustedTokens + contextHistoryTokens;
 
@@ -117,47 +122,61 @@ export const crunchTokens  = (tokenData:TokenCalculatorConfig, decoratedGSUModel
   const peakAdjustedTokens = burndownInputTokens + outputPeakAdjustedTokens;
   const peakAdjustedRatio = burndownInputTokens / outputPeakAdjustedTokens;
 
-
   ////////
-//  const promptTokens = inputConfig.inputTokens.prompt.tokens;
-//  const isCached = inputConfig.inputTokens.prompt.isContextCached;
-//  const contextHistoryTokens = inputConfig.inputTokens.contextHistory.tokens;
-//  const outputAverageTokens = inputConfig.outputTokens.average;
-//  const outputPeakTokens = inputConfig.outputTokens.peak;
-//  const baseInputTokens = promptTokens + contextHistoryTokens;
-//  const promptCacheAdjustedTokens = promptTokens * (isCached ? model.gsuModel.cacheFactor : 1);
-//  const baseAdjustedInputTokens = promptCacheAdjustedTokens + contextHistoryTokens;
-//
-//  const realInputTokens = baseInputTokens * contextFactor;
-//  const burndownInputTokens = baseAdjustedInputTokens * contextFactor;
-//
-//  const outputAverageAdjustedTokens = outputAverageTokens * model.gsuModel.outputFactor;
-//  const outputPeakAdjustedTokens = outputPeakTokens * model.gsuModel.outputFactor;
-//
-//  const rawTokens = realInputTokens + outputAverageTokens;
-//  const rawRatio = realInputTokens / outputAverageTokens;
-//  const burndownTokens = burndownInputTokens + outputAverageAdjustedTokens;
-//  const burndownRatio = burndownInputTokens / outputAverageAdjustedTokens;
-//  const peakRawTokens = realInputTokens + outputPeakTokens;
-//  const peakRawRatio = realInputTokens / outputPeakTokens;
-//  const peakAdjustedTokens = burndownInputTokens + outputPeakAdjustedTokens;
-//  const peakAdjustedRatio = burndownInputTokens / outputPeakAdjustedTokens;
-//
+  //  const promptTokens = inputConfig.inputTokens.prompt.tokens;
+  //  const isCached = inputConfig.inputTokens.prompt.isContextCached;
+  //  const contextHistoryTokens = inputConfig.inputTokens.contextHistory.tokens;
+  //  const outputAverageTokens = inputConfig.outputTokens.average;
+  //  const outputPeakTokens = inputConfig.outputTokens.peak;
+  //  const baseInputTokens = promptTokens + contextHistoryTokens;
+  //  const promptCacheAdjustedTokens = promptTokens * (isCached ? model.gsuModel.cacheFactor : 1);
+  //  const baseAdjustedInputTokens = promptCacheAdjustedTokens + contextHistoryTokens;
+  //
+  //  const realInputTokens = baseInputTokens * contextFactor;
+  //  const burndownInputTokens = baseAdjustedInputTokens * contextFactor;
+  //
+  //  const outputAverageAdjustedTokens = outputAverageTokens * model.gsuModel.outputFactor;
+  //  const outputPeakAdjustedTokens = outputPeakTokens * model.gsuModel.outputFactor;
+  //
+  //  const rawTokens = realInputTokens + outputAverageTokens;
+  //  const rawRatio = realInputTokens / outputAverageTokens;
+  //  const burndownTokens = burndownInputTokens + outputAverageAdjustedTokens;
+  //  const burndownRatio = burndownInputTokens / outputAverageAdjustedTokens;
+  //  const peakRawTokens = realInputTokens + outputPeakTokens;
+  //  const peakRawRatio = realInputTokens / outputPeakTokens;
+  //  const peakAdjustedTokens = burndownInputTokens + outputPeakAdjustedTokens;
+  //  const peakAdjustedRatio = burndownInputTokens / outputPeakAdjustedTokens;
+  //
   const tokenPack = {
-    rawTokenInput : { 
-      promptTokens, contextHistoryTokens, baseInputTokens, realInputTokens, outputAverageTokens, 
-      rawTokens, outputPeakTokens, peakRawTokens 
+    rawTokenInput: {
+      promptTokens,
+      contextHistoryTokens,
+      baseInputTokens,
+      realInputTokens,
+      outputAverageTokens,
+      rawTokens,
+      outputPeakTokens,
+      peakRawTokens,
     },
     AdjustedTokenInputs: {
-      baseAdjustedInputTokens, isCached, promptCacheAdjustedTokens,
-      loopAdjustedPromptTokens, loopAndCacheAdjustedPromptTokens, loopAdjustedContextHistoryTokens,
-      burndownInputTokens, outputAverageAdjustedTokens, outputPeakAdjustedTokens,
-      burndownTokens, peakAdjustedTokens
+      baseAdjustedInputTokens,
+      isCached,
+      promptCacheAdjustedTokens,
+      loopAdjustedPromptTokens,
+      loopAndCacheAdjustedPromptTokens,
+      loopAdjustedContextHistoryTokens,
+      burndownInputTokens,
+      outputAverageAdjustedTokens,
+      outputPeakAdjustedTokens,
+      burndownTokens,
+      peakAdjustedTokens,
     },
     tokenRatio: {
-      rawRatio, peakRawRatio, burndownRatio, peakAdjustedRatio
-    }
-  }
-  return tokenPack; 
-
-}
+      rawRatio,
+      peakRawRatio,
+      burndownRatio,
+      peakAdjustedRatio,
+    },
+  };
+  return tokenPack;
+};

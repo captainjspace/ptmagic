@@ -1,7 +1,8 @@
- { "extends": "../../tsconfig.json",
+{
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-     "rootDir": "./src",
-     "outDir": "./dist",
+    "rootDir": "./src",
+    "outDir": "./dist",
 
     "module": "nodenext",
     "target": "esnext",
@@ -29,6 +30,6 @@
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
-    "skipLibCheck": true,
+    "skipLibCheck": true
   }
 }

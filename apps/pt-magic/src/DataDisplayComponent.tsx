@@ -1,4 +1,5 @@
-import "./styles.css";
+import "./style.css";
+import { useEffect, useRef } from "react";
 import { flattenObject } from "@ptcalc/utils";
 import type { TokenCalcResponse } from "@ptcalc/utils";
 
@@ -14,9 +15,13 @@ const formatLabel = (str: string) =>
 
 const getValueColor = (key: string, value: unknown): string => {
   if (typeof value === "number" && value < 0) return "text-red-400 font-bold";
-  if (key.toLowerCase().includes("capacity") || key.toLowerCase().includes("possible"))
+  if (
+    key.toLowerCase().includes("capacity") ||
+    key.toLowerCase().includes("possible")
+  )
     return "text-emerald-400 font-semibold";
-  if (typeof value === "boolean") return value ? "text-blue-400" : "text-slate-500";
+  if (typeof value === "boolean")
+    return value ? "text-blue-400" : "text-slate-500";
   return "text-slate-200";
 };
 
@@ -27,12 +32,37 @@ const formatValue = (value: unknown): string => {
 };
 
 function Row({ label, value }: { label: string; value: unknown }) {
+  const rowRef = useRef<HTMLDivElement>(null);
+  const prevRef = useRef<unknown>(value);
+  const mountedRef = useRef(false);
+
+  useEffect(() => {
+    if (!mountedRef.current) {
+      mountedRef.current = true;
+      return;
+    }
+    if (prevRef.current !== value) {
+      prevRef.current = value;
+      const el = rowRef.current;
+      if (el) {
+        el.classList.remove("flash-update");
+        void el.offsetWidth; // force reflow so browser sees the removal
+        el.classList.add("flash-update");
+      }
+    }
+  }, [value]);
+
   return (
-    <div className="flex items-start justify-between text-sm gap-4">
+    <div
+      ref={rowRef}
+      className="flex items-start justify-between text-sm gap-4 rounded px-1 -mx-1"
+    >
       <span className="text-slate-400 select-none shrink-0 leading-snug">
         {formatLabel(label)}:
       </span>
-      <span className={`font-mono text-right leading-snug ${getValueColor(label, value)}`}>
+      <span
+        className={`font-mono text-right leading-snug ${getValueColor(label, value)}`}
+      >
         {formatValue(value)}
       </span>
     </div>
@@ -89,7 +119,7 @@ export default function DataDisplay({ data }: DataDisplayProps) {
               key={section}
               className="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-lg hover:border-slate-700/60 transition-colors"
             >
-              <h2 className="text-lg font-bold text-slate-300 border-b border-slate-800 pb-2 mb-4 tracking-wide">
+              <h2 className="section-heading">
                 {formatLabel(section)}
               </h2>
 
@@ -100,7 +130,7 @@ export default function DataDisplay({ data }: DataDisplayProps) {
 
                 {Object.entries(subGroups).map(([parent, rows]) => (
                   <div key={parent}>
-                    <h3 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-4 mb-2">
+                    <h3 className="text-[16px] font-bold bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 inline-block text-transparent bg-clip-text uppercase tracking-narrow mt-4 mb-4">
                       {formatLabel(parent)}
                     </h3>
                     <div className="space-y-2 pl-2 border-l border-slate-800">
@@ -120,8 +150,8 @@ export default function DataDisplay({ data }: DataDisplayProps) {
         <div className="bg-red-950/20 border border-red-900/50 text-red-300 p-4 rounded-xl text-sm flex items-start space-x-3">
           <span className="text-lg leading-none mt-0.5">⚠️</span>
           <div>
-            <span className="font-bold">Bucket Deficit Warning:</span>{" "}
-            AtTwenty simulation drops to{" "}
+            <span className="font-bold">Bucket Deficit Warning:</span> AtTwenty
+            simulation drops to{" "}
             <span className="font-mono bg-red-950/60 px-1 py-0.5 rounded text-red-200">
               {data.userCapacity.AtTwenty.toLocaleString()}
             </span>{" "}

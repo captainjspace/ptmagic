@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./styles.css";
+import "./style.css";
 import type { TokenCalcResponse } from "@ptcalc/utils";
 
 interface TokenSimulatorProps {
