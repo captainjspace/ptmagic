@@ -1,165 +1,135 @@
 import "./styles.css";
-import type { TokenCalcResponse, flattenObject } from "@ptcalc/utils";
-import { getDynamicTraversal } from "./dynamicTraversal.js"
-const formatLabel = (str: string) => {
-  return str
-    .replace(/([A-Z])/g, " $1")
-    .replace(/^./, (match) => match.toUpperCase())
-    .trim();
+import { flattenObject } from "@ptcalc/utils";
+import type { TokenCalcResponse } from "@ptcalc/utils";
+
+const SKIP_SECTIONS = new Set(["inputConfig", "rushHourCapacity"]);
+
+const formatLabel = (str: string) =>
+  str
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/([A-Z])([A-Z][a-z])/g, "$1 $2")
+    .replace(/^./, (m) => m.toUpperCase())
+    .trim()
+    .replace(/\bGsu\b/g, "GSU");
+
+const getValueColor = (key: string, value: unknown): string => {
+  if (typeof value === "number" && value < 0) return "text-red-400 font-bold";
+  if (key.toLowerCase().includes("capacity") || key.toLowerCase().includes("possible"))
+    return "text-emerald-400 font-semibold";
+  if (typeof value === "boolean") return value ? "text-blue-400" : "text-slate-500";
+  return "text-slate-200";
 };
+
+const formatValue = (value: unknown): string => {
+  if (typeof value === "number")
+    return Number.isInteger(value) ? value.toLocaleString() : value.toFixed(3);
+  return String(value);
+};
+
+function Row({ label, value }: { label: string; value: unknown }) {
+  return (
+    <div className="flex items-start justify-between text-sm gap-4">
+      <span className="text-slate-400 select-none shrink-0 leading-snug">
+        {formatLabel(label)}:
+      </span>
+      <span className={`font-mono text-right leading-snug ${getValueColor(label, value)}`}>
+        {formatValue(value)}
+      </span>
+    </div>
+  );
+}
 
 interface DataDisplayProps {
   data: TokenCalcResponse;
-  onInputChange: (key: string, val: string | number | boolean) => void;
 }
 
-export default function DataDisplay({ data, onInputChange }: DataDisplayProps) {
+export default function DataDisplay({ data }: DataDisplayProps) {
   if (!data) {
-    console.error("DataDisplay received null or undefined data");
-    return <div className="p-8 bg-red-900/20 border border-red-800 rounded-xl text-red-400">Error: Calculation data missing.</div>;
+    return (
+      <div className="p-8 bg-red-900/20 border border-red-800 rounded-xl text-red-400">
+        Error: Calculation data missing.
+      </div>
+    );
   }
-  const flat = flattenObject(data);
-  for
-  
-  const getValueColor = (key: string, value: unknown): string => {
-    if (typeof value === "number" && value < 0) return "text-red-400 font-bold";
-    if (
-      key.toLowerCase().includes("capacity") ||
-      key.toLowerCase().includes("possible")
-    )
-      return "text-emerald-400 font-semibold";
-    if (typeof value === "boolean")
-      return value ? "text-blue-400" : "text-slate-500";
-    return "text-slate-200";
-  };
+
+  const flat = flattenObject(data) as Record<string, unknown>;
+
+  const grouped: Record<string, Record<string, unknown>> = {};
+  for (const [dotKey, value] of Object.entries(flat)) {
+    if (Array.isArray(value)) continue;
+    const dot = dotKey.indexOf(".");
+    const section = dot === -1 ? dotKey : dotKey.slice(0, dot);
+    const subKey = dot === -1 ? "" : dotKey.slice(dot + 1);
+    if (SKIP_SECTIONS.has(section)) continue;
+    if (!grouped[section]) grouped[section] = {};
+    grouped[section][subKey] = value;
+  }
 
   return (
-    <div className="bg-slate-950 text-slate-100 font-sans selection:bg-blue-500/30">
-      <div className="space-y-8">
-        {/* Dynamic Card Generation Grid */}
+    <div className="space-y-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {Object.entries(grouped).map(([section, fields]) => {
+          const flatRows: [string, unknown][] = [];
+          const subGroups: Record<string, [string, unknown][]> = {};
 
+          for (const [key, value] of Object.entries(fields)) {
+            const dot = key.indexOf(".");
+            if (dot === -1) {
+              flatRows.push([key, value]);
+            } else {
+              const parent = key.slice(0, dot);
+              const leaf = key.slice(dot + 1);
+              if (!subGroups[parent]) subGroups[parent] = [];
+              subGroups[parent].push([leaf, value]);
+            }
+          }
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {Object.entries(data).map(([sectionName, fields]) => {
-            // Skip rendering helper configurations if they get appended directly to root
-           // if (sectionName === "userCapacity" || sectionName === "decoratedGSUModel" || sectionName === "decoratedSiteModel")
-             // return null;
+          return (
+            <div
+              key={section}
+              className="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-lg hover:border-slate-700/60 transition-colors"
+            >
+              <h2 className="text-lg font-bold text-slate-300 border-b border-slate-800 pb-2 mb-4 tracking-wide">
+                {formatLabel(section)}
+              </h2>
 
-            return (
-              <div
-                key={sectionName}
-                className="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-lg flex flex-col justify-between hover:border-slate-700/60 transition-colors"
-              >
-                <div>
-                  <h2 className="text-lg font-bold text-slate-300 border-b border-slate-800 pb-2 mb-4 tracking-wide">
-                    {formatLabel(sectionName)}
-                  </h2>
+              <div className="space-y-2">
+                {flatRows.map(([key, value]) => (
+                  <Row key={key} label={key} value={value} />
+                ))}
 
-                  <div className="space-y-3">
-                    {Object.entries(fields as Record<string, unknown>).map(
-                      ([key, value]) => {
-                       if (typeof value === "object" && value !== null) {
-                         let parent=key;
-                         Object.entries(value as Record<string, unknown>).map(
-                               ([ikey, ivalue]) => {
-                                 if (typeof ivalue === "object" && ivalue !== null) {  
-                                   parent.concat(ikey); 
-                                   return [parent,ivalue.toLocaleString()]
-                                 }
-                                 return [parent,ivalue]
-                               }
-                             )
-                       } else  {
-                         return [key,value];
-                       }
-                         // return null;
-
-                        const isConfigurable = [
-                          "promptTokens",
-                          "contextHistoryTokens",
-                          "contextFactor",
-                          "turnsPerMinute",
-                          "isCached",
-                        ].includes(key);
-
-                        return (
-                          <div
-                            key={key}
-                            className="flex items-center justify-between text-sm group"
-                          >
-                            <span className="text-slate-400 select-none group-hover:text-slate-300 transition-colors">
-                              {formatLabel(key)}:
-                            </span>
-
-                            <div className="flex items-center pl-4">
-                              {isConfigurable ? (
-                                typeof value === "boolean" ? (
-                                  <input
-                                    type="checkbox"
-                                    checked={value}
-                                    onChange={(e) =>
-                                      onInputChange(key, e.target.checked)
-                                    }
-                                    className="rounded border-slate-700 bg-slate-950 text-blue-500 focus:ring-0 w-4 h-4 cursor-pointer"
-                                  />
-                                ) : (
-                                  <input
-                                    type={
-                                      typeof value === "number"
-                                        ? "number"
-                                        : "text"
-                                    }
-                                    value={value as string | number}
-                                    onChange={(e) =>
-                                      onInputChange(
-                                        key,
-                                        typeof value === "number"
-                                          ? Number(e.target.value)
-                                          : e.target.value,
-                                      )
-                                    }
-                                    className="w-24 bg-slate-950 border border-slate-800 rounded px-2 py-0.5 text-right text-blue-300 font-mono focus:border-blue-500/50 focus:outline-none transition-colors"
-                                  />
-                                )
-                              ) : (
-                                <span
-                                  className={`font-mono text-right ${getValueColor(key, value)}`}
-                                >
-                                  {typeof value === "number"
-                                    ? Number.isInteger(value)
-                                      ? value.toLocaleString()
-                                      : value.toFixed(2)
-                                    : String(value)}
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        );
-                      },
-                    )}
+                {Object.entries(subGroups).map(([parent, rows]) => (
+                  <div key={parent}>
+                    <h3 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-4 mb-2">
+                      {formatLabel(parent)}
+                    </h3>
+                    <div className="space-y-2 pl-2 border-l border-slate-800">
+                      {rows.map(([leaf, value]) => (
+                        <Row key={leaf} label={leaf} value={value} />
+                      ))}
+                    </div>
                   </div>
-                </div>
+                ))}
               </div>
-            );
-          })}
-        </div>
-
-        {/* Diagnostic Status Box */}
-        {data.userCapacity?.AtTwenty < 0 && (
-          <div className="bg-red-950/20 border border-red-900/50 text-red-300 p-4 rounded-xl text-sm flex items-start space-x-3">
-            <span className="text-lg leading-none mt-0.5">⚠️</span>
-            <div>
-              <span className="font-bold">Bucket Deficit Warning:</span>{" "}
-              AtTwenty simulation drops to{" "}
-              <span className="font-mono bg-red-950/60 px-1 py-0.5 rounded text-red-200">
-                {data.userCapacity.AtTwenty.toLocaleString()}
-              </span>{" "}
-              tokens. The system is consuming burst resources faster than
-              steady-state baseline replenishment allows.
             </div>
-          </div>
-        )}
+          );
+        })}
       </div>
+
+      {data.userCapacity?.AtTwenty < 0 && (
+        <div className="bg-red-950/20 border border-red-900/50 text-red-300 p-4 rounded-xl text-sm flex items-start space-x-3">
+          <span className="text-lg leading-none mt-0.5">⚠️</span>
+          <div>
+            <span className="font-bold">Bucket Deficit Warning:</span>{" "}
+            AtTwenty simulation drops to{" "}
+            <span className="font-mono bg-red-950/60 px-1 py-0.5 rounded text-red-200">
+              {data.userCapacity.AtTwenty.toLocaleString()}
+            </span>{" "}
+            tokens. The system is consuming burst resources faster than
+            steady-state baseline replenishment allows.
+          </div>
+        </div>
+      )}
     </div>
   );
 }
