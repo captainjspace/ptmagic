@@ -44,7 +44,7 @@ return (
         </div>
         <div className="bg-slate-900/50 border border-slate-800 p-2 rounded-xl shadow-lg border-l-2 border-l-amber-500">
           <span className="text-slate-500 block mb-1 uppercase tracking-standard text-[10px] font-bold">
-            Avg. Minute Burn 
+            Avg. Minute Burn Baseline Users
           </span>
           <span className="text-md font-black text-amber-200">
             {data.userCapacity.stableBurn.toLocaleString()} Tokens

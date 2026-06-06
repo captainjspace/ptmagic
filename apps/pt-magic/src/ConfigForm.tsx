@@ -6,6 +6,13 @@ const MODELS: { key: ModelKey; label: string }[] = [
   { key: "flash35", label: "Gemini 3.5 Flash" },
 ];
 
+function setNumber(value: unknown): number {
+  if (value === "" || value === undefined || value === null) return 1;
+  const parsed = parseInt(String(value).replace(/\D/g, ""), 10);
+  return isNaN(parsed) || parsed < 1 ? 1 : parsed;
+}
+
+
 interface ConfigFormProps {
   config: TokenCalculatorConfig;
   onInputChange: (key: string, val: string | number | boolean) => void;
@@ -36,37 +43,37 @@ export default function ConfigForm({ config, onInputChange }: ConfigFormProps) {
         <NumField
           label="GSU Count"
           value={config.gsuCount}
-          onChange={(v) => onInputChange("gsuCount", v)}
+            onChange={(v) => onInputChange("gsuCount", setNumber(v))}
         />
         <NumField
           label="Prompt Tokens"
           value={config.inputTokens.prompt.tokens}
-          onChange={(v) => onInputChange("promptTokens", v)}
+          onChange={(v) => onInputChange("promptTokens", setNumber(v))}
         />
         <NumField
           label="Context Tokens"
           value={config.inputTokens.contextHistory.tokens}
-          onChange={(v) => onInputChange("contextHistoryTokens", v)}
+          onChange={(v) => onInputChange("contextHistoryTokens", setNumber(v))}
         />
         <NumField
           label="Context Factor"
           value={config.agentPattern.contextFactor}
-          onChange={(v) => onInputChange("contextFactor", v)}
+          onChange={(v) => onInputChange("contextFactor", setNumber(v))}
         />
         <NumField
           label="Turns / Min"
           value={config.timeFactors.turnsPerMinute}
-          onChange={(v) => onInputChange("turnsPerMinute", v)}
+          onChange={(v) => onInputChange("turnsPerMinute", setNumber(v))}
         />
         <NumField
           label="Output Avg Tokens"
           value={config.outputTokens.average}
-          onChange={(v) => onInputChange("outputAverage", v)}
+          onChange={(v) => onInputChange("outputAverage", setNumber(v))}
         />
         <NumField
           label="Output Peak Tokens"
           value={config.outputTokens.peak}
-          onChange={(v) => onInputChange("outputPeak", v)}
+          onChange={(v) => onInputChange("outputPeak", setNumber(v))}
         />
 
         <div className="flex flex-col gap-1">
@@ -94,6 +101,8 @@ function NumField({
   value: number;
   onChange: (v: number) => void;
 }) {
+  const safeValue = setNumber(value);
+
   return (
     <div className="flex flex-col gap-1 break-words whitespace-normal">
       <label className="text-xs text-slate-500 break-words whitespace-normal">
@@ -101,7 +110,7 @@ function NumField({
       </label>
       <input
         type="number"
-        value={value}
+        value={safeValue}
         onChange={(e) => onChange(Number(e.target.value))}
         className="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1.5 text-sm text-right text-blue-300 font-mono focus:border-blue-500/50 focus:outline-none transition-colors"
       />

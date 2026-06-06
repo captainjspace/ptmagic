@@ -144,7 +144,7 @@ const RushHourTable = ({ data }: RushHourTableProps) => {
         </div>
         <div className="bg-slate-900/50 border border-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-l-amber-500">
           <span className="text-slate-500 block mb-1 uppercase tracking-widest text-[10px] font-bold">
-            Avg. Minute Burn
+            Avg. Minute Burn Per Active User
           </span>
           <span className="text-xl font-black text-amber-400">
             {Math.round(
