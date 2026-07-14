@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pt-magic
+  labels:
+    app: pt-magic
+spec:
+  type: ExternalIP 
+  selector:
+    app: pt-magic
+  ports:
+    - port: 80
+      targetPort: 0

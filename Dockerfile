@@ -1,5 +1,5 @@
-# Build stage
-FROM node:20-slim AS build
+# Build stag
+FROM node:nodejs AS build
 
 # Install pnpm
 RUN npm install -g pnpm@11.1.3
@@ -12,9 +12,6 @@ COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
 # Copy package manifests
 COPY packages/utils/package.json ./packages/utils/
 COPY packages/schema-gen/package.json ./packages/schema-gen/
-COPY packages/ts-config/package.json ./packages/ts-config/
-COPY packages/eslint-config/package.json ./packages/eslint-config/
-COPY packages/prettier-config/package.json ./packages/prettier-config/
 COPY apps/pt-magic/package.json ./apps/pt-magic/
 
 # Install dependencies
@@ -23,8 +20,8 @@ RUN pnpm install --frozen-lockfile
 # Copy the rest of the source code
 COPY . .
 
-# Build the project
-RUN pnpm -r build
+# Build only the pt-magic app and its dependencies
+RUN pnpm --filter=./apps/pt-magic build
 
 # Production stage
 FROM nginx:alpine AS production

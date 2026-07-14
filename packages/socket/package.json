@@ -1,0 +1,48 @@
+{
+  "name": "@ptcalc/socket",
+  "version": "1.0.0",
+  "description": "socket to connect app and utils - detailed breakdown of PT calcs",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint . --fix",
+    "dev": "pnpm exec tsx src/index.ts",
+    "build": "rm -f tsconfig.tsbuildinfo && tsc",
+    "preview": "deno run --allow-net --allow-read --allow-write packages/utils/server.ts",
+    "client": "node apps/app/client.js"
+  },
+  "keywords": [
+    "GCP",
+    "GSU",
+    "Provisioned Throughput",
+    "Calculator"
+  ],
+  "author": "joshgcp@rollingblackoutband.com",
+  "license": "MIT",
+  "devDependencies": {
+    "@eslint/create-config": "^2.0.0",
+    "@eslint/json": "^2.0.0",
+    "@swc/cli": "^0.8.1",
+    "@swc/core": "^1.15.40",
+    "@types/node": "^25.9.1",
+    "eslint": "^10.4.1",
+    "globals": "^17.6.0",
+    "swc": "^1.0.11",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.60.1"
+  },
+  "type": "module",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "paths": {
+    "src/*": [
+      "./src/*.ts",
+      "./src/*"
+    ]
+  }
+}

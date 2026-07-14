@@ -1,0 +1,46 @@
+/* Tree Container and Reset */
+.tree ul {
+  list-style-type: none;
+  padding-left: 20px;
+  margin: 0;
+  border-left: 1px dashed #555; /* Creates vertical connecting lines */
+}
+
+.tree li, .tree summary {
+  font-family: 'Courier New', Courier, monospace;
+  padding: 4px 0;
+  cursor: pointer;
+}
+
+/* Directory Styling (Simulating standard dark blue/cyan directory colors) */
+.dir {
+  color: #00a8ff;
+  font-weight: bold;
+}
+.dir:hover {
+  text-decoration: underline;
+}
+
+/* File Type Color Mapping (Simulating LS_COLORS) */
+.file {
+  color: #f5f5f5; /* Default file color */
+}
+.file::before {
+  content: "├── "; /* Adds terminal-style branch indicator */
+  color: #555;
+}
+.file:last-child::before {
+  content: "└── "; /* Cleaner end branch indicator */
+}
+
+/* Specific Extensions */
+.js {
+  color: #f1c40f; /* Yellow */
+}
+.css {
+  color: #e74c3c; /* Red */
+}
+.txt {
+  color: #2ecc71; /* Green */
+}
+
