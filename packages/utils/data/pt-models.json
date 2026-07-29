@@ -1,0 +1,1294 @@
+[
+  {
+    "name": "DeepSeek-OCR",
+    "latestVersion": "deepseek-ocr-maas",
+    "throughputPerGSU": 3360,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 1,
+    "burndown": {
+      "base": {
+        "input": {
+          "text": 1,
+          "image": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "text": 4
+        },
+        "cache": {}
+      }
+    }
+  },
+  {
+    "name": "DeepSeek-V3.2",
+    "latestVersion": "deepseek-v3.2-maas",
+    "throughputPerGSU": 1680,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 1,
+    "burndown": {
+      "base": {
+        "input": {
+          "text": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "text": 4
+        },
+        "cache": {}
+      }
+    }
+  },
+  {
+    "name": "Gemma 4 26B A4B IT",
+    "latestVersion": "gemma-4-26b-a4b-it-maas",
+    "notes": "Provisioned Throughput support for this model is billed under the same SKUs as Google models, but is subject to open model capabilities.",
+    "throughputPerGSU": 6725,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 1,
+    "burndown": {
+      "base": {
+        "input": {
+          "text": 1,
+          "image": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "text": 4
+        },
+        "cache": {}
+      }
+    }
+  },
+  {
+    "name": "Kimi K2 Thinking",
+    "latestVersion": "kimi-k2-thinking-maas",
+    "throughputPerGSU": 1680,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 1,
+    "burndown": {
+      "base": {
+        "input": {
+          "text": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "text": 4
+        },
+        "cache": {}
+      }
+    }
+  },
+  {
+    "name": "Llama 3.3 70B",
+    "latestVersion": "llama-3.3-70b-instruct-maas",
+    "throughputPerGSU": 1400,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 1,
+    "burndown": {
+      "base": {
+        "input": {
+          "text": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "text": 1
+        },
+        "cache": {}
+      }
+    }
+  },
+  {
+    "name": "Llama 4 Maverick 17B-128E",
+    "latestVersion": "llama-4-maverick-17b-128e-instruct-maas",
+    "throughputPerGSU": 2800,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 1,
+    "burndown": {
+      "base": {
+        "input": {
+          "text": 1,
+          "image": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "text": 4
+        },
+        "cache": {}
+      }
+    }
+  },
+  {
+    "name": "Llama 4 Scout 17B-16E",
+    "latestVersion": "llama-4-scout-17b-16e-instruct-maas",
+    "throughputPerGSU": 4035,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 1,
+    "burndown": {
+      "base": {
+        "input": {
+          "text": 1,
+          "image": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "text": 3
+        },
+        "cache": {}
+      }
+    }
+  },
+  {
+    "name": "MiniMax M2",
+    "latestVersion": "minimax-m2-maas",
+    "throughputPerGSU": 3360,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 1,
+    "burndown": {
+      "base": {
+        "input": {
+          "text": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "text": 4
+        },
+        "cache": {}
+      }
+    }
+  },
+  {
+    "name": "OpenAI gpt-oss 120B",
+    "latestVersion": "gpt-oss-120b-maas",
+    "throughputPerGSU": 11205,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 1,
+    "burndown": {
+      "base": {
+        "input": {
+          "text": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "text": 4
+        },
+        "cache": {}
+      }
+    }
+  },
+  {
+    "name": "OpenAI gpt-oss 20B",
+    "latestVersion": "gpt-oss-20b-maas",
+    "throughputPerGSU": 14405,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 1,
+    "burndown": {
+      "base": {
+        "input": {
+          "text": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "text": 4
+        },
+        "cache": {}
+      }
+    }
+  },
+  {
+    "name": "Qwen3 235B",
+    "latestVersion": "qwen3-235b-a22b-instruct-2507-maas",
+    "throughputPerGSU": 4035,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 1,
+    "burndown": {
+      "base": {
+        "input": {
+          "text": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "text": 4
+        },
+        "cache": {}
+      }
+    }
+  },
+  {
+    "name": "Qwen3 Coder",
+    "latestVersion": "qwen3-coder-480b-a35b-instruct-maas",
+    "throughputPerGSU": 1010,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 1,
+    "burndown": {
+      "base": {
+        "input": {
+          "text": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "text": 4
+        },
+        "cache": {}
+      }
+    }
+  },
+  {
+    "name": "Qwen3-Next-80B Instruct",
+    "latestVersion": "qwen3-next-80b-a3b-instruct-maas",
+    "throughputPerGSU": 6725,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 1,
+    "burndown": {
+      "base": {
+        "input": {
+          "text": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "text": 8
+        },
+        "cache": {}
+      }
+    }
+  },
+  {
+    "name": "Qwen3-Next-80B Thinking",
+    "latestVersion": "qwen3-next-80b-a3b-thinking-maas",
+    "throughputPerGSU": 6725,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 1,
+    "burndown": {
+      "base": {
+        "input": {
+          "text": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "text": 8
+        },
+        "cache": {}
+      }
+    }
+  },
+  {
+    "name": "GLM 4.7",
+    "latestVersion": "glm-4.7-maas",
+    "throughputPerGSU": 1685,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 1,
+    "burndown": {
+      "base": {
+        "input": {
+          "text": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "text": 4
+        },
+        "cache": {}
+      }
+    }
+  },
+  {
+    "name": "GLM 5",
+    "latestVersion": "glm-5-maas",
+    "throughputPerGSU": 1010,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 1,
+    "burndown": {
+      "base": {
+        "input": {
+          "text": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "text": 3
+        },
+        "cache": {}
+      }
+    }
+  },
+  {
+    "name": "Anthropic's Claude Opus 5 on Google Cloud",
+    "throughputPerGSU": 210,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 1,
+    "burndown": {
+      "base": {
+        "input": {
+          "all": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "all": 5
+        },
+        "cache": {
+          "write5m": 1.25,
+          "write1h": 2,
+          "hit": 0.1
+        }
+      }
+    }
+  },
+  {
+    "name": "Anthropic's Claude Sonnet 5 on Google Cloud",
+    "throughputPerGSU": 350,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 25,
+    "burndown": {
+      "base": {
+        "input": {
+          "all": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "all": 5
+        },
+        "cache": {
+          "write5m": 1.25,
+          "write1h": 2,
+          "hit": 0.1
+        }
+      }
+    }
+  },
+  {
+    "name": "Anthropic's Claude Fable 5 on Google Cloud",
+    "throughputPerGSU": 105,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 1,
+    "burndown": {
+      "base": {
+        "input": {
+          "all": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "all": 5
+        },
+        "cache": {
+          "write5m": 1.25,
+          "write1h": 2,
+          "hit": 0.1
+        }
+      }
+    }
+  },
+  {
+    "name": "Anthropic's Claude Opus 4.8 on Google Cloud",
+    "throughputPerGSU": 210,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 35,
+    "burndown": {
+      "base": {
+        "input": {
+          "all": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "all": 5
+        },
+        "cache": {
+          "write5m": 1.25,
+          "write1h": 2,
+          "hit": 0.1
+        }
+      }
+    }
+  },
+  {
+    "name": "Anthropic's Claude Opus 4.7 on Google Cloud",
+    "throughputPerGSU": 210,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 35,
+    "burndown": {
+      "base": {
+        "input": {
+          "all": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "all": 5
+        },
+        "cache": {
+          "write5m": 1.25,
+          "write1h": 2,
+          "hit": 0.1
+        }
+      }
+    }
+  },
+  {
+    "name": "Anthropic's Claude Sonnet 4.6 on Google Cloud",
+    "throughputPerGSU": 350,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 25,
+    "burndown": {
+      "base": {
+        "input": {
+          "all": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "all": 5
+        },
+        "cache": {
+          "write5m": 1.25,
+          "write1h": 2,
+          "hit": 0.1
+        }
+      }
+    }
+  },
+  {
+    "name": "Anthropic's Claude Opus 4.6 on Google Cloud",
+    "throughputPerGSU": 210,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 35,
+    "burndown": {
+      "base": {
+        "input": {
+          "all": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "all": 5
+        },
+        "cache": {
+          "write5m": 1.25,
+          "write1h": 2,
+          "hit": 0.1
+        }
+      }
+    }
+  },
+  {
+    "name": "Anthropic's Claude Opus 4.5 on Google Cloud",
+    "throughputPerGSU": 210,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 35,
+    "burndown": {
+      "base": {
+        "input": {
+          "all": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "all": 5
+        },
+        "cache": {
+          "write5m": 1.25,
+          "write1h": 2,
+          "hit": 0.1
+        }
+      }
+    }
+  },
+  {
+    "name": "Anthropic's Claude Sonnet 4.5 on Google Cloud",
+    "throughputPerGSU": 350,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 25,
+    "burndown": {
+      "tiers": [
+        {
+          "label": "Less than 200,000 input tokens",
+          "thresholdTokens": 200000,
+          "direction": "lt",
+          "rates": {
+            "input": {
+              "all": 1
+            },
+            "inputCaching": {},
+            "output": {
+              "all": 5
+            },
+            "cache": {
+              "write5m": 1.25,
+              "write1h": 2,
+              "hit": 0.1
+            }
+          }
+        },
+        {
+          "label": "Greater than or equal to 200,000 input tokens",
+          "thresholdTokens": 200000,
+          "direction": "gte",
+          "rates": {
+            "input": {
+              "all": 2
+            },
+            "inputCaching": {},
+            "output": {
+              "all": 7.5
+            },
+            "cache": {
+              "write5m": 2.5,
+              "write1h": 4,
+              "hit": 0.2
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "Anthropic's Claude Opus 4.1 on Google Cloud",
+    "throughputPerGSU": 70,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 35,
+    "burndown": {
+      "base": {
+        "input": {
+          "all": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "all": 5
+        },
+        "cache": {
+          "write5m": 1.25,
+          "write1h": 2,
+          "hit": 0.1
+        }
+      }
+    }
+  },
+  {
+    "name": "Anthropic's Claude Haiku 4.5 on Google Cloud",
+    "throughputPerGSU": 1050,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 8,
+    "burndown": {
+      "tiers": [
+        {
+          "label": "Less than 200,000 input tokens",
+          "thresholdTokens": 200000,
+          "direction": "lt",
+          "rates": {
+            "input": {
+              "all": 1
+            },
+            "inputCaching": {},
+            "output": {
+              "all": 5
+            },
+            "cache": {
+              "write5m": 1.25,
+              "write1h": 2,
+              "hit": 0.1
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "Anthropic's Claude Opus 4 on Google Cloud",
+    "throughputPerGSU": 70,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 35,
+    "burndown": {
+      "base": {
+        "input": {
+          "all": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "all": 5
+        },
+        "cache": {
+          "write5m": 1.25,
+          "write1h": 2,
+          "hit": 0.1
+        }
+      }
+    }
+  },
+  {
+    "name": "Anthropic's Claude Sonnet 4 on Google Cloud",
+    "throughputPerGSU": 350,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 25,
+    "burndown": {
+      "tiers": [
+        {
+          "label": "Less than 200,000 input tokens",
+          "thresholdTokens": 200000,
+          "direction": "lt",
+          "rates": {
+            "input": {
+              "all": 1
+            },
+            "inputCaching": {},
+            "output": {
+              "all": 5
+            },
+            "cache": {
+              "write5m": 1.25,
+              "write1h": 2,
+              "hit": 0.1
+            }
+          }
+        },
+        {
+          "label": "Greater than or equal to 200,000 input tokens",
+          "thresholdTokens": 200000,
+          "direction": "gte",
+          "rates": {
+            "input": {
+              "all": 2
+            },
+            "inputCaching": {},
+            "output": {
+              "all": 7.5
+            },
+            "cache": {
+              "write5m": 2.5,
+              "write1h": 4,
+              "hit": 0.2
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "Anthropic's Claude 3.7 Sonnet on Google Cloud (deprecated)",
+    "throughputPerGSU": 350,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 25,
+    "burndown": {
+      "base": {
+        "input": {
+          "all": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "all": 5
+        },
+        "cache": {
+          "write5m": 1.25,
+          "hit": 0.1
+        }
+      }
+    }
+  },
+  {
+    "name": "Anthropic's Claude 3.5 Sonnet v2 on Google Cloud (deprecated)",
+    "throughputPerGSU": 350,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 25,
+    "burndown": {
+      "base": {
+        "input": {
+          "all": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "all": 5
+        },
+        "cache": {
+          "write5m": 1.25,
+          "hit": 0.1
+        }
+      }
+    }
+  },
+  {
+    "name": "Anthropic's Claude 3.5 Haiku on Google Cloud (deprecated)",
+    "throughputPerGSU": 2000,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 10,
+    "burndown": {
+      "base": {
+        "input": {
+          "all": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "all": 5
+        },
+        "cache": {
+          "write5m": 1.25,
+          "write1h": 2,
+          "hit": 0.1
+        }
+      }
+    }
+  },
+  {
+    "name": "Anthropic's Claude 3 Opus on Google Cloud",
+    "throughputPerGSU": 70,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 35,
+    "burndown": {
+      "base": {
+        "input": {
+          "all": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "all": 5
+        },
+        "cache": {
+          "write5m": 1.25,
+          "hit": 0.1
+        }
+      }
+    }
+  },
+  {
+    "name": "Anthropic's Claude 3 Haiku on Google Cloud (deprecated)",
+    "throughputPerGSU": 4200,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 5,
+    "burndown": {
+      "base": {
+        "input": {
+          "all": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "all": 5
+        },
+        "cache": {
+          "write5m": 1.25,
+          "write1h": 2,
+          "hit": 0.1
+        }
+      }
+    }
+  },
+  {
+    "name": "Anthropic's Claude 3.5 Sonnet on Google Cloud (deprecated)",
+    "throughputPerGSU": 350,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": 25,
+    "burndown": {
+      "base": {
+        "input": {
+          "all": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "all": 5
+        },
+        "cache": {
+          "write5m": 1.25,
+          "hit": 0.1
+        }
+      }
+    }
+  },
+  {
+    "name": "Gemini 3.6 Flash",
+    "latestVersion": "gemini-3.6-flash",
+    "throughputPerGSU": 675,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": "Tokens",
+    "burndown": {
+      "base": {
+        "input": {
+          "text": 1,
+          "image": 1,
+          "video": 1,
+          "audio": 1
+        },
+        "inputCaching": {
+          "text": 0.1,
+          "image": 0.1,
+          "video": 0.1,
+          "audio": 0.1
+        },
+        "output": {
+          "response": 5
+        },
+        "cache": {}
+      }
+    }
+  },
+  {
+    "name": "Gemini 3.5 Flash-Lite",
+    "latestVersion": "gemini-3.5-flash-lite",
+    "throughputPerGSU": 3360,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": "Tokens",
+    "burndown": {
+      "base": {
+        "input": {
+          "text": 1,
+          "image": 1,
+          "video": 1,
+          "audio": 1
+        },
+        "inputCaching": {
+          "text": 0.1,
+          "image": 0.1,
+          "video": 0.1,
+          "audio": 0.1
+        },
+        "output": {
+          "response": 9
+        },
+        "cache": {}
+      }
+    }
+  },
+  {
+    "name": "Gemini 3.1 Flash-Lite Image (Nano Banana 2 Lite)",
+    "latestVersion": "gemini-3.1-flash-lite-image",
+    "throughputPerGSU": 4030,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": "Tokens",
+    "burndown": {
+      "base": {
+        "input": {
+          "text": 1,
+          "image": 1,
+          "video": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "response": 6,
+          "reasoning": 6,
+          "image": 120
+        },
+        "cache": {}
+      }
+    }
+  },
+  {
+    "name": "Gemini 3 Pro Image",
+    "latestVersion": "gemini-3-pro-image",
+    "throughputPerGSU": 500,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": "Tokens",
+    "burndown": {
+      "base": {
+        "input": {
+          "text": 1,
+          "image": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "response": 6,
+          "reasoning": 6,
+          "image": 60
+        },
+        "cache": {}
+      }
+    }
+  },
+  {
+    "name": "Gemini 3.1 Flash Image",
+    "latestVersion": "gemini-3.1-flash-image",
+    "throughputPerGSU": 2015,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": "Tokens",
+    "burndown": {
+      "base": {
+        "input": {
+          "text": 1,
+          "image": 1,
+          "video": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "response": 6,
+          "reasoning": 6,
+          "image": 120
+        },
+        "cache": {}
+      }
+    }
+  },
+  {
+    "name": "Gemini 3.5 Flash",
+    "latestVersion": "gemini-3.5-flash",
+    "throughputPerGSU": 675,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": "Tokens",
+    "burndown": {
+      "base": {
+        "input": {
+          "text": 1,
+          "image": 1,
+          "video": 1,
+          "audio": 1
+        },
+        "inputCaching": {
+          "text": 0.1,
+          "image": 0.1,
+          "video": 0.1,
+          "audio": 0.1
+        },
+        "output": {
+          "text": 6
+        },
+        "cache": {}
+      }
+    }
+  },
+  {
+    "name": "Gemini 3.1 Flash-Lite",
+    "latestVersion": "gemini-3.1-flash-lite",
+    "throughputPerGSU": 4030,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": "Tokens",
+    "burndown": {
+      "base": {
+        "input": {
+          "text": 1,
+          "image": 1,
+          "video": 1,
+          "audio": 2
+        },
+        "inputCaching": {
+          "text": 0.1,
+          "image": 0.1,
+          "video": 0.1,
+          "audio": 0.2
+        },
+        "output": {
+          "response": 6,
+          "reasoning": 6
+        },
+        "cache": {}
+      }
+    }
+  },
+  {
+    "name": "Gemini 3.1 Pro",
+    "latestVersion": "gemini-3.1-pro-preview (preview)",
+    "throughputPerGSU": 500,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": "Tokens",
+    "burndown": {
+      "tiers": [
+        {
+          "label": "Less than or equal to 200,000 input tokens",
+          "thresholdTokens": 200000,
+          "direction": "lte",
+          "rates": {
+            "input": {
+              "text": 1,
+              "image": 1,
+              "video": 1,
+              "audio": 1
+            },
+            "inputCaching": {
+              "all": 0.1
+            },
+            "output": {
+              "response": 6,
+              "reasoning": 6
+            },
+            "cache": {}
+          }
+        },
+        {
+          "label": "Greater than 200,000 input tokens",
+          "thresholdTokens": 200000,
+          "direction": "gt",
+          "rates": {
+            "input": {
+              "text": 2,
+              "image": 2,
+              "video": 2,
+              "audio": 2
+            },
+            "inputCaching": {
+              "all": 0.2
+            },
+            "output": {
+              "response": 9,
+              "reasoning": 9
+            },
+            "cache": {}
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "Gemini 3 Flash",
+    "latestVersion": "gemini-3-flash-preview (preview)",
+    "throughputPerGSU": 2015,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": "Tokens",
+    "burndown": {
+      "base": {
+        "input": {
+          "text": 1,
+          "image": 1,
+          "video": 1,
+          "audio": 2
+        },
+        "inputCaching": {
+          "text": 0.1,
+          "image": 0.1,
+          "video": 0.1,
+          "audio": 0.2
+        },
+        "output": {
+          "response": 6,
+          "reasoning": 6
+        },
+        "cache": {}
+      }
+    }
+  },
+  {
+    "name": "Gemini 2.5 Pro",
+    "latestVersion": "gemini-2.5-pro",
+    "throughputPerGSU": 650,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": "Tokens",
+    "burndown": {
+      "tiers": [
+        {
+          "label": "Less than or equal to 200,000 input tokens",
+          "thresholdTokens": 200000,
+          "direction": "lte",
+          "rates": {
+            "input": {
+              "text": 1,
+              "image": 1,
+              "video": 1,
+              "audio": 1
+            },
+            "inputCaching": {},
+            "output": {
+              "response": 8,
+              "reasoning": 8
+            },
+            "cache": {}
+          }
+        },
+        {
+          "label": "Greater than 200,000 input tokens",
+          "thresholdTokens": 200000,
+          "direction": "gt",
+          "rates": {
+            "input": {
+              "text": 2,
+              "image": 2,
+              "video": 2,
+              "audio": 2
+            },
+            "inputCaching": {},
+            "output": {
+              "response": 12,
+              "reasoning": 12
+            },
+            "cache": {}
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "Gemini 2.5 Flash Image",
+    "latestVersion": "gemini-2.5-flash-image",
+    "throughputPerGSU": 2690,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": "Tokens",
+    "burndown": {
+      "base": {
+        "input": {
+          "text": 1,
+          "image": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "text": 9,
+          "image": 100
+        },
+        "cache": {}
+      }
+    }
+  },
+  {
+    "name": "Gemini 2.5 Flash",
+    "latestVersion": "gemini-2.5-flash",
+    "throughputPerGSU": 2690,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": "Tokens",
+    "burndown": {
+      "base": {
+        "input": {
+          "text": 1,
+          "image": 1,
+          "video": 1,
+          "audio": 4
+        },
+        "inputCaching": {},
+        "output": {
+          "response": 9,
+          "reasoning": 9
+        },
+        "cache": {}
+      }
+    }
+  },
+  {
+    "name": "Gemini 2.5 Flash-Lite",
+    "latestVersion": "(GA): gemini-2.5-flash-lite; (preview): gemini-2.5-flash-lite-preview-09-2025",
+    "throughputPerGSU": 8070,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": "Tokens",
+    "burndown": {
+      "base": {
+        "input": {
+          "text": 1,
+          "image": 1,
+          "video": 1,
+          "audio": 3
+        },
+        "inputCaching": {},
+        "output": {
+          "response": 4,
+          "reasoning": 4
+        },
+        "cache": {}
+      }
+    }
+  },
+  {
+    "name": "Gemini 2.5 Flash with Gemini Live API native audio",
+    "latestVersion": "gemini-live-2.5-flash-native-audio",
+    "throughputPerGSU": 1620,
+    "gsuPurchaseIncrement": 1,
+    "minGSUPurchase": "Tokens",
+    "burndown": {
+      "base": {
+        "input": {
+          "text": 1,
+          "audio": 6,
+          "video": 6,
+          "image": 6,
+          "sessionMemory": 1
+        },
+        "inputCaching": {},
+        "output": {
+          "text": 4,
+          "audio": 24
+        },
+        "cache": {}
+      }
+    }
+  },
+  {
+    "name": "Veo 3.1 Lite Generate",
+    "latestVersion": "veo-3.1-lite-generate-001",
+    "throughputPerGSU": 0.035,
+    "gsuPurchaseIncrement": 1,
+    "videoRates": [
+      {
+        "unit": "Video seconds (720p)",
+        "ratePerBaseSecond": 1
+      },
+      {
+        "unit": "Video+audio seconds (720p)",
+        "ratePerBaseSecond": 1.75
+      },
+      {
+        "unit": "Video seconds (1080p)",
+        "ratePerBaseSecond": 1.75
+      },
+      {
+        "unit": "Video+audio seconds (1080p)",
+        "ratePerBaseSecond": 2.33
+      }
+    ]
+  },
+  {
+    "name": "Veo 3.1",
+    "latestVersion": "veo-3.1-generate-001",
+    "throughputPerGSU": 0.004,
+    "gsuPurchaseIncrement": 1,
+    "videoRates": [
+      {
+        "unit": "Video seconds",
+        "ratePerBaseSecond": 1
+      },
+      {
+        "unit": "Video+audio seconds",
+        "ratePerBaseSecond": 2
+      }
+    ]
+  },
+  {
+    "name": "Veo 3.1 Fast",
+    "latestVersion": "veo-3.1-fast-generate-001",
+    "throughputPerGSU": 0.01,
+    "gsuPurchaseIncrement": 1,
+    "videoRates": [
+      {
+        "unit": "Video seconds (720p)",
+        "ratePerBaseSecond": 1
+      },
+      {
+        "unit": "Video + Audio seconds (720p)",
+        "ratePerBaseSecond": 1.3
+      },
+      {
+        "unit": "Video seconds (1080p)",
+        "ratePerBaseSecond": 1.3
+      },
+      {
+        "unit": "Video + Audio seconds (1080p)",
+        "ratePerBaseSecond": 1.6
+      },
+      {
+        "unit": "Video seconds (4k)",
+        "ratePerBaseSecond": 3.4
+      },
+      {
+        "unit": "Video + Audio seconds (4k)",
+        "ratePerBaseSecond": 4
+      }
+    ]
+  },
+  {
+    "name": "Veo 3",
+    "latestVersion": "veo-3.0-generate-001",
+    "throughputPerGSU": 0.004,
+    "gsuPurchaseIncrement": 1,
+    "videoRates": [
+      {
+        "unit": "Video seconds",
+        "ratePerBaseSecond": 1
+      },
+      {
+        "unit": "Video+audio seconds",
+        "ratePerBaseSecond": 2
+      }
+    ]
+  },
+  {
+    "name": "Veo 3 Fast",
+    "latestVersion": "veo-3.0-fast-generate-001",
+    "throughputPerGSU": 0.01,
+    "gsuPurchaseIncrement": 1,
+    "videoRates": [
+      {
+        "unit": "Video seconds (720p)",
+        "ratePerBaseSecond": 1
+      },
+      {
+        "unit": "Video + Audio seconds (720p)",
+        "ratePerBaseSecond": 1.3
+      },
+      {
+        "unit": "Video seconds (1080p)",
+        "ratePerBaseSecond": 1.3
+      },
+      {
+        "unit": "Video + Audio seconds (1080p)",
+        "ratePerBaseSecond": 1.6
+      }
+    ]
+  }
+]
