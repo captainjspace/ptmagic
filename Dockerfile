@@ -1,37 +1,17 @@
-# Build stag
-FROM node:nodejs AS build
+FROM node:24-slim AS base
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME/bin:$PATH"
+RUN corepack enable && corepack prepare pnpm@11.17.0 --activate
 
-# Install pnpm
-RUN npm install -g pnpm@11.1.3
-
+FROM base AS build
 WORKDIR /app
-
-# Copy workspace configuration
-COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
-
-# Copy package manifests
-COPY packages/utils/package.json ./packages/utils/
-COPY packages/schema-gen/package.json ./packages/schema-gen/
-COPY apps/pt-magic/package.json ./apps/pt-magic/
-
-# Install dependencies
-RUN pnpm install --frozen-lockfile
-
-# Copy the rest of the source code
 COPY . .
+RUN pnpm install --frozen-lockfile
+RUN pnpm run build
 
-# Build only the pt-magic app and its dependencies
-RUN pnpm --filter=./apps/pt-magic build
-
-# Production stage
 FROM nginx:alpine AS production
-
-# Copy the build output from the app
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/apps/pt-magic/dist /usr/share/nginx/html
-
-# Optional: Add custom Nginx config if needed for SPA routing
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-EXPOSE 80
-
+EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]
+
