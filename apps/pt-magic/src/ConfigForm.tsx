@@ -4,6 +4,22 @@ const MODELS: { key: ModelKey; label: string }[] = [
   { key: "flash25", label: "Gemini 2.5 Flash" },
   { key: "flashLite31", label: "Gemini 3.1 Flash" },
   { key: "flash35", label: "Gemini 3.5 Flash" },
+  { key: "deepseekOcr", label: "DeepSeek-OCR" },
+  { key: "deepseekV32", label: "DeepSeek-V3.2" },
+  { key: "gemma426bA4bIt", label: "Gemma 4 26B A4B IT" },
+  { key: "kimiK2Thinking", label: "Kimi K2 Thinking" },
+  { key: "llama3370b", label: "Llama 3.3 70B" },
+  { key: "llama4Maverick17b128e", label: "Llama 4 Maverick 17B-128E" },
+  { key: "llama4Scout17b16e", label: "Llama 4 Scout 17B-16E" },
+  { key: "minimaxM2", label: "MiniMax M2" },
+  { key: "gptOss120b", label: "OpenAI gpt-oss 120B" },
+  { key: "gptOss20b", label: "OpenAI gpt-oss 20B" },
+  { key: "qwen3235b", label: "Qwen3 235B" },
+  { key: "qwen3Coder", label: "Qwen3 Coder" },
+  { key: "qwen3Next80bInstruct", label: "Qwen3-Next-80B Instruct" },
+  { key: "qwen3Next80bThinking", label: "Qwen3-Next-80B Thinking" },
+  { key: "glm47", label: "GLM 4.7" },
+  { key: "glm5", label: "GLM 5" },
 ];
 
 function setNumber(value: unknown): number {
