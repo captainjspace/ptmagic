@@ -94,16 +94,21 @@ export default function ConfigForm({ config, onInputChange }: ConfigFormProps) {
 
         <div className="flex flex-col gap-1">
           <label className="text-xs text-slate-500">Cached</label>
-          <div className="flex items-center h-[34px]">
             <input
               type="checkbox"
               checked={config.inputTokens.prompt.isContextCached}
               onChange={(e) => onInputChange("isCached", e.target.checked)}
               className="rounded border-slate-700 bg-slate-950 text-blue-500 focus:ring-0 w-4 h-4 cursor-pointer"
             />
-          </div>
         </div>
-      </div>
+          <NumField
+            label="Daily Site Traffic (all users)"
+            value={config.site.dailyUsers}
+            onChange={(v) => onInputChange("dailyUsers", setNumber(v))}
+          />
+
+        
+    </div>
     </div>
   );
 }

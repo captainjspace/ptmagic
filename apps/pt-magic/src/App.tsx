@@ -29,6 +29,7 @@ function App() {
       if (key === "outputAverage") updated.outputTokens.average = val;
       if (key === "outputPeak") updated.outputTokens.peak = val;
       if (key === "gsuCount") updated.gsuCount = val;
+      if (key === "dailyUsers") updated.site.dailyUsers=val;
       return updated;
     });
   };
